@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30AE52691C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52651C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle */; };
+		30AE526A1C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52661C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle */; };
+		30AE526B1C1F3B0800C2DAF8 /* OpenEars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52671C1F3B0800C2DAF8 /* OpenEars.framework */; };
+		30AE526C1C1F3B0800C2DAF8 /* Slt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52681C1F3B0800C2DAF8 /* Slt.framework */; };
+		30AE526F1C1F3B4500C2DAF8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */; };
+		30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */; };
+		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
 		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
@@ -18,6 +25,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30AE52651C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AcousticModelEnglish.bundle; sourceTree = "<group>"; };
+		30AE52661C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AcousticModelSpanish.bundle; sourceTree = "<group>"; };
+		30AE52671C1F3B0800C2DAF8 /* OpenEars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEars.framework; sourceTree = "<group>"; };
+		30AE52681C1F3B0800C2DAF8 /* Slt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Slt.framework; sourceTree = "<group>"; };
+		30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		30AE52741C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
+		30AE52751C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		30AE52771C1F401D00C2DAF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -41,16 +57,51 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */,
+				30AE526F1C1F3B4500C2DAF8 /* AVFoundation.framework in Frameworks */,
+				30AE526C1C1F3B0800C2DAF8 /* Slt.framework in Frameworks */,
+				30AE526B1C1F3B0800C2DAF8 /* OpenEars.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30AE52641C1F3B0800C2DAF8 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				30AE52651C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle */,
+				30AE52661C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle */,
+				30AE52671C1F3B0800C2DAF8 /* OpenEars.framework */,
+				30AE52681C1F3B0800C2DAF8 /* Slt.framework */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
+		30AE526D1C1F3B2100C2DAF8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */,
+				30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */,
+				30AE52641C1F3B0800C2DAF8 /* Framework */,
+			);
+			name = Frameworks;
+			path = battleship;
+			sourceTree = "<group>";
+		};
+		30AE52791C1F403F00C2DAF8 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				30AE52781C1F401D00C2DAF8 /* Localizable.strings */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
 		E4F4856A1C1E6B88007AD778 = {
 			isa = PBXGroup;
 			children = (
 				E4F485751C1E6B88007AD778 /* battleship */,
+				30AE526D1C1F3B2100C2DAF8 /* Frameworks */,
 				E4F485741C1E6B88007AD778 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -77,6 +128,7 @@
 		E4F485761C1E6B88007AD778 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				30AE52791C1F403F00C2DAF8 /* Localization */,
 				E4F485791C1E6B88007AD778 /* AppDelegate.h */,
 				E4F4857A1C1E6B88007AD778 /* AppDelegate.m */,
 				E4F485871C1E6B88007AD778 /* Info.plist */,
@@ -148,6 +200,7 @@
 				TargetAttributes = {
 					E4F485721C1E6B88007AD778 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = C8LRG9WET8;
 					};
 				};
 			};
@@ -175,6 +228,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */,
+				30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */,
+				30AE526A1C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle in Resources */,
+				30AE52691C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle in Resources */,
 				E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */,
 				E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */,
 			);
@@ -198,10 +254,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		30AE52781C1F401D00C2DAF8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30AE52771C1F401D00C2DAF8 /* en */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		E4F4857F1C1E6B88007AD778 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E4F485801C1E6B88007AD778 /* Base */,
+				30AE52741C1F3F9B00C2DAF8 /* es-MX */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -210,6 +276,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				E4F485851C1E6B88007AD778 /* Base */,
+				30AE52751C1F3F9B00C2DAF8 /* es-MX */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -303,10 +370,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/battleship/Framework",
+				);
 				INFOPLIST_FILE = battleship/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = RTT.battleship;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -314,10 +389,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/battleship/Framework",
+				);
 				INFOPLIST_FILE = battleship/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = RTT.battleship;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
