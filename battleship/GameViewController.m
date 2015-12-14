@@ -54,7 +54,7 @@ NSString *rowFromPosition(NSString *position)
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.shipScreenView];
 	
-	NSLog([NSString stringWithFormat:@"ship screen: %@", position]);
+	NSLog(@"ship screen: %@", position);
 	
 	if (![self.ships allShipsPlaced])
 	{
@@ -75,7 +75,7 @@ NSString *rowFromPosition(NSString *position)
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.shotScreenView];
 	
-	NSLog([NSString stringWithFormat:@"shot screen: %@", position]);
+	NSLog(@"shot screen: %@", position);
 	
 	if ([self.ships allShipsPlaced])
 	{
