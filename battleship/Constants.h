@@ -33,7 +33,7 @@ typedef enum
 #define BOARD_WIDTH 8
 #define BOARD_HEIGHT 10
 #define SHIP_TYPES 5
-#define SHIP_ANIM_LENGTH 0.5f
+#define SHIP_ANIM_LENGTH 0.15f
 
 #pragma mark - global functions
 

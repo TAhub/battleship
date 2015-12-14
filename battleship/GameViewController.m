@@ -67,16 +67,47 @@
 				
 				if (atPos != nil)
 				{
+					NSArray *fromShipViewsBefore = nil;
+					NSArray *toShipViewsBefore = nil;
+					NSArray *fromShipViews = [self shipViews:self.bigView ship:atPos];
+					NSArray *toShipViews = nil;
+					
 					if (self.pickedUpShip != nil) //return the ship you have picked up already
+					{
+						fromShipViewsBefore = [self shipViews:self.smallView ship:self.pickedUpShip];
 						[self.ships.ships addObject:self.pickedUpShipRestore];
+						toShipViewsBefore = [self shipViews:self.bigView ship:self.pickedUpShipRestore];
+					}
 					
 					
 					//pick up a ship
 					self.pickedUpShipRestore = [self.ships removeShipOfType:atPos.type];
 					self.pickedUpShip = [[Ship alloc] initWithRotation:atPos.rotation andX:0 andY:0 andType:atPos.type];
+					toShipViews = [self shipViews:self.smallView ship:self.pickedUpShip];
 					
-					[self reloadBigScreen];
-					[self reloadSmallScreen];
+					//do an animation
+					__weak typeof(self) weakSelf = self;
+					if (fromShipViewsBefore == nil)
+					{
+						[self reloadBigScreen];
+						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+						^(){
+							[weakSelf reloadSmallScreen];
+						}];
+					}
+					else
+					{
+						for (UIView *view in self.smallView.subviews)
+							[view removeFromSuperview];
+						[self shipPartTranslateFrom:fromShipViewsBefore to:toShipViewsBefore fromScreen:self.smallView toScreen:self.bigView completion:
+						^(){
+							[weakSelf reloadBigScreen];
+							[weakSelf shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+							^(){
+								[weakSelf reloadSmallScreen];
+							}];
+						}];
+					}
 				}
 				else if (self.pickedUpShip != nil)
 				{
@@ -86,15 +117,37 @@
 					//try to place the ship there
 					if ([self.ships placeShipAtPosition:position withRotation:self.pickedUpShip.rotation andType:self.pickedUpShip.type])
 					{
-						//do an animation
-						
-						
-						[self reloadBigScreen];
-						[self reloadSmallScreen];
-						
 						//it's done
 						self.pickedUpShipRestore = nil;
 						self.pickedUpShip = nil;
+						
+						//do an animation
+						[self reloadSmallScreen];
+						__weak typeof(self) weakSelf = self;
+						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.smallView toScreen:self.bigView completion:
+						^(){
+							[weakSelf reloadBigScreen];
+						}];
+					}
+					else
+					{
+						//there's a collision, so you can't
+						//however, to make this clear, a short animation is played
+						
+						NSArray *fromShipViewsTwo = [self shipViews:self.smallView ship:self.pickedUpShip];
+						__weak typeof(self) weakSelf = self;
+						Ship *storedShip = self.pickedUpShip;
+						self.pickedUpShip = nil;
+						[self reloadSmallScreen];
+						
+						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.smallView toScreen:self.bigView completion:
+						^(){
+							[weakSelf shipPartTranslateFrom:toShipViews to:fromShipViewsTwo fromScreen:self.bigView toScreen:self.smallView completion:
+							^(){
+								weakSelf.pickedUpShip = storedShip;
+								[weakSelf reloadSmallScreen];
+							}];
+						}];
 					}
 				}
 			}
@@ -103,18 +156,32 @@
 	}
 }
 
-//-(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to completion:^()completion
-//{
-//	[UIView animateWithDuration:<#(NSTimeInterval)#> animations:<#^(void)animations#> completion:<#^(BOOL finished)completion#>]
-//	
-//	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
-//	 ^(){
-//		 for
-//			 } completion:
-//	 ^(BOOL success){
-//		 
-//	 }];
-//}
+-(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
+{
+	self.animating = true;
+	__weak typeof(self) weakSelf = self;
+	for (UIView *view in from)
+	{
+		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
+		[self.view addSubview:view];
+	}
+	
+	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
+	^(){
+		for (NSUInteger i = 0; i < from.count; i++)
+		{
+			UIView *fromV = from[i];
+			UIView *toV = to[i];
+			fromV.frame = [self.view convertRect:toV.frame fromCoordinateSpace:toScreen];
+		}
+	} completion:
+	^(BOOL success){
+		for (UIView *view in from)
+			[view removeFromSuperview];
+		weakSelf.animating = false;
+		completion();
+	}];
+}
 
 - (IBAction)rotate
 {
@@ -191,7 +258,8 @@
 	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
 	
 	NSMutableArray *array = [NSMutableArray new];
-	NSSet *positions = [ship positionsWithRowLabels:[self.ships rowLabels] andColumnlabels:[self.ships columnLabels]];
+	NSArray *positions = [ship positionsWithRowLabels:[self.ships rowLabels] andColumnlabels:[self.ships columnLabels] allowOverflow:YES];
+	
 	for (NSString *position in positions)
 	{
 		NSUInteger x = [self xFrom:position];
@@ -209,12 +277,12 @@
 {
 	NSArray *shipViews = [self shipViews:screen ship:ship];
 	for (UIView *view in shipViews)
-		[screen addSubview:shipViews];
+		[screen addSubview:view];
 }
 
 -(void)drawShips:(UIView *)screen
 {
-	for (Ship *ship in self.ships)
+	for (Ship *ship in self.ships.ships)
 		[self drawShip:screen ship:ship];
 }
 

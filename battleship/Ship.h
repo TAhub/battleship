@@ -20,6 +20,6 @@
 
 
 //this returns a list of all the spots the ship covers
--(NSSet *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns;
+-(NSArray *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns allowOverflow:(BOOL)overflow;
 
 @end

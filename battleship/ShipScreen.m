@@ -61,7 +61,7 @@
 {
 	for (Ship *ship in self.ships)
 	{
-		NSSet *positions = [ship positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels]];
+		NSArray *positions = [ship positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels] allowOverflow:NO];
 		if ([positions containsObject:position])
 			return ship;
 	}
@@ -73,14 +73,14 @@
 	NSUInteger x = [[self columnLabels] indexOfObject:columnFromPosition(position)];
 	NSUInteger y = [[self rowLabels] indexOfObject:rowFromPosition(position)];
 	Ship *newShip = [[Ship alloc] initWithRotation:rotation andX:x andY:y andType:type];
-	NSSet *positions = [newShip positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels]];
+	NSArray *positions = [newShip positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels] allowOverflow:NO];
 	if (positions == nil)
 		return NO; //it didn't fit
 	
 	for (Ship *ship in self.ships)
 	{
-		NSSet *compPositions = [ship positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels]];
-		if ([compPositions intersectsSet:positions])
+		NSArray *compPositions = [ship positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels] allowOverflow:NO];
+		if ([[NSSet setWithArray:positions] intersectsSet:[NSSet setWithArray:compPositions]])
 			return NO; //there was an intersection
 	}
 	
@@ -95,24 +95,27 @@
 
 -(void)reloadLabels
 {
-	self.rowLabels = [NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", nil];
-	self.columnLabels = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", nil];
+	NSMutableArray *rowLabels = [NSMutableArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", nil];
+	NSMutableArray *columnLabels = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", nil];
 	
 	if (self.phase == kPhasePlace)
 	{
-		self.rowLabels = [self shuffle:self.rowLabels];
-		self.columnLabels = [self shuffle:self.columnLabels];
+		[self shuffle:rowLabels];
+		[self shuffle:columnLabels];
 	}
+	
+	//add invisible extra stuff
+	[rowLabels addObjectsFromArray:[NSArray arrayWithObjects:@"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", nil]];
+	[columnLabels addObjectsFromArray:[NSArray arrayWithObjects:@"9", @"10", @"11", @"12", @"13", @"14", @"15", nil]];
+	
+	self.rowLabels = rowLabels;
+	self.columnLabels = columnLabels;
 }
 
--(NSArray *)shuffle:(NSArray *)array
+-(void)shuffle:(NSMutableArray *)array
 {
-	NSMutableArray *mArray = [NSMutableArray arrayWithArray:array];
 	for (NSUInteger i = 0; i < array.count; i++)
-	{
-		[mArray exchangeObjectAtIndex:i withObjectAtIndex:((NSUInteger)arc4random_uniform((u_int32_t)(array.count - i)) + i)];
-	}
-	return mArray;
+		[array exchangeObjectAtIndex:i withObjectAtIndex:((NSUInteger)arc4random_uniform((u_int32_t)(array.count - i)) + i)];
 }
 
 -(BOOL)defeated

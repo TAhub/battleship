@@ -22,7 +22,7 @@
 	return self;
 }
 
--(NSSet *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns
+-(NSArray *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns allowOverflow:(BOOL)overflow
 {
 	int size;
 	switch(self.type)
@@ -34,12 +34,12 @@
 		case kPatrolBoat: size = 2; break;
 	}
 	
-	NSMutableSet *positions = [NSMutableSet new];
+	NSMutableArray *positions = [NSMutableArray new];
 	if (self.rotation)
 	{
 		for (NSUInteger x = self.x; x < self.x + size; x++)
 		{
-			if (x >= BOARD_WIDTH)
+			if (x >= BOARD_WIDTH && !overflow)
 				return nil;
 			[positions addObject:positionFrom(rows[self.y], columns[x])];
 		}
@@ -48,7 +48,7 @@
 	{
 		for (NSUInteger y = self.y; y < self.y + size; y++)
 		{
-			if (y >= BOARD_HEIGHT)
+			if (y >= BOARD_HEIGHT && !overflow)
 				return nil;
 			[positions addObject:positionFrom(rows[y], columns[self.x])];
 		}
