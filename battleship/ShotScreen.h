@@ -11,11 +11,16 @@
 
 @interface ShotScreen: NSObject
 
-//this array contains every position that has been shot
-@property (strong, nonatomic) NSArray *shots;
+//positions are returned as strings, of the format
+//"A1" or whatever
+//where the row is A-J
+//and the column is 1-10
 
-//this array contains every position that has been shot... and was a hit
-@property (strong, nonatomic) NSArray *hits;
+//this set contains every position that has been shot
+@property (strong, nonatomic) NSSet *shots;
+
+//this set contains every position that has been shot... and was a hit
+@property (strong, nonatomic) NSSet *hits;
 
 
 @end
