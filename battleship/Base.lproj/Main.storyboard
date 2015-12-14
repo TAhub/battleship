@@ -16,8 +16,32 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Yw-ol-o9C">
+                                <rect key="frame" x="0.0" y="28" width="600" height="278"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y0k-bD-a8x">
+                                <rect key="frame" x="0.0" y="314" width="600" height="278"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="y0k-bD-a8x" firstAttribute="height" secondItem="7Yw-ol-o9C" secondAttribute="height" id="1cQ-3Y-uOH"/>
+                            <constraint firstItem="7Yw-ol-o9C" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="GLH-wN-5mb"/>
+                            <constraint firstItem="y0k-bD-a8x" firstAttribute="top" secondItem="7Yw-ol-o9C" secondAttribute="bottom" constant="8" symbolic="YES" id="W4j-ZA-aRI"/>
+                            <constraint firstItem="y0k-bD-a8x" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="buV-JD-GFL"/>
+                            <constraint firstItem="7Yw-ol-o9C" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="iM2-tD-QEv"/>
+                            <constraint firstItem="y0k-bD-a8x" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lAg-oR-7LD"/>
+                            <constraint firstItem="7Yw-ol-o9C" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yBZ-yj-RVh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="y0k-bD-a8x" secondAttribute="bottom" constant="8" symbolic="YES" id="ygK-0z-t6r"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="shipScreenView" destination="7Yw-ol-o9C" id="UXr-KJ-rwA"/>
+                        <outlet property="shotScreenView" destination="y0k-bD-a8x" id="kTl-Tw-jFw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

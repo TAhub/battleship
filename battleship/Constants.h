@@ -19,3 +19,9 @@ typedef enum
 	kDestroyer,
 	kPatrolBoat
 } ShipType;
+
+
+#pragma mark - constants
+
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 10
