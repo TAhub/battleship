@@ -56,10 +56,17 @@
 	switch(self.ships.phase)
 	{
 		case kPhaseShoot:
-			//TODO: shoot there
-			//this will be heavily dependent on network calls
-			
-			
+			//don't shoot a spot you have already shot
+			if (![self.shots.shots containsObject:position])
+			{
+				//TODO: shoot there
+				//this will be heavily dependent on network calls
+				
+				
+				//for now, this will just add a non-hit shot to the shot screen
+				[self.shots.shots addObject:position];
+				[self reloadBigScreen];
+			}
 			break;
 		case kPhasePlace:
 			{
@@ -201,6 +208,11 @@
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
 		//TODO: start the match
+		
+		//for now, this will just switch the phase
+		self.ships.phase = kPhaseShoot;
+		[self reloadBigScreen];
+		[self reloadSmallScreen];
 	}
 }
 
@@ -282,13 +294,30 @@
 
 -(void)drawShips:(UIView *)screen
 {
+	[self drawShots:screen fromScreen:self.ships];
 	for (Ship *ship in self.ships.ships)
 		[self drawShip:screen ship:ship];
 }
 
--(void)drawShots:(UIView *)screen
+-(void)drawShots:(UIView *)screen fromScreen:(ShotScreen *)shotScreen
 {
-	
+	CGFloat squareWidth = screen.frame.size.width / BOARD_WIDTH;
+	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
+	for (NSString *shot in shotScreen.shots)
+	{
+		NSUInteger x = [self xFrom:shot];
+		NSUInteger y = [self yFrom:shot];
+		
+		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
+		UIView *shotView = [[UIView alloc] initWithFrame:frame];
+		
+		if ([shotScreen.hits containsObject:shot])
+			shotView.backgroundColor = [UIColor redColor];
+		else
+			shotView.backgroundColor = [UIColor whiteColor];
+		
+		[screen addSubview:shotView];
+	}
 }
 
 -(void)reloadBigScreen
@@ -296,7 +325,7 @@
 	[self reloadScreenInitial:self.bigView placeLabels:YES];
 	
 	if (self.ships.phase != kPhasePlace)
-		[self drawShots:self.bigView];
+		[self drawShots:self.bigView fromScreen:self.shots];
 	else
 		[self drawShips:self.bigView];
 }
