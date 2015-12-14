@@ -20,8 +20,23 @@ typedef enum
 	kPatrolBoat
 } ShipType;
 
+typedef enum
+{
+	kPhasePlace,
+	kPhaseShoot,
+	kPhaseWait
+} GamePhase;
+
 
 #pragma mark - constants
 
-#define BOARD_WIDTH 10
+#define BOARD_WIDTH 8
 #define BOARD_HEIGHT 10
+#define SHIP_TYPES 5
+#define SHIP_ANIM_LENGTH 0.5f
+
+#pragma mark - global functions
+
+NSString *columnFromPosition(NSString *position);
+NSString *rowFromPosition(NSString *position);
+NSString *positionFrom(NSString *row, NSString *column);

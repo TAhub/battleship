@@ -7,25 +7,19 @@
 //
 
 #import "GameViewController.h"
-
-#pragma mark - global functions
-
-NSString *columnFromPosition(NSString *position)
-{
-	return [position substringToIndex:1];
-}
-
-NSString *rowFromPosition(NSString *position)
-{
-	return [position substringFromIndex:1];
-}
+#import "Ship.h"
 
 #pragma mark - implementation of class
 
 @interface GameViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *shipScreenView;
-@property (weak, nonatomic) IBOutlet UIView *shotScreenView;
+@property (weak, nonatomic) IBOutlet UIView *bigView;
+@property (weak, nonatomic) IBOutlet UIView *smallView;
+
+@property (strong, nonatomic) Ship *pickedUpShip;
+@property (strong, nonatomic) Ship *pickedUpShipRestore;
+
+@property BOOL animating;
 
 @end
 
@@ -39,50 +33,111 @@ NSString *rowFromPosition(NSString *position)
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
 	self.shots = [ShotScreen new];
-	[self reloadShipScreen];
-	[self reloadShotScreen];
+	[self reloadSmallScreen];
+	[self reloadBigScreen];
 	
-	UITapGestureRecognizer *shipTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shipTapSelector:)];
-	[self.shipScreenView addGestureRecognizer:shipTap];
+	UITapGestureRecognizer *bigTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bigTapSelector:)];
+	[self.bigView addGestureRecognizer:bigTap];
 	
-	UITapGestureRecognizer *shotTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shotTapSelector:)];
-	[self.shotScreenView addGestureRecognizer:shotTap];
+	self.pickedUpShip = nil;
+	self.pickedUpShipRestore = nil;
 	
+	self.animating = false;
 }
 
--(void)shipTapSelector:(UITapGestureRecognizer *)sender
+-(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
-	NSString *position = [self positionFromGestureRecognizer:sender inView:self.shipScreenView];
+	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigView];
 	
-	NSLog(@"ship screen: %@", position);
+	NSLog(@"big screen: %@", position);
 	
-	if (![self.ships allShipsPlaced])
+	if (self.animating) { return; }
+	
+	switch(self.ships.phase)
 	{
-		//try to place a ship there
-		if ([self.ships placeShipAtPosition:position withRotation:true andType:[self.ships nextShipType]])
-		{
-			[self reloadShipScreen];
+		case kPhaseShoot:
+			//TODO: shoot there
+			//this will be heavily dependent on network calls
 			
-			if ([self.ships allShipsPlaced])
+			
+			break;
+		case kPhasePlace:
 			{
-				//TODO: do a network call to notify the other player you are ready to start, if necessary
+				Ship *atPos = [self.ships shipAtPosition:position];
+				
+				if (atPos != nil)
+				{
+					if (self.pickedUpShip != nil) //return the ship you have picked up already
+						[self.ships.ships addObject:self.pickedUpShipRestore];
+					
+					
+					//pick up a ship
+					self.pickedUpShipRestore = [self.ships removeShipOfType:atPos.type];
+					self.pickedUpShip = [[Ship alloc] initWithRotation:atPos.rotation andX:0 andY:0 andType:atPos.type];
+					
+					[self reloadBigScreen];
+					[self reloadSmallScreen];
+				}
+				else if (self.pickedUpShip != nil)
+				{
+					NSArray *fromShipViews = [self shipViews:self.smallView ship:self.pickedUpShip];
+					NSArray *toShipViews = [self shipViews:self.bigView ship:[[Ship alloc] initWithRotation:self.pickedUpShip.rotation andX:[[self.ships columnLabels] indexOfObject:columnFromPosition(position)] andY:[[self.ships rowLabels] indexOfObject:rowFromPosition(position)] andType:self.pickedUpShip.type]];
+					
+					//try to place the ship there
+					if ([self.ships placeShipAtPosition:position withRotation:self.pickedUpShip.rotation andType:self.pickedUpShip.type])
+					{
+						//do an animation
+						
+						
+						[self reloadBigScreen];
+						[self reloadSmallScreen];
+						
+						//it's done
+						self.pickedUpShipRestore = nil;
+						self.pickedUpShip = nil;
+					}
+				}
 			}
-		}
+			break;
+		case kPhaseWait: break;
 	}
 }
 
--(void)shotTapSelector:(UITapGestureRecognizer *)sender
+//-(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to completion:^()completion
+//{
+//	[UIView animateWithDuration:<#(NSTimeInterval)#> animations:<#^(void)animations#> completion:<#^(BOOL finished)completion#>]
+//	
+//	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
+//	 ^(){
+//		 for
+//			 } completion:
+//	 ^(BOOL success){
+//		 
+//	 }];
+//}
+
+- (IBAction)rotate
 {
-	NSString *position = [self positionFromGestureRecognizer:sender inView:self.shotScreenView];
+	if (self.animating) { return; }
 	
-	NSLog(@"shot screen: %@", position);
-	
-	if ([self.ships allShipsPlaced])
+	if (self.ships.phase == kPhasePlace && self.pickedUpShip != nil)
 	{
-		//TODO: shoot there
-		//this will be heavily dependent on network calls
+		self.pickedUpShip.rotation = !self.pickedUpShip.rotation;
+		[self reloadSmallScreen];
 	}
 }
+
+- (IBAction)done
+{
+	if (self.animating) { return; }
+	
+	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
+	{
+		//TODO: start the match
+	}
+}
+
+
 
 #pragma mark - helper functions
 
@@ -96,11 +151,14 @@ NSString *rowFromPosition(NSString *position)
 	return [self.ships.rowLabels indexOfObject:rowFromPosition(position)];
 }
 
--(void)reloadScreenInitial:(UIView *)screen
+-(void)reloadScreenInitial:(UIView *)screen placeLabels:(BOOL)labels
 {
 	for (UIView *subview in screen.subviews)
 		[subview removeFromSuperview];
 	
+	if (!labels)
+		return;
+		
 	//place labels
 	CGFloat squareWidth = screen.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
@@ -116,7 +174,7 @@ NSString *rowFromPosition(NSString *position)
 			UILabel *label = [UILabel new];
 			NSString *columnLabel = self.ships.columnLabels[x];
 			NSString *rowLabel =  self.ships.rowLabels[y];
-			label.text = [NSString stringWithFormat:@"%@%@", columnLabel, rowLabel];
+			label.text = positionFrom(rowLabel, columnLabel);
 			label.textColor = [UIColor grayColor];
 			[label setTranslatesAutoresizingMaskIntoConstraints:NO];
 			
@@ -127,6 +185,64 @@ NSString *rowFromPosition(NSString *position)
 		}
 }
 
+-(NSArray *)shipViews:(UIView *)screen ship:(Ship *)ship
+{
+	CGFloat squareWidth = screen.frame.size.width / BOARD_WIDTH;
+	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
+	
+	NSMutableArray *array = [NSMutableArray new];
+	NSSet *positions = [ship positionsWithRowLabels:[self.ships rowLabels] andColumnlabels:[self.ships columnLabels]];
+	for (NSString *position in positions)
+	{
+		NSUInteger x = [self xFrom:position];
+		NSUInteger y = [self yFrom:position];
+		
+		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
+		UIView *shipSquare = [[UIView alloc] initWithFrame:frame];
+		shipSquare.backgroundColor = [UIColor yellowColor];
+		[array addObject:shipSquare];
+	}
+	return array;
+}
+
+-(void)drawShip:(UIView *)screen ship:(Ship *)ship
+{
+	NSArray *shipViews = [self shipViews:screen ship:ship];
+	for (UIView *view in shipViews)
+		[screen addSubview:shipViews];
+}
+
+-(void)drawShips:(UIView *)screen
+{
+	for (Ship *ship in self.ships)
+		[self drawShip:screen ship:ship];
+}
+
+-(void)drawShots:(UIView *)screen
+{
+	
+}
+
+-(void)reloadBigScreen
+{
+	[self reloadScreenInitial:self.bigView placeLabels:YES];
+	
+	if (self.ships.phase != kPhasePlace)
+		[self drawShots:self.bigView];
+	else
+		[self drawShips:self.bigView];
+}
+
+-(void)reloadSmallScreen
+{
+	[self reloadScreenInitial:self.smallView placeLabels:NO];
+	
+	if (self.ships.phase != kPhasePlace)
+		[self drawShips:self.smallView];
+	else if (self.pickedUpShip != nil)
+		[self drawShip:self.smallView ship:self.pickedUpShip];
+}
+
 -(NSString *)positionFromGestureRecognizer:(UITapGestureRecognizer *)recognizer inView:(UIView *)view
 {
 	CGPoint point = [recognizer locationInView:view];
@@ -135,17 +251,7 @@ NSString *rowFromPosition(NSString *position)
 	
 	NSString *row = [self.ships rowLabels][(NSUInteger)(point.y)];
 	NSString *column = [self.ships columnLabels][(NSUInteger)(point.x)];
-	return [NSString stringWithFormat:@"%@%@", column, row];
-}
-
--(void)reloadShipScreen
-{
-	[self reloadScreenInitial:self.shipScreenView];
-}
-
--(void)reloadShotScreen
-{
-	[self reloadScreenInitial:self.shotScreenView];
+	return positionFrom(row, column);
 }
 
 
