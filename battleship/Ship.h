@@ -15,4 +15,6 @@
 @property BOOL rotation;
 @property ShipType type;
 
+-(id)initWithPosition:(NSString *)position withRotation:(BOOL)rotation andType:(ShipType)type;
+
 @end

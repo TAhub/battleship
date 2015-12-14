@@ -34,6 +34,7 @@
 //this returns true if you have lost, according to the rules of the game (ie all ships sunk)
 -(BOOL) defeated;
 
+
 #pragma mark - placement phase interface
 
 //tries to place a ship at a given position
