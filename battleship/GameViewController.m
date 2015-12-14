@@ -25,9 +25,7 @@ NSString *rowFromPosition(NSString *position)
 @interface GameViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *shipScreenView;
-
 @property (weak, nonatomic) IBOutlet UIView *shotScreenView;
-
 
 @end
 
@@ -43,8 +41,48 @@ NSString *rowFromPosition(NSString *position)
 	self.shots = [ShotScreen new];
 	[self reloadShipScreen];
 	[self reloadShotScreen];
+	
+	UITapGestureRecognizer *shipTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shipTapSelector:)];
+	[self.shipScreenView addGestureRecognizer:shipTap];
+	
+	UITapGestureRecognizer *shotTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shotTapSelector:)];
+	[self.shotScreenView addGestureRecognizer:shotTap];
+	
 }
 
+-(void)shipTapSelector:(UITapGestureRecognizer *)sender
+{
+	NSString *position = [self positionFromGestureRecognizer:sender inView:self.shipScreenView];
+	
+	NSLog([NSString stringWithFormat:@"ship screen: %@", position]);
+	
+	if (![self.ships allShipsPlaced])
+	{
+		//try to place a ship there
+		if ([self.ships placeShipAtPosition:position withRotation:true andType:[self.ships nextShipType]])
+		{
+			[self reloadShipScreen];
+			
+			if ([self.ships allShipsPlaced])
+			{
+				//TODO: do a network call to notify the other player you are ready to start, if necessary
+			}
+		}
+	}
+}
+
+-(void)shotTapSelector:(UITapGestureRecognizer *)sender
+{
+	NSString *position = [self positionFromGestureRecognizer:sender inView:self.shotScreenView];
+	
+	NSLog([NSString stringWithFormat:@"shot screen: %@", position]);
+	
+	if ([self.ships allShipsPlaced])
+	{
+		//TODO: shoot there
+		//this will be heavily dependent on network calls
+	}
+}
 
 #pragma mark - helper functions
 
@@ -87,6 +125,17 @@ NSString *rowFromPosition(NSString *position)
 			[frameView addConstraint:[NSLayoutConstraint constraintWithItem:frameView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:label attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
 			[frameView addConstraint:[NSLayoutConstraint constraintWithItem:frameView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:label attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
 		}
+}
+
+-(NSString *)positionFromGestureRecognizer:(UITapGestureRecognizer *)recognizer inView:(UIView *)view
+{
+	CGPoint point = [recognizer locationInView:view];
+	point.x = point.x * BOARD_WIDTH / view.frame.size.width;
+	point.y = point.y * BOARD_HEIGHT / view.frame.size.height;
+	
+	NSString *row = [self.ships rowLabels][(NSUInteger)(point.y)];
+	NSString *column = [self.ships columnLabels][(NSUInteger)(point.x)];
+	return [NSString stringWithFormat:@"%@%@", column, row];
 }
 
 -(void)reloadShipScreen

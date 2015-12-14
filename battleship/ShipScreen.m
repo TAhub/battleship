@@ -67,4 +67,10 @@
 	return YES;
 }
 
+-(ShipType)nextShipType
+{
+	//TODO: implement
+	return kPatrolBoat;
+}
+
 @end
