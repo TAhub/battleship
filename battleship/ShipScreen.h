@@ -48,6 +48,9 @@
 @property (strong, nonatomic) NSArray *rowLabels;
 @property (strong, nonatomic) NSArray *columnLabels;
 
+//this property returns a type of ship you have yet to place
+-(ShipType)nextShipType;
+
 //this returns true if all the ships have been placed
 -(BOOL) allShipsPlaced;
 
