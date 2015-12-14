@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
-		E4F4857E1C1E6B88007AD778 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857D1C1E6B88007AD778 /* ViewController.m */; };
 		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
 		E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4F485821C1E6B88007AD778 /* Assets.xcassets */; };
 		E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F485841C1E6B88007AD778 /* LaunchScreen.storyboard */; };
+		E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485941C1E71E5007AD778 /* GameViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +20,16 @@
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E4F4857A1C1E6B88007AD778 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E4F4857C1C1E6B88007AD778 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E4F4857D1C1E6B88007AD778 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E4F485801C1E6B88007AD778 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E4F485821C1E6B88007AD778 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4F485851C1E6B88007AD778 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E4F485871C1E6B88007AD778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4F485901C1E6D31007AD778 /* Ship.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ship.h; sourceTree = "<group>"; };
+		E4F485911C1E6EB5007AD778 /* ShotScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShotScreen.h; sourceTree = "<group>"; };
+		E4F485921C1E6F0F007AD778 /* ShipScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShipScreen.h; sourceTree = "<group>"; };
+		E4F485931C1E71E5007AD778 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		E4F485941C1E71E5007AD778 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		E4F485961C1E7BFE007AD778 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,14 +62,9 @@
 		E4F485751C1E6B88007AD778 /* battleship */ = {
 			isa = PBXGroup;
 			children = (
-				E4F485791C1E6B88007AD778 /* AppDelegate.h */,
-				E4F4857A1C1E6B88007AD778 /* AppDelegate.m */,
-				E4F4857C1C1E6B88007AD778 /* ViewController.h */,
-				E4F4857D1C1E6B88007AD778 /* ViewController.m */,
-				E4F4857F1C1E6B88007AD778 /* Main.storyboard */,
-				E4F485821C1E6B88007AD778 /* Assets.xcassets */,
-				E4F485841C1E6B88007AD778 /* LaunchScreen.storyboard */,
-				E4F485871C1E6B88007AD778 /* Info.plist */,
+				E4F4858D1C1E6B97007AD778 /* Model */,
+				E4F4858F1C1E6BF1007AD778 /* Controller */,
+				E4F4858E1C1E6BE9007AD778 /* View */,
 				E4F485761C1E6B88007AD778 /* Supporting Files */,
 			);
 			path = battleship;
@@ -74,9 +73,42 @@
 		E4F485761C1E6B88007AD778 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E4F485791C1E6B88007AD778 /* AppDelegate.h */,
+				E4F4857A1C1E6B88007AD778 /* AppDelegate.m */,
+				E4F485871C1E6B88007AD778 /* Info.plist */,
+				E4F485841C1E6B88007AD778 /* LaunchScreen.storyboard */,
+				E4F485821C1E6B88007AD778 /* Assets.xcassets */,
 				E4F485771C1E6B88007AD778 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E4F4858D1C1E6B97007AD778 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E4F485901C1E6D31007AD778 /* Ship.h */,
+				E4F485911C1E6EB5007AD778 /* ShotScreen.h */,
+				E4F485921C1E6F0F007AD778 /* ShipScreen.h */,
+				E4F485961C1E7BFE007AD778 /* Constants.h */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E4F4858E1C1E6BE9007AD778 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E4F4857F1C1E6B88007AD778 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		E4F4858F1C1E6BF1007AD778 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E4F485931C1E71E5007AD778 /* GameViewController.h */,
+				E4F485941C1E71E5007AD778 /* GameViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,8 +181,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4F4857E1C1E6B88007AD778 /* ViewController.m in Sources */,
 				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
+				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
