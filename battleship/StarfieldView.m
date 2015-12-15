@@ -9,12 +9,40 @@
 #import "StarfieldView.h"
 #import "Constants.h"
 
+@interface StarfieldView()
+
+@property (strong, nonatomic) NSMutableArray *stars;
+
+@end
+
 @implementation StarfieldView
 
 -(void)setupStarfield
 {
-	self.backgroundColor = [UIColor blackColor];
+	self.stars = [NSMutableArray new];
 	
+	self.backgroundColor = [UIColor blackColor];
+	[self makeStars];
+	
+	//setup listeners so the stars don't line up
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStars:) name:UIApplicationWillEnterForegroundNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unloadStars:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+-(void)unloadStars:(id)sender
+{
+	for (UIView *star in self.stars)
+		[star removeFromSuperview];
+	[self.stars removeAllObjects];
+}
+
+-(void)reloadStars:(id)sender
+{
+	[self makeStars];
+}
+
+-(void)makeStars
+{
 	//make stars
 	for (int i = 0; i < STARFIELD_NUMBER_STARS; i++)
 	{
@@ -24,6 +52,7 @@
 		CGRect frame = CGRectMake(x - STARFIELD_STAR_SIZE / 2, y - STARFIELD_STAR_SIZE / 2, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
 		UIView *view = [[UIView alloc] initWithFrame:frame];
 		
+		[self.stars addObject:view];
 		
 		switch(arc4random_uniform(6))
 		{
@@ -60,12 +89,13 @@
 	
 	__weak typeof(self) weakSelf = self;
 	
-	[UIView animateWithDuration:STARFIELD_STAR_LENGTH delay:0 options:UIViewAnimationOptionCurveLinear  animations:
+	[UIView animateWithDuration:STARFIELD_STAR_LENGTH delay:0 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionRepeat  animations:
 	^(){
 		view.frame = CGRectMake(weakSelf.frame.size.width + STARFIELD_STAR_SIZE / 2, view.frame.origin.y, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
 	} completion:
 	^(BOOL success){
-		[weakSelf moveStar:view];
+		CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)weakSelf.frame.size.height);
+		view.frame = CGRectMake(-STARFIELD_STAR_SIZE / 2, y - STARFIELD_STAR_SIZE / 2, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
 	}];
 }
 
