@@ -18,7 +18,7 @@
 
 //this is the spots that the current player has shot at
 //it's not a ship screen because you don't know where their ships are
-@property (strong, nonatomic) ShotScreen *shots;
+@property (strong, nonatomic) ShipScreen *shots;
 
 @property (strong, nonatomic) OEEventsObserver *openEarsEventObserver;
 

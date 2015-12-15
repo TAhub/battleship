@@ -22,6 +22,7 @@ typedef enum
 
 typedef enum
 {
+	kPhaseWaitForOpponent,
 	kPhasePlace,
 	kPhaseShoot,
 	kPhaseWait

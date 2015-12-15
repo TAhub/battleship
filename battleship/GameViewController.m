@@ -54,7 +54,6 @@
 	[(StarfieldView *)(self.view) setupStarfield];
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
-	self.shots = [ShotScreen new];
 	
 	self.bigViewInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bigView.frame.size.width, self.bigView.frame.size.height)];
 	self.smallViewInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.smallView.frame.size.width, self.smallView.frame.size.height)];
@@ -93,13 +92,13 @@
 			//don't shoot a spot you have already shot
 			if (![self.shots.shots containsObject:position])
 			{
-				//TODO: shoot there
-				//this will be heavily dependent on network calls
 				
-				
-				//for now, this will just add a non-hit shot to the shot screen
-				[self.shots.shots addObject:position];
+				[self.shots attackPosition:position];
 				[self reloadBigScreen];
+				
+				self.ships.phase = kPhaseWait;
+				
+				//TODO: send a message to the opponent that you shot that position
 			}
 			break;
 		case kPhasePlace:
@@ -193,7 +192,15 @@
 				}
 			}
 			break;
-		case kPhaseWait: break;
+		case kPhaseWait:
+			//TODO: wait for the opponent to make a shot, then display that
+			
+			break;
+		case kPhaseWaitForOpponent:
+			//TODO: wait for opponent's "I'm ready" message
+			//and when you get it, set your shots screen with their ships state
+			
+			break;
 	}
 }
 
@@ -242,11 +249,18 @@
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
-		
 		//TODO: start the match
-		
-		//for now, this will just switch the phase
+		//you should set the state to kStateWaitForOpponent
+		//if they haven't sent a match-start message to you
+		//for now though, we're just going directly to shoot phase
 		self.ships.phase = kPhaseShoot;
+		[self.ships reloadLabels];
+		
+		//TODO: get the opponent's ship state once the match begins
+		self.shots = [[ShipScreen alloc] initEmpty];
+		self.shots.phase = kPhaseWait;
+		[self.shots reloadLabels];
+		self.rotButton.hidden = true;
 		[self reloadBigScreen];
 		
 		//start the match anim

@@ -39,8 +39,20 @@
 
 -(BOOL)attackPosition:(NSString *)position
 {
-	//TODO: implement
-	return YES;
+	[self.shots addObject:position];
+	for (Ship *ship in self.ships)
+	{
+		NSArray *positions = [ship positionsWithRowLabels:self.rowLabels andColumnlabels:self.columnLabels allowOverflow:NO];
+		if ([positions containsObject:position])
+		{
+			//it was a hit!
+			[self.hits addObject:position];
+			NSLog(@"Direct hit!");
+			return YES;
+		}
+	}
+	NSLog(@"Miss!");
+	return NO;
 }
 
 -(Ship *)removeShipOfType:(ShipType)type
@@ -61,7 +73,7 @@
 {
 	for (Ship *ship in self.ships)
 	{
-		NSArray *positions = [ship positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels] allowOverflow:NO];
+		NSArray *positions = [ship positionsWithRowLabels:self.rowLabels andColumnlabels:self.columnLabels allowOverflow:NO];
 		if ([positions containsObject:position])
 			return ship;
 	}
@@ -73,13 +85,13 @@
 	NSUInteger x = [[self columnLabels] indexOfObject:columnFromPosition(position)];
 	NSUInteger y = [[self rowLabels] indexOfObject:rowFromPosition(position)];
 	Ship *newShip = [[Ship alloc] initWithRotation:rotation andX:x andY:y andType:type];
-	NSArray *positions = [newShip positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels] allowOverflow:NO];
+	NSArray *positions = [newShip positionsWithRowLabels:self.rowLabels andColumnlabels:self.columnLabels allowOverflow:NO];
 	if (positions == nil)
 		return NO; //it didn't fit
 	
 	for (Ship *ship in self.ships)
 	{
-		NSArray *compPositions = [ship positionsWithRowLabels:[self rowLabels] andColumnlabels:[self columnLabels] allowOverflow:NO];
+		NSArray *compPositions = [ship positionsWithRowLabels:self.rowLabels andColumnlabels:self.columnLabels allowOverflow:NO];
 		if ([[NSSet setWithArray:positions] intersectsSet:[NSSet setWithArray:compPositions]])
 			return NO; //there was an intersection
 	}

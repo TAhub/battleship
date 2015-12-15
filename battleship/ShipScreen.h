@@ -38,6 +38,8 @@
 //this returns true if you have lost, according to the rules of the game (ie all ships sunk)
 -(BOOL) defeated;
 
+//this sets the labels as appropriate for the phase
+-(void)reloadLabels;
 
 #pragma mark - placement phase interface
 
