@@ -24,6 +24,10 @@
 @property (strong, nonatomic) Ship *pickedUpShip;
 @property (strong, nonatomic) Ship *pickedUpShipRestore;
 
+@property (weak, nonatomic) IBOutlet UIButton *doneButton;
+@property (weak, nonatomic) IBOutlet UIButton *rotButton;
+
+
 @property BOOL animating;
 
 @end
@@ -35,6 +39,17 @@
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	
+	self.doneButton.layer.cornerRadius = 6;
+	self.rotButton.layer.cornerRadius = 6;
+	self.smallView.layer.cornerRadius = 10;
+	self.smallView.layer.borderWidth = 5;
+	self.smallView.layer.borderColor = [[UIColor whiteColor] CGColor];
+	self.bigView.layer.borderWidth = 5;
+	self.bigView.layer.borderColor = [[UIColor whiteColor] CGColor];
+	self.bigView.layer.cornerRadius = 10;
+	
+	[(StarfieldView *)(self.view) setupStarfield];
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
 	self.shots = [ShotScreen new];
@@ -190,6 +205,7 @@
 		[self.view addSubview:view];
 	}
 	
+	
 	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
 	^(){
 		for (NSUInteger i = 0; i < from.count; i++)
@@ -224,12 +240,25 @@
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
+		
 		//TODO: start the match
 		
 		//for now, this will just switch the phase
 		self.ships.phase = kPhaseShoot;
 		[self reloadBigScreen];
-		[self reloadSmallScreen];
+		
+		//start the match anim
+		__weak typeof(self) weakSelf = self;
+		for (Ship *ship in self.ships.ships)
+		{
+			NSArray *fromShipViews = [self shipViews:self.bigView ship:ship];
+			NSArray *toShipViews = [self shipViews:self.smallView ship:ship];
+			
+			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+			^(){
+				[weakSelf reloadSmallScreen];
+			}];
+		}
 	}
 }
 

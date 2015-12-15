@@ -34,6 +34,9 @@ typedef enum
 #define BOARD_HEIGHT 10
 #define SHIP_TYPES 5
 #define SHIP_ANIM_LENGTH 0.15f
+#define STARFIELD_NUMBER_STARS 60
+#define STARFIELD_STAR_LENGTH 60.0f
+#define STARFIELD_STAR_SIZE 8
 
 #pragma mark - global functions
 
