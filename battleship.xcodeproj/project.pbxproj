@@ -24,8 +24,8 @@
 		E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859A1C1F35E6007AD778 /* ShipScreen.m */; };
 		E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859C1C1F35F2007AD778 /* ShotScreen.m */; };
 		E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859E1C1F4A10007AD778 /* Ship.m */; };
-		E4F485A11C1F4B20007AD778 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485A01C1F4B20007AD778 /* Constants.m */; };
 		E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485A31C1F9214007AD778 /* StarfieldView.m */; };
+		E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485AB1C1FA14F007AD778 /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,9 +58,9 @@
 		E4F4859A1C1F35E6007AD778 /* ShipScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipScreen.m; sourceTree = "<group>"; };
 		E4F4859C1C1F35F2007AD778 /* ShotScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotScreen.m; sourceTree = "<group>"; };
 		E4F4859E1C1F4A10007AD778 /* Ship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ship.m; sourceTree = "<group>"; };
-		E4F485A01C1F4B20007AD778 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		E4F485A21C1F9214007AD778 /* StarfieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarfieldView.h; sourceTree = "<group>"; };
 		E4F485A31C1F9214007AD778 /* StarfieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarfieldView.m; sourceTree = "<group>"; };
+		E4F485AB1C1FA14F007AD778 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +160,7 @@
 				E4F485921C1E6F0F007AD778 /* ShipScreen.h */,
 				E4F4859A1C1F35E6007AD778 /* ShipScreen.m */,
 				E4F485961C1E7BFE007AD778 /* Constants.h */,
+				E4F485AB1C1FA14F007AD778 /* Constants.m */,
 				30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */,
 				30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */,
 				30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */,
@@ -267,8 +268,8 @@
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
 				30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
-				E4F485A11C1F4B20007AD778 /* Constants.m in Sources */,
 				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
+				E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

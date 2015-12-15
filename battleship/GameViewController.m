@@ -7,6 +7,8 @@
 //
 
 #import "GameViewController.h"
+#import "Ship.h"
+#import "StarfieldView.h"
 #import "OpenEarsService.h"
 #import <OpenEars/OEPocketsphinxController.h>
 
