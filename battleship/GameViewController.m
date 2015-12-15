@@ -230,12 +230,25 @@
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
+		
 		//TODO: start the match
 		
 		//for now, this will just switch the phase
 		self.ships.phase = kPhaseShoot;
 		[self reloadBigScreen];
-		[self reloadSmallScreen];
+		
+		//start the match anim
+		__weak typeof(self) weakSelf = self;
+		for (Ship *ship in self.ships.ships)
+		{
+			NSArray *fromShipViews = [self shipViews:self.bigView ship:ship];
+			NSArray *toShipViews = [self shipViews:self.smallView ship:ship];
+			
+			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+			^(){
+				[weakSelf reloadSmallScreen];
+			}];
+		}
 	}
 }
 
