@@ -14,6 +14,7 @@
 		30AE526F1C1F3B4500C2DAF8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */; };
 		30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */; };
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
+		30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
 		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
@@ -36,6 +37,9 @@
 		30AE52741C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
 		30AE52751C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		30AE52771C1F401D00C2DAF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEarsService.h; sourceTree = "<group>"; };
+		30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEarsService.m; sourceTree = "<group>"; };
+		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
 		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -153,7 +157,9 @@
 				E4F485921C1E6F0F007AD778 /* ShipScreen.h */,
 				E4F4859A1C1F35E6007AD778 /* ShipScreen.m */,
 				E4F485961C1E7BFE007AD778 /* Constants.h */,
-				E4F485A01C1F4B20007AD778 /* Constants.m */,
+				30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */,
+				30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */,
+				30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -253,6 +259,7 @@
 				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
+				30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
 				E4F485A11C1F4B20007AD778 /* Constants.m in Sources */,
 				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
@@ -380,6 +387,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/battleship/Framework",
@@ -399,6 +407,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/battleship/Framework",

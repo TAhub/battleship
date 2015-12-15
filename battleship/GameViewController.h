@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ShipScreen.h"
+#import <OpenEars/OEEventsObserver.h>
 
-@interface GameViewController : UIViewController
+// EventsObserver delegate inheritance.
+@interface GameViewController : UIViewController <OEEventsObserverDelegate>
 
 //this is the current players ships
 @property (strong, nonatomic) ShipScreen *ships;
@@ -17,5 +19,7 @@
 //this is the spots that the current player has shot at
 //it's not a ship screen because you don't know where their ships are
 @property (strong, nonatomic) ShotScreen *shots;
+
+@property (strong, nonatomic) OEEventsObserver *openEarsEventObserver;
 
 @end
