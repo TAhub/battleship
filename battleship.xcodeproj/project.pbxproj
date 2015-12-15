@@ -18,10 +18,11 @@
 		E1939C3C1C207B26004B35DD /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1939C3B1C207B26004B35DD /* GameKit.framework */; };
 		E1939C3E1C207B45004B35DD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1939C3D1C207B45004B35DD /* SystemConfiguration.framework */; };
 		E1939C401C207B4A004B35DD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1939C3F1C207B4A004B35DD /* Security.framework */; };
-		E1939C441C207BCB004B35DD /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C421C207BCB004B35DD /* GameCenterManager.m */; };
-		E1939C481C207BDB004B35DD /* NSDataAES256.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C461C207BDB004B35DD /* NSDataAES256.m */; };
-		E1939C491C207BDB004B35DD /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C471C207BDB004B35DD /* Reachability.m */; };
 		E1939C501C208143004B35DD /* OAuthGameCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C4F1C208143004B35DD /* OAuthGameCenterController.m */; };
+		E1939C591C20A0F3004B35DD /* NSDataAES256.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C581C20A0F3004B35DD /* NSDataAES256.m */; };
+		E1939C5C1C20A113004B35DD /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C5B1C20A113004B35DD /* Reachability.m */; };
+		E1939C5F1C20A1D1004B35DD /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C5E1C20A1D1004B35DD /* GameCenterManager.m */; };
+		E1939C631C20A1F4004B35DD /* GCMMultiplayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C621C20A1F4004B35DD /* GCMMultiplayer.m */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
 		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
@@ -51,14 +52,17 @@
 		E1939C3B1C207B26004B35DD /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		E1939C3D1C207B45004B35DD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E1939C3F1C207B4A004B35DD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		E1939C411C207BCB004B35DD /* GameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCenterManager.h; path = "../../GameCenterManager/GC Manager/GameCenterManager.h"; sourceTree = "<group>"; };
-		E1939C421C207BCB004B35DD /* GameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameCenterManager.m; path = "../../GameCenterManager/GC Manager/GameCenterManager.m"; sourceTree = "<group>"; };
-		E1939C431C207BCB004B35DD /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = "../../GameCenterManager/GC Manager/Reachability.h"; sourceTree = "<group>"; };
-		E1939C451C207BDB004B35DD /* NSDataAES256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAES256.h; path = "../../GameCenterManager/GC Manager/NSDataAES256.h"; sourceTree = "<group>"; };
-		E1939C461C207BDB004B35DD /* NSDataAES256.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDataAES256.m; path = "../../GameCenterManager/GC Manager/NSDataAES256.m"; sourceTree = "<group>"; };
-		E1939C471C207BDB004B35DD /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = "../../GameCenterManager/GC Manager/Reachability.m"; sourceTree = "<group>"; };
 		E1939C4E1C208143004B35DD /* OAuthGameCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthGameCenterController.h; sourceTree = "<group>"; };
 		E1939C4F1C208143004B35DD /* OAuthGameCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAuthGameCenterController.m; sourceTree = "<group>"; };
+		E1939C571C20A0F3004B35DD /* NSDataAES256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAES256.h; sourceTree = "<group>"; };
+		E1939C581C20A0F3004B35DD /* NSDataAES256.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAES256.m; sourceTree = "<group>"; };
+		E1939C5A1C20A113004B35DD /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		E1939C5B1C20A113004B35DD /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		E1939C5D1C20A1D1004B35DD /* GameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCenterManager.h; sourceTree = "<group>"; };
+		E1939C5E1C20A1D1004B35DD /* GameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCenterManager.m; sourceTree = "<group>"; };
+		E1939C601C20A1F4004B35DD /* GCMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMConstants.h; sourceTree = "<group>"; };
+		E1939C611C20A1F4004B35DD /* GCMMultiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMMultiplayer.h; sourceTree = "<group>"; };
+		E1939C621C20A1F4004B35DD /* GCMMultiplayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCMMultiplayer.m; sourceTree = "<group>"; };
 		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -136,8 +140,6 @@
 			isa = PBXGroup;
 			children = (
 				E1939C4B1C207CC3004B35DD /* Dependencies */,
-				E1939C411C207BCB004B35DD /* GameCenterManager.h */,
-				E1939C421C207BCB004B35DD /* GameCenterManager.m */,
 			);
 			name = GameCenter;
 			sourceTree = "<group>";
@@ -145,6 +147,11 @@
 		E1939C4B1C207CC3004B35DD /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				E1939C601C20A1F4004B35DD /* GCMConstants.h */,
+				E1939C611C20A1F4004B35DD /* GCMMultiplayer.h */,
+				E1939C621C20A1F4004B35DD /* GCMMultiplayer.m */,
+				E1939C5D1C20A1D1004B35DD /* GameCenterManager.h */,
+				E1939C5E1C20A1D1004B35DD /* GameCenterManager.m */,
 				E1939C4C1C207CD2004B35DD /* Security */,
 				E1939C4D1C207CDC004B35DD /* Internet */,
 			);
@@ -154,8 +161,8 @@
 		E1939C4C1C207CD2004B35DD /* Security */ = {
 			isa = PBXGroup;
 			children = (
-				E1939C451C207BDB004B35DD /* NSDataAES256.h */,
-				E1939C461C207BDB004B35DD /* NSDataAES256.m */,
+				E1939C571C20A0F3004B35DD /* NSDataAES256.h */,
+				E1939C581C20A0F3004B35DD /* NSDataAES256.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -163,8 +170,8 @@
 		E1939C4D1C207CDC004B35DD /* Internet */ = {
 			isa = PBXGroup;
 			children = (
-				E1939C471C207BDB004B35DD /* Reachability.m */,
-				E1939C431C207BCB004B35DD /* Reachability.h */,
+				E1939C5A1C20A113004B35DD /* Reachability.h */,
+				E1939C5B1C20A113004B35DD /* Reachability.m */,
 			);
 			name = Internet;
 			sourceTree = "<group>";
@@ -330,18 +337,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1939C481C207BDB004B35DD /* NSDataAES256.m in Sources */,
+				E1939C5F1C20A1D1004B35DD /* GameCenterManager.m in Sources */,
 				E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */,
 				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
 				E1939C501C208143004B35DD /* OAuthGameCenterController.m in Sources */,
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
+				E1939C631C20A1F4004B35DD /* GCMMultiplayer.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
 				30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */,
-				E1939C441C207BCB004B35DD /* GameCenterManager.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
 				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
-				E1939C491C207BDB004B35DD /* Reachability.m in Sources */,
+				E1939C5C1C20A113004B35DD /* Reachability.m in Sources */,
+				E1939C591C20A0F3004B35DD /* NSDataAES256.m in Sources */,
 				E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
