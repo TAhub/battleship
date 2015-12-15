@@ -29,9 +29,12 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVv-jk-x9x">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="30"/>
                                         <animations/>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="Login">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="Login:" destination="uf3-eg-BFT" eventType="touchUpInside" id="myH-kx-ex4"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Icw-5c-9Vx">
                                         <rect key="frame" x="0.0" y="50" width="334" height="30"/>
@@ -49,6 +52,13 @@
                                     <constraint firstItem="Icw-5c-9Vx" firstAttribute="leading" secondItem="YPm-fx-DlK" secondAttribute="leading" id="zsh-AD-Efa"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygS-xx-uLk">
+                                <rect key="frame" x="183" y="51" width="42" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
@@ -64,6 +74,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="pch-9i-P3P"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="playerNameLabel" destination="ygS-xx-uLk" id="8gD-4F-nHK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VsQ-5P-mkn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
