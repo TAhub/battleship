@@ -15,6 +15,7 @@
 		30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */; };
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
 		30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */; };
+		E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B07B3A1C2087A200E0BF0B /* FadeText.m */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
 		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
@@ -41,6 +42,8 @@
 		30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEarsService.h; sourceTree = "<group>"; };
 		30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEarsService.m; sourceTree = "<group>"; };
 		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
+		E4B07B391C2087A200E0BF0B /* FadeText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeText.h; sourceTree = "<group>"; };
+		E4B07B3A1C2087A200E0BF0B /* FadeText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeText.m; sourceTree = "<group>"; };
 		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -173,6 +176,8 @@
 			children = (
 				E4F485A21C1F9214007AD778 /* StarfieldView.h */,
 				E4F485A31C1F9214007AD778 /* StarfieldView.m */,
+				E4B07B391C2087A200E0BF0B /* FadeText.h */,
+				E4B07B3A1C2087A200E0BF0B /* FadeText.m */,
 				E4F4857F1C1E6B88007AD778 /* Main.storyboard */,
 			);
 			name = View;
@@ -263,6 +268,7 @@
 			files = (
 				E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */,
 				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
+				E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */,
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
