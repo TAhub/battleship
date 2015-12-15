@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "GameViewController.h"
+#import "OAuthGameCenterController.h"
 
 @interface AppDelegate ()
 

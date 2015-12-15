@@ -15,6 +15,13 @@
 		30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */; };
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
 		30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */; };
+		E1939C3C1C207B26004B35DD /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1939C3B1C207B26004B35DD /* GameKit.framework */; };
+		E1939C3E1C207B45004B35DD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1939C3D1C207B45004B35DD /* SystemConfiguration.framework */; };
+		E1939C401C207B4A004B35DD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1939C3F1C207B4A004B35DD /* Security.framework */; };
+		E1939C441C207BCB004B35DD /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C421C207BCB004B35DD /* GameCenterManager.m */; };
+		E1939C481C207BDB004B35DD /* NSDataAES256.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C461C207BDB004B35DD /* NSDataAES256.m */; };
+		E1939C491C207BDB004B35DD /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C471C207BDB004B35DD /* Reachability.m */; };
+		E1939C501C208143004B35DD /* OAuthGameCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1939C4F1C208143004B35DD /* OAuthGameCenterController.m */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
 		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
@@ -41,6 +48,17 @@
 		30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEarsService.h; sourceTree = "<group>"; };
 		30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEarsService.m; sourceTree = "<group>"; };
 		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
+		E1939C3B1C207B26004B35DD /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		E1939C3D1C207B45004B35DD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E1939C3F1C207B4A004B35DD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E1939C411C207BCB004B35DD /* GameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCenterManager.h; path = "../../GameCenterManager/GC Manager/GameCenterManager.h"; sourceTree = "<group>"; };
+		E1939C421C207BCB004B35DD /* GameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameCenterManager.m; path = "../../GameCenterManager/GC Manager/GameCenterManager.m"; sourceTree = "<group>"; };
+		E1939C431C207BCB004B35DD /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = "../../GameCenterManager/GC Manager/Reachability.h"; sourceTree = "<group>"; };
+		E1939C451C207BDB004B35DD /* NSDataAES256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAES256.h; path = "../../GameCenterManager/GC Manager/NSDataAES256.h"; sourceTree = "<group>"; };
+		E1939C461C207BDB004B35DD /* NSDataAES256.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDataAES256.m; path = "../../GameCenterManager/GC Manager/NSDataAES256.m"; sourceTree = "<group>"; };
+		E1939C471C207BDB004B35DD /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = "../../GameCenterManager/GC Manager/Reachability.m"; sourceTree = "<group>"; };
+		E1939C4E1C208143004B35DD /* OAuthGameCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthGameCenterController.h; sourceTree = "<group>"; };
+		E1939C4F1C208143004B35DD /* OAuthGameCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAuthGameCenterController.m; sourceTree = "<group>"; };
 		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -68,10 +86,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1939C401C207B4A004B35DD /* Security.framework in Frameworks */,
+				E1939C3E1C207B45004B35DD /* SystemConfiguration.framework in Frameworks */,
 				30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */,
 				30AE526F1C1F3B4500C2DAF8 /* AVFoundation.framework in Frameworks */,
 				30AE526C1C1F3B0800C2DAF8 /* Slt.framework in Frameworks */,
 				30AE526B1C1F3B0800C2DAF8 /* OpenEars.framework in Frameworks */,
+				E1939C3C1C207B26004B35DD /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +113,9 @@
 		30AE526D1C1F3B2100C2DAF8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E1939C3F1C207B4A004B35DD /* Security.framework */,
+				E1939C3D1C207B45004B35DD /* SystemConfiguration.framework */,
+				E1939C3B1C207B26004B35DD /* GameKit.framework */,
 				30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */,
 				30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */,
 				30AE52641C1F3B0800C2DAF8 /* Framework */,
@@ -106,6 +130,43 @@
 				30AE52781C1F401D00C2DAF8 /* Localizable.strings */,
 			);
 			name = Localization;
+			sourceTree = "<group>";
+		};
+		E1939C4A1C207BE1004B35DD /* GameCenter */ = {
+			isa = PBXGroup;
+			children = (
+				E1939C4B1C207CC3004B35DD /* Dependencies */,
+				E1939C411C207BCB004B35DD /* GameCenterManager.h */,
+				E1939C421C207BCB004B35DD /* GameCenterManager.m */,
+			);
+			name = GameCenter;
+			sourceTree = "<group>";
+		};
+		E1939C4B1C207CC3004B35DD /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				E1939C4C1C207CD2004B35DD /* Security */,
+				E1939C4D1C207CDC004B35DD /* Internet */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		E1939C4C1C207CD2004B35DD /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				E1939C451C207BDB004B35DD /* NSDataAES256.h */,
+				E1939C461C207BDB004B35DD /* NSDataAES256.m */,
+			);
+			name = Security;
+			sourceTree = "<group>";
+		};
+		E1939C4D1C207CDC004B35DD /* Internet */ = {
+			isa = PBXGroup;
+			children = (
+				E1939C471C207BDB004B35DD /* Reachability.m */,
+				E1939C431C207BCB004B35DD /* Reachability.h */,
+			);
+			name = Internet;
 			sourceTree = "<group>";
 		};
 		E4F4856A1C1E6B88007AD778 = {
@@ -153,6 +214,7 @@
 		E4F4858D1C1E6B97007AD778 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E1939C4A1C207BE1004B35DD /* GameCenter */,
 				E4F485901C1E6D31007AD778 /* Ship.h */,
 				E4F4859E1C1F4A10007AD778 /* Ship.m */,
 				E4F485911C1E6EB5007AD778 /* ShotScreen.h */,
@@ -183,6 +245,8 @@
 			children = (
 				E4F485931C1E71E5007AD778 /* GameViewController.h */,
 				E4F485941C1E71E5007AD778 /* GameViewController.m */,
+				E1939C4E1C208143004B35DD /* OAuthGameCenterController.h */,
+				E1939C4F1C208143004B35DD /* OAuthGameCenterController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -218,7 +282,12 @@
 				TargetAttributes = {
 					E4F485721C1E6B88007AD778 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = C8LRG9WET8;
+						DevelopmentTeam = 663S48QXDX;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -261,14 +330,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1939C481C207BDB004B35DD /* NSDataAES256.m in Sources */,
 				E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */,
 				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
+				E1939C501C208143004B35DD /* OAuthGameCenterController.m in Sources */,
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
 				30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */,
+				E1939C441C207BCB004B35DD /* GameCenterManager.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
 				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
+				E1939C491C207BDB004B35DD /* Reachability.m in Sources */,
 				E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,9 +473,9 @@
 					"$(PROJECT_DIR)/battleship/Framework",
 				);
 				INFOPLIST_FILE = battleship/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RTT.battleship;
+				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleship;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -420,9 +493,9 @@
 					"$(PROJECT_DIR)/battleship/Framework",
 				);
 				INFOPLIST_FILE = battleship/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RTT.battleship;
+				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleship;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
