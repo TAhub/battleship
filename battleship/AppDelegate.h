@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameCenterManager.h"
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -14,4 +16,5 @@
 
 
 @end
+
 
