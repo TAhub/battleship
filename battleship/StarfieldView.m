@@ -89,7 +89,7 @@
 	
 	__weak typeof(self) weakSelf = self;
 	
-	[UIView animateWithDuration:STARFIELD_STAR_LENGTH delay:0 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionRepeat  animations:
+	[UIView animateWithDuration:STARFIELD_STAR_LENGTH delay:0 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionRepeat animations:
 	^(){
 		view.frame = CGRectMake(weakSelf.frame.size.width + STARFIELD_STAR_SIZE / 2, view.frame.origin.y, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
 	} completion:
