@@ -30,6 +30,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *rotButton;
 
+@property (strong, nonatomic) UIView *timerView;
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSTimer *tickTimer;
 
 @property BOOL animating;
 
@@ -107,6 +110,63 @@
 	}];
 }
 
+-(void)stopTimer
+{
+	if (self.timerView != nil)
+	{
+		[self.timerView removeFromSuperview];
+		self.timerView = nil;
+	}
+	
+	if (self.timer != nil)
+	{
+		[self.timer invalidate];
+		self.timer = nil;
+	}
+	
+	if (self.tickTimer != nil)
+	{
+		[self.tickTimer invalidate];
+		self.tickTimer = nil;
+	}
+}
+
+-(void)resetTimer
+{
+	[self stopTimer];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_WARNINGLENGTH target:self selector:@selector(timerWarning:) userInfo:nil repeats:NO];
+}
+
+-(void)timerWarning:(NSTimer *)timer
+{
+	[self makeTimerView:timer];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_TIMEOUTLENGTH target:self selector:@selector(timerForefeit:) userInfo:nil repeats:NO];
+	self.tickTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(makeTimerView:) userInfo:nil repeats:YES];
+}
+
+-(void)makeTimerView:(NSTimer *)timer
+{
+	if (self.timerView != nil)
+	{
+		FadeText *ft = (FadeText *)self.timerView;
+		int oldTimer = ft.text.intValue;
+		[ft fadeInText:[NSString stringWithFormat:@"%i seconds left!", oldTimer - TIMER_INTERVAL]];
+	}
+	else
+	{
+		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:@"%i seconds left!", TIMER_TIMEOUTLENGTH]];
+		((FadeText *)(self.timerView)).textColor = [UIColor whiteColor];
+	}
+}
+
+-(void)timerForefeit:(NSTimer *)timer
+{
+	[self resetTimer];
+	
+	//TODO: forefeit
+	NSLog(@"Oops, you ran out of time!");
+}
+
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigView];
@@ -125,6 +185,7 @@
 			if (![self.shots.shots containsObject:position])
 			{
 				[self.shots attackPosition:position];
+				[self stopTimer];
 				
 				__weak typeof(self) weakSelf = self;
 				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position inView:self.bigView withCallback:
@@ -292,6 +353,9 @@
 		self.ships.phase = kPhaseShoot;
 		[self.ships reloadLabels];
 		
+		//since you're in the shooting phase now, turn on the timer
+		[self resetTimer];
+		
 		//TODO: get the opponent's ship state once the match begins
 		self.shots = [[ShipScreen alloc] initEmpty];
 		self.shots.phase = kPhaseWait;
@@ -418,7 +482,7 @@
 	}
 }
 
--(void)addFadeTextToScreen:(UIView *)screen saying:(NSString *)text
+-(FadeText *)addFadeTextToScreen:(UIView *)screen saying:(NSString *)text
 {
 	FadeText *t = [FadeText new];
 	[t setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -432,6 +496,7 @@
 	NSDictionary *d = [NSDictionary dictionaryWithObject:t forKey:@"t"];
 	[screen addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[t]-|" options:0 metrics:nil views:d]];
 	[screen addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[t]" options:0 metrics:nil views:d]];
+	return t;
 }
 
 -(void)reloadBigScreen

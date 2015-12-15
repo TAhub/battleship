@@ -43,6 +43,9 @@ typedef enum
 #define STARFIELD_STAR_LENGTH 60.0f
 #define STARFIELD_STAR_SIZE 8
 #define FADETEXT_FADE_LENGTH_PER_CHARACTER 0.04f
+#define TIMER_WARNINGLENGTH 15
+#define TIMER_TIMEOUTLENGTH 15
+#define TIMER_INTERVAL 5
 
 #pragma mark - global functions
 
