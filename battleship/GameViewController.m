@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import "Ship.h"
+#import "StarfieldView.h"
 
 #pragma mark - implementation of class
 
@@ -22,6 +23,10 @@
 @property (strong, nonatomic) Ship *pickedUpShip;
 @property (strong, nonatomic) Ship *pickedUpShipRestore;
 
+@property (weak, nonatomic) IBOutlet UIButton *doneButton;
+@property (weak, nonatomic) IBOutlet UIButton *rotButton;
+
+
 @property BOOL animating;
 
 @end
@@ -33,6 +38,11 @@
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	
+	self.doneButton.layer.cornerRadius = 6;
+	self.rotButton.layer.cornerRadius = 6;
+	
+	[(StarfieldView *)(self.view) setupStarfield];
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
 	self.shots = [ShotScreen new];
@@ -178,6 +188,7 @@
 		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
 		[self.view addSubview:view];
 	}
+	
 	
 	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
 	^(){
@@ -349,6 +360,9 @@
 	
 	//TODO: add effects views as appropriate
 	//ie starfield, etc
+	
+	self.smallView.backgroundColor = [UIColor darkGrayColor];
+	self.smallView.layer.cornerRadius = 10;
 	
 	[self.smallView addSubview:self.smallViewInner];
 	

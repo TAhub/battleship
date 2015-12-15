@@ -24,6 +24,7 @@
 		E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859C1C1F35F2007AD778 /* ShotScreen.m */; };
 		E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859E1C1F4A10007AD778 /* Ship.m */; };
 		E4F485A11C1F4B20007AD778 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485A01C1F4B20007AD778 /* Constants.m */; };
+		E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485A31C1F9214007AD778 /* StarfieldView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,8 @@
 		E4F4859C1C1F35F2007AD778 /* ShotScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotScreen.m; sourceTree = "<group>"; };
 		E4F4859E1C1F4A10007AD778 /* Ship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ship.m; sourceTree = "<group>"; };
 		E4F485A01C1F4B20007AD778 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		E4F485A21C1F9214007AD778 /* StarfieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarfieldView.h; sourceTree = "<group>"; };
+		E4F485A31C1F9214007AD778 /* StarfieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarfieldView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 		E4F4858E1C1E6BE9007AD778 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E4F485A21C1F9214007AD778 /* StarfieldView.h */,
+				E4F485A31C1F9214007AD778 /* StarfieldView.m */,
 				E4F4857F1C1E6B88007AD778 /* Main.storyboard */,
 			);
 			name = View;
@@ -252,6 +257,7 @@
 				E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */,
 				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
+				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
 				E4F485A11C1F4B20007AD778 /* Constants.m in Sources */,
