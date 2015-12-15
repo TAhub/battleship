@@ -23,6 +23,8 @@
 		E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485941C1E71E5007AD778 /* GameViewController.m */; };
 		E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859A1C1F35E6007AD778 /* ShipScreen.m */; };
 		E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859C1C1F35F2007AD778 /* ShotScreen.m */; };
+		E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859E1C1F4A10007AD778 /* Ship.m */; };
+		E4F485A11C1F4B20007AD778 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485A01C1F4B20007AD778 /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		E4F485961C1E7BFE007AD778 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E4F4859A1C1F35E6007AD778 /* ShipScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShipScreen.m; sourceTree = "<group>"; };
 		E4F4859C1C1F35F2007AD778 /* ShotScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotScreen.m; sourceTree = "<group>"; };
+		E4F4859E1C1F4A10007AD778 /* Ship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ship.m; sourceTree = "<group>"; };
+		E4F485A01C1F4B20007AD778 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				E4F485901C1E6D31007AD778 /* Ship.h */,
+				E4F4859E1C1F4A10007AD778 /* Ship.m */,
 				E4F485911C1E6EB5007AD778 /* ShotScreen.h */,
 				E4F4859C1C1F35F2007AD778 /* ShotScreen.m */,
 				E4F485921C1E6F0F007AD778 /* ShipScreen.h */,
@@ -256,6 +261,8 @@
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
 				30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
+				E4F485A11C1F4B20007AD778 /* Constants.m in Sources */,
+				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

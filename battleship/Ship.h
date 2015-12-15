@@ -11,10 +11,15 @@
 
 @interface Ship: NSObject
 
-@property (strong, nonatomic) NSString *position;
+@property NSUInteger x;
+@property NSUInteger y;
 @property BOOL rotation;
 @property ShipType type;
 
--(id)initWithPosition:(NSString *)position withRotation:(BOOL)rotation andType:(ShipType)type;
+-(id)initWithRotation:(BOOL)rotation andX:(NSUInteger)x andY:(NSUInteger)y andType:(ShipType)type;
+
+
+//this returns a list of all the spots the ship covers
+-(NSArray *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns allowOverflow:(BOOL)overflow;
 
 @end
