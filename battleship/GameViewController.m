@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UIView *bigView;
 @property (weak, nonatomic) IBOutlet UIView *smallView;
 
+@property (strong, nonatomic) UIView *bigViewInner;
+@property (strong, nonatomic) UIView *smallViewInner;
+
 @property (strong, nonatomic) Ship *pickedUpShip;
 @property (strong, nonatomic) Ship *pickedUpShipRestore;
 
@@ -33,6 +36,9 @@
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
 	self.shots = [ShotScreen new];
+	
+	self.bigViewInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bigView.frame.size.width, self.bigView.frame.size.height)];
+	self.smallViewInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.smallView.frame.size.width, self.smallView.frame.size.height)];
 	[self reloadSmallScreen];
 	[self reloadBigScreen];
 	
@@ -322,22 +328,36 @@
 
 -(void)reloadBigScreen
 {
-	[self reloadScreenInitial:self.bigView placeLabels:YES];
+	[self reloadScreenInitial:self.bigView placeLabels:NO];
+	
+	//TODO: add effects views as appropriate
+	//ie starfield, etc
+	
+	[self.bigView addSubview:self.bigViewInner];
+	
+	[self reloadScreenInitial:self.bigViewInner placeLabels:YES];
 	
 	if (self.ships.phase != kPhasePlace)
-		[self drawShots:self.bigView fromScreen:self.shots];
+		[self drawShots:self.bigViewInner fromScreen:self.shots];
 	else
-		[self drawShips:self.bigView];
+		[self drawShips:self.bigViewInner];
 }
 
 -(void)reloadSmallScreen
 {
 	[self reloadScreenInitial:self.smallView placeLabels:NO];
 	
+	//TODO: add effects views as appropriate
+	//ie starfield, etc
+	
+	[self.smallView addSubview:self.smallViewInner];
+	
+	[self reloadScreenInitial:self.smallViewInner placeLabels:NO];
+	
 	if (self.ships.phase != kPhasePlace)
-		[self drawShips:self.smallView];
+		[self drawShips:self.smallViewInner];
 	else if (self.pickedUpShip != nil)
-		[self drawShip:self.smallView ship:self.pickedUpShip];
+		[self drawShip:self.smallViewInner ship:self.pickedUpShip];
 }
 
 -(NSString *)positionFromGestureRecognizer:(UITapGestureRecognizer *)recognizer inView:(UIView *)view
