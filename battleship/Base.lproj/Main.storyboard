@@ -21,7 +21,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hWH-rt-Rey">
                                 <rect key="frame" x="137" y="28" width="140" height="175"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.71813841540404044" green="0.71813841540404044" blue="0.71813841540404044" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hWH-rt-Rey" secondAttribute="height" multiplier="4:5" id="IFK-T3-bYf"/>
                                 </constraints>

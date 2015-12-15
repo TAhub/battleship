@@ -41,6 +41,12 @@
 	
 	self.doneButton.layer.cornerRadius = 6;
 	self.rotButton.layer.cornerRadius = 6;
+	self.smallView.layer.cornerRadius = 10;
+	self.smallView.layer.borderWidth = 5;
+	self.smallView.layer.borderColor = [[UIColor whiteColor] CGColor];
+	self.bigView.layer.borderWidth = 5;
+	self.bigView.layer.borderColor = [[UIColor whiteColor] CGColor];
+	self.bigView.layer.cornerRadius = 10;
 	
 	[(StarfieldView *)(self.view) setupStarfield];
 	
@@ -360,9 +366,6 @@
 	
 	//TODO: add effects views as appropriate
 	//ie starfield, etc
-	
-	self.smallView.backgroundColor = [UIColor darkGrayColor];
-	self.smallView.layer.cornerRadius = 10;
 	
 	[self.smallView addSubview:self.smallViewInner];
 	
