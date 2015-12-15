@@ -11,10 +11,12 @@
 #import "StarfieldView.h"
 #import "OpenEarsService.h"
 #import <OpenEars/OEPocketsphinxController.h>
+#import <OpenEars/OELanguageModelGenerator.h>
+#import <OpenEars/OEAcousticModel.h>
+
 
 
 #pragma mark - implementation of class
-
 @interface GameViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *bigView;
@@ -73,6 +75,8 @@
 {
 	[super viewDidLoad];
 	[self setupOpenEars];
+	[self setupOEPocketsphinxController];
+	[self setupOELanguageModelGenerator];
 }
 
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
@@ -433,12 +437,43 @@
 	self.openEarsEventObserver = [[OEEventsObserver alloc]init];
 	[self.openEarsEventObserver setDelegate:self];
 }
-// Call this before setting any OEPocketsphinxController characteristics
+
+// offline speech recognition, you define the vocabulary.
+- (void)setupOELanguageModelGenerator
+{
+	// Change "AcousticModelEnglish" to "AcousticModelSpanish" to create a Spanish language model instead of an English one.
+	OELanguageModelGenerator *lmGenerator  = [[OELanguageModelGenerator alloc]init];
+	
+//	NSArray *voiceCommands = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"F", @"G", @"H", @"I", @"J", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8"];
+	
+	NSArray *voiceCommands = [NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"F", @"G", @"H", @"I", @"J", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", nil];
+	NSString *englishCommands = @"NameIWantForMyLanguageModelFiles";
+	NSError *error = [lmGenerator generateLanguageModelFromArray:voiceCommands withFilesNamed:englishCommands forAcousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"]];
+	NSString *lmPath = nil;
+	NSString *dicPath = nil;
+	
+	if (error == nil) {
+		lmPath = [lmGenerator pathToSuccessfullyGeneratedLanguageModelWithRequestedName:@"NameIWantForMyLanguageModelFiles"];
+		dicPath = [lmGenerator pathToSuccessfullyGeneratedDictionaryWithRequestedName:@"NameIWantForMyLenguageModelFiles"];
+	} else {
+		NSLog(@"Error: %@", [error localizedDescription]);
+	}
+}
+
+// Speech Recognition.
 - (void)setupOEPocketsphinxController
 {
-	[[OEPocketsphinxController sharedInstance]setActive:true error:nil];
-//	NSArray *voiceCommands = @[@"A1", "A2", "A3", "A4", "A5, "A6", "A7", "A8", "A9", "A10","B1", "B2", "B3", "B4", "B5","B6", "B7", "B8", "B9", "B10"];
+	// Change "AcousticModelEnglish" to "AcousticModelSpanish" to perform Spanish recognition instead of English.
+	[[OEPocketsphinxController sharedInstance] setActive:true error:nil];
+	[[OEPocketsphinxController sharedInstance]startListeningWithLanguageModelAtPath:@"lmPath" dictionaryAtPath:@"dicPath" acousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"] languageModelIsJSGF:NO];
 }
+
+// Call this before setting any OEPocketsphinxController characteristics
+//- (void)setupOEPocketsphinxController
+//{
+//	[[OEPocketsphinxController sharedInstance]setActive:true error:nil];
+//	NSArray *voiceCommands = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"F", @"G", @"H", @"I", @"J", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8"];
+//}
 
 // OEEventObserver Delegate
 - (void) pocketsphinxDidReceiveHypothesis:(NSString *)hypothesis recognitionScore:(NSString *)recognitionScore utteranceID:(NSString *)utteranceID {
