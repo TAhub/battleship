@@ -10,6 +10,15 @@
 
 @implementation ShotScreen
 
+-(id)init
+{
+	if (self = [super init])
+	{
+		self.shots = [NSMutableSet new];
+		self.hits = [NSMutableSet new];
+	}
+	return self;
+}
 
 
 @end
