@@ -7,6 +7,9 @@
 //
 
 #import "GameViewController.h"
+#import "OpenEarsService.h"
+#import <OpenEars/OEPocketsphinxController.h>
+
 
 #pragma mark - global functions
 
@@ -48,6 +51,12 @@ NSString *rowFromPosition(NSString *position)
 	UITapGestureRecognizer *shotTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shotTapSelector:)];
 	[self.shotScreenView addGestureRecognizer:shotTap];
 	
+}
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	[self setupOpenEars];
 }
 
 -(void)shipTapSelector:(UITapGestureRecognizer *)sender
@@ -146,6 +155,69 @@ NSString *rowFromPosition(NSString *position)
 -(void)reloadShotScreen
 {
 	[self reloadScreenInitial:self.shotScreenView];
+}
+
+# pragma Mark - OpenEars Implementacion 
+- (void)setupOpenEars
+{
+	self.openEarsEventObserver = [[OEEventsObserver alloc]init];
+	[self.openEarsEventObserver setDelegate:self];
+}
+// Call this before setting any OEPocketsphinxController characteristics
+- (void)setupOEPocketsphinxController
+{
+	[[OEPocketsphinxController sharedInstance]setActive:true error:nil];
+//	NSArray *voiceCommands = @[@"A1", "A2", "A3", "A4", "A5, "A6", "A7", "A8", "A9", "A10","B1", "B2", "B3", "B4", "B5","B6", "B7", "B8", "B9", "B10"];
+}
+
+// OEEventObserver Delegate
+- (void) pocketsphinxDidReceiveHypothesis:(NSString *)hypothesis recognitionScore:(NSString *)recognitionScore utteranceID:(NSString *)utteranceID {
+	NSLog(@"The received hypothesis is %@ with a score of %@ and an ID of %@", hypothesis, recognitionScore, utteranceID);
+}
+
+- (void) audioSessionInterruptionDidBegin
+{
+	//
+}
+
+- (void) pocketsphinxDidStartListening {
+	NSLog(@"Pocketsphinx is now listening.");
+}
+
+- (void) pocketsphinxDidDetectSpeech {
+	NSLog(@"Pocketsphinx has detected speech.");
+}
+
+- (void) pocketsphinxDidDetectFinishedSpeech {
+	NSLog(@"Pocketsphinx has detected a period of silence, concluding an utterance.");
+}
+
+- (void) pocketsphinxDidStopListening {
+	NSLog(@"Pocketsphinx has stopped listening.");
+}
+
+- (void) pocketsphinxDidSuspendRecognition {
+	NSLog(@"Pocketsphinx has suspended recognition.");
+}
+
+- (void) pocketsphinxDidResumeRecognition {
+	NSLog(@"Pocketsphinx has resumed recognition.");
+}
+
+- (void) pocketsphinxDidChangeLanguageModelToFile:(NSString *)newLanguageModelPathAsString andDictionary:(NSString *)newDictionaryPathAsString {
+	NSLog(@"Pocketsphinx is now using the following language model: \n%@ and the following dictionary: %@",newLanguageModelPathAsString,newDictionaryPathAsString);
+}
+
+- (void) pocketSphinxContinuousSetupDidFailWithReason:(NSString *)reasonForFailure {
+	NSLog(@"Listening setup wasn't successful and returned the failure reason: %@", reasonForFailure);
+}
+
+- (void) pocketSphinxContinuousTeardownDidFailWithReason:(NSString *)reasonForFailure {
+	NSLog(@"Listening teardown wasn't successful and returned the failure reason: %@", reasonForFailure);
+}
+
+- (void) testRecognitionCompleted {
+	NSLog(@"A test file that was submitted for recognition is now complete.");
 }
 
 
