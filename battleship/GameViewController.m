@@ -59,9 +59,12 @@
 	[self setupOpenEars];
 }
 
--(void)shipTapSelector:(UITapGestureRecognizer *)sender
+-(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigView];
+	
+	//result of speech here, if you are doing this with speech
+	
 	
 	NSLog(@"big screen: %@", position);
 	
