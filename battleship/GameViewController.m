@@ -79,6 +79,37 @@
 	[self setupOELanguageModelGenerator];
 }
 
+-(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position inView:(UIView *)view withCallback:(void (^)())completion
+{
+	__weak typeof(self) weakSelf = self;
+	
+	CGFloat x = (CGFloat)arc4random_uniform((u_int32_t)(self.view.frame.size.width));
+	CGRect frame = CGRectMake(x - SHOTS_SIZE_START / 2, y, SHOTS_SIZE_START, SHOTS_SIZE_START);
+	UIView *shotView = [[UIView alloc] initWithFrame:frame];
+	shotView.backgroundColor = [UIColor yellowColor];
+	[self.view addSubview:shotView];
+	
+	//animate shooting that position
+	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
+	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
+	[UIView animateWithDuration:SHOTS_ANIM_LENGTH animations:
+	^(){
+		shotView.frame = CGRectMake([weakSelf xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [weakSelf yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
+	} completion:
+	^(BOOL success){
+		[shotView removeFromSuperview];
+		[weakSelf reloadBigScreen];
+		
+		[UIView animateWithDuration:EXPLODE_ANIM_LENGTH animations:
+		^(){
+			//TODO: explosion
+		} completion:
+		^(BOOL success){
+			completion();
+		}];
+	}];
+}
+
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigView];
@@ -96,13 +127,17 @@
 			//don't shoot a spot you have already shot
 			if (![self.shots.shots containsObject:position])
 			{
-				
 				[self.shots attackPosition:position];
-				[self reloadBigScreen];
 				
-				self.ships.phase = kPhaseWait;
-				
-				//TODO: send a message to the opponent that you shot that position
+				__weak typeof(self) weakSelf = self;
+				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position inView:self.bigView withCallback:
+				^(){
+					//TODO: send a message to the opponent that you shot that position
+			  
+					//and wait for their move
+					weakSelf.ships.phase = kPhaseWait;
+					[weakSelf reloadBigScreen];
+				}];
 			}
 			break;
 		case kPhasePlace:
@@ -386,6 +421,22 @@
 	}
 }
 
+-(void)addFadeTextToScreen:(UIView *)screen saying:(NSString *)text
+{
+	FadeText *t = [FadeText new];
+	[t setTranslatesAutoresizingMaskIntoConstraints:NO];
+	t.textColor = [UIColor whiteColor];
+	t.numberOfLines = 0;
+	t.font = [UIFont boldSystemFontOfSize:20];
+	[t fadeInText:text];
+	[t setTextAlignment:NSTextAlignmentCenter];
+	[screen addSubview:t];
+	
+	NSDictionary *d = [NSDictionary dictionaryWithObject:t forKey:@"t"];
+	[screen addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[t]-|" options:0 metrics:nil views:d]];
+	[screen addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[t]" options:0 metrics:nil views:d]];
+}
+
 -(void)reloadBigScreen
 {
 	[self reloadScreenInitial:self.bigView placeLabels:NO];
@@ -395,12 +446,23 @@
 	
 	[self.bigView addSubview:self.bigViewInner];
 	
-	[self reloadScreenInitial:self.bigViewInner placeLabels:YES];
+	[self reloadScreenInitial:self.bigViewInner placeLabels:(self.ships.phase == kPhasePlace || self.ships.phase == kPhaseShoot)];
 	
-	if (self.ships.phase != kPhasePlace)
-		[self drawShots:self.bigViewInner fromScreen:self.shots];
-	else
-		[self drawShips:self.bigViewInner];
+	switch(self.ships.phase)
+	{
+		case kPhasePlace:
+			[self drawShips:self.bigViewInner];
+			break;
+		case kPhaseShoot:
+			[self drawShots:self.bigViewInner fromScreen:self.shots];
+			break;
+		case kPhaseWait:
+			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
+			break;
+		case kPhaseWaitForOpponent:
+			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent to\nplace their ships..."];
+			break;
+	}
 }
 
 -(void)reloadSmallScreen
