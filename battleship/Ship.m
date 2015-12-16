@@ -29,7 +29,7 @@
 	{
 		case kAircraftCarrier: base = @"aircraftcarrier"; break;
 		case kBattleship: base = @"battleship"; break;
-		case kSubmarine: base = @"destroyer"; break;
+		case kSubmarine: base = @"submarine"; break;
 		case kDestroyer: base = @"destroyer"; break;
 		case kPatrolBoat: base = @"patrolBoat"; break;
 	}
