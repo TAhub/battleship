@@ -35,7 +35,7 @@
 		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[fleet dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
 		
 		self.ships = [NSMutableArray new];
-		for (NSDictionary *ship in json)
+		for (NSDictionary *ship in [json allValues])
 			[self.ships addObject:[[Ship alloc] initWithShipJSON:ship]];
 	}
 	return self;
