@@ -7,7 +7,6 @@
 //
 
 #import "GameMenuViewController.h"
-
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
@@ -20,8 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //add parse login
-    [self login];
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,11 +34,10 @@
     PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
     logInViewController.delegate = self;
     [self presentViewController:logInViewController animated:YES completion:nil];
-    
 
 }
 
-
+    
 - (void)signout {
     [PFUser logOut];
     [self login];
@@ -48,8 +45,15 @@
 
 // Delegate
 
--(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    [self dismissViewControllerAnimated:YES completion:nil];
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {    
+        [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+- (IBAction)startGameButtonPressed:(id)sender {
+    [self login];
+    
 }
 
 

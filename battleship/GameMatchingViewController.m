@@ -7,8 +7,11 @@
 //
 
 #import "GameMatchingViewController.h"
+#import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 
 @interface GameMatchingViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
 
 @end
 
@@ -16,7 +19,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.waitingLabel.text = [NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([PFUser currentUser] != nil) {
+        NSLog(@"good to go %@", [PFUser currentUser]);
+    } else {
+        [self login];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +39,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Parse
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)login {
+    PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
+    logInViewController.delegate = self;
+    [self presentViewController:logInViewController animated:YES completion:nil];
+    
 }
-*/
+
+// Delegate
+
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 
 @end
