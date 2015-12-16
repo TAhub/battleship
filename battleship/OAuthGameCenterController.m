@@ -22,8 +22,6 @@
     [super viewDidLoad];
     // Set GameCenter Manager Delegate
     [[GameCenterManager sharedManager] setDelegate:self];
-    NSLog(@"show loginVC");
-    
 
 }
 
@@ -32,6 +30,7 @@
     [super viewWillAppear:YES];
     
     BOOL available = [[GameCenterManager sharedManager] checkGameCenterAvailability:YES];
+    
     if (available) {
         NSLog(@"GameCenter is available");
     } else {
