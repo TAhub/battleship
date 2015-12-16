@@ -9,10 +9,10 @@
 #import "GameViewController.h"
 #import "Ship.h"
 #import "StarfieldView.h"
-#import "OpenEarsService.h"
 #import <OpenEars/OEPocketsphinxController.h>
 #import <OpenEars/OELanguageModelGenerator.h>
 #import <OpenEars/OEAcousticModel.h>
+#import "FadeText.h"
 
 
 
@@ -37,6 +37,17 @@
 @end
 
 @implementation GameViewController
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+//	[self setupOpenEars];
+//	[self setupOEPocketsphinxController];
+	self.openEarsEventsObserver = [[OEEventsObserver alloc] init];
+	[self.openEarsEventsObserver setDelegate:self];
+	[self setupOELanguageModelGenerator];
+
+}
 
 #pragma mark - view controller stuff
 
@@ -69,14 +80,6 @@
 	self.pickedUpShipRestore = nil;
 	
 	self.animating = false;
-}
-
-- (void)viewDidLoad
-{
-	[super viewDidLoad];
-	[self setupOpenEars];
-	[self setupOEPocketsphinxController];
-	[self setupOELanguageModelGenerator];
 }
 
 -(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position inView:(UIView *)view withCallback:(void (^)())completion
@@ -493,99 +496,67 @@
 	return positionFrom(row, column);
 }
 
-# pragma Mark - OpenEars Implementacion 
-- (void)setupOpenEars
-{
-	self.openEarsEventObserver = [[OEEventsObserver alloc]init];
-	[self.openEarsEventObserver setDelegate:self];
-}
-
-// offline speech recognition, you define the vocabulary.
+# pragma Mark - OpenEars Implementacion
 - (void)setupOELanguageModelGenerator
 {
-	// Change "AcousticModelEnglish" to "AcousticModelSpanish" to create a Spanish language model instead of an English one.
-	OELanguageModelGenerator *lmGenerator  = [[OELanguageModelGenerator alloc]init];
+	OELanguageModelGenerator *languageModelGenerator = [[OELanguageModelGenerator alloc] init];
 	
-//	NSArray *voiceCommands = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"F", @"G", @"H", @"I", @"J", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8"];
-	
-	NSArray *voiceCommands = [NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"F", @"G", @"H", @"I", @"J", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", nil];
-	NSString *englishCommands = @"NameIWantForMyLanguageModelFiles";
-	NSError *error = [lmGenerator generateLanguageModelFromArray:voiceCommands withFilesNamed:englishCommands forAcousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"]];
-	NSString *lmPath = nil;
+	NSArray *voiceCommands = [NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J",@"ONE", @"TWO", @"THREE", @"FOUR", @"FIVE", @"SIX", @"SEVEN", @"EIGHT", nil];
+	NSString *name = @"EnglishVoiceCommands";
+	NSError *error = [languageModelGenerator generateLanguageModelFromArray:voiceCommands withFilesNamed:name forAcousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"]];
+	NSString *languageModelPath = nil;
 	NSString *dicPath = nil;
 	
-	if (error == nil) {
-		lmPath = [lmGenerator pathToSuccessfullyGeneratedLanguageModelWithRequestedName:@"NameIWantForMyLanguageModelFiles"];
-		dicPath = [lmGenerator pathToSuccessfullyGeneratedDictionaryWithRequestedName:@"NameIWantForMyLenguageModelFiles"];
+	if(error == nil) {
+		
+		languageModelPath = [languageModelGenerator pathToSuccessfullyGeneratedLanguageModelWithRequestedName:@"EnglishVoiceCommands"];
+		dicPath = [languageModelGenerator pathToSuccessfullyGeneratedDictionaryWithRequestedName:@"EnglishVoiceCommands"];
+		
 	} else {
-		NSLog(@"Error: %@", [error localizedDescription]);
+		NSLog(@"Error: %@",[error localizedDescription]);
 	}
-}
+	
+	[[OEPocketsphinxController sharedInstance] setActive:TRUE error:nil];
+	[[OEPocketsphinxController sharedInstance] startListeningWithLanguageModelAtPath:languageModelPath dictionaryAtPath:dicPath acousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"] languageModelIsJSGF:NO];
 
-// Speech Recognition.
-- (void)setupOEPocketsphinxController
-{
-	// Change "AcousticModelEnglish" to "AcousticModelSpanish" to perform Spanish recognition instead of English.
-	[[OEPocketsphinxController sharedInstance] setActive:true error:nil];
-	[[OEPocketsphinxController sharedInstance]startListeningWithLanguageModelAtPath:@"lmPath" dictionaryAtPath:@"dicPath" acousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"] languageModelIsJSGF:NO];
-}
-
-// Call this before setting any OEPocketsphinxController characteristics
-//- (void)setupOEPocketsphinxController
-//{
-//	[[OEPocketsphinxController sharedInstance]setActive:true error:nil];
-//	NSArray *voiceCommands = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"F", @"G", @"H", @"I", @"J", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8"];
-//}
-
-// OEEventObserver Delegate
-- (void) pocketsphinxDidReceiveHypothesis:(NSString *)hypothesis recognitionScore:(NSString *)recognitionScore utteranceID:(NSString *)utteranceID {
-	NSLog(@"The received hypothesis is %@ with a score of %@ and an ID of %@", hypothesis, recognitionScore, utteranceID);
-}
-
-- (void) audioSessionInterruptionDidBegin
-{
-	//
 }
 
 - (void) pocketsphinxDidStartListening {
-	NSLog(@"Pocketsphinx is now listening.");
+	NSLog(@"Battleship is now listening for commands.");
 }
 
 - (void) pocketsphinxDidDetectSpeech {
-	NSLog(@"Pocketsphinx has detected speech.");
+	NSLog(@"Battleship has detected speech.");
 }
 
 - (void) pocketsphinxDidDetectFinishedSpeech {
-	NSLog(@"Pocketsphinx has detected a period of silence, concluding an utterance.");
+	NSLog(@"Battleship has detected a period of silence, concluding an utterance.");
 }
 
 - (void) pocketsphinxDidStopListening {
-	NSLog(@"Pocketsphinx has stopped listening.");
+	NSLog(@"Battleship has stopped listening.");
 }
 
-- (void) pocketsphinxDidSuspendRecognition {
-	NSLog(@"Pocketsphinx has suspended recognition.");
-}
 
-- (void) pocketsphinxDidResumeRecognition {
-	NSLog(@"Pocketsphinx has resumed recognition.");
-}
 
-- (void) pocketsphinxDidChangeLanguageModelToFile:(NSString *)newLanguageModelPathAsString andDictionary:(NSString *)newDictionaryPathAsString {
-	NSLog(@"Pocketsphinx is now using the following language model: \n%@ and the following dictionary: %@",newLanguageModelPathAsString,newDictionaryPathAsString);
-}
 
-- (void) pocketSphinxContinuousSetupDidFailWithReason:(NSString *)reasonForFailure {
-	NSLog(@"Listening setup wasn't successful and returned the failure reason: %@", reasonForFailure);
-}
 
-- (void) pocketSphinxContinuousTeardownDidFailWithReason:(NSString *)reasonForFailure {
-	NSLog(@"Listening teardown wasn't successful and returned the failure reason: %@", reasonForFailure);
-}
 
-- (void) testRecognitionCompleted {
-	NSLog(@"A test file that was submitted for recognition is now complete.");
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @end

@@ -10,6 +10,7 @@
 #import "ShipScreen.h"
 #import <OpenEars/OEEventsObserver.h>
 
+
 // EventsObserver delegate inheritance.
 @interface GameViewController : UIViewController <OEEventsObserverDelegate>
 
@@ -20,6 +21,6 @@
 //it's not a ship screen because you don't know where their ships are
 @property (strong, nonatomic) ShipScreen *shots;
 
-@property (strong, nonatomic) OEEventsObserver *openEarsEventObserver;
+@property (strong, nonatomic) OEEventsObserver *openEarsEventsObserver;
 
 @end
