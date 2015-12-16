@@ -237,8 +237,8 @@
 
 -(void)setupMatch
 {
-	PFUser *firstUser = [self.battleObject valueForKey:@"FirstUser"];
-	if (firstUser.objectId == [PFUser currentUser].objectId)
+	NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
+	if (firstUser == [PFUser currentUser].objectId)
 	{
 		//you go first!
 		self.ships.phase = kPhaseShoot;

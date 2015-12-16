@@ -9,9 +9,11 @@
 #import "GameMatchingViewController.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import "GameViewController.h"
 
 @interface GameMatchingViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
+@property (strong, nonatomic) PFObject *battle;
 
 @end
 
@@ -19,8 +21,82 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.waitingLabel.text = [NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]];
+	[self startMatching];
+}
+
+-(void)checkHeartbeat:(NSTimer *)timer
+{
+	[self.battle fetchInBackgroundWithBlock:
+	^(PFObject *object, NSError *error){
+		if (error != nil)
+		{
+			//TODO: handle error
+		}
+		else
+		{
+			self.battle = object;
+			
+			if ([object valueForKey:@"SecondUser"] != nil)
+			{
+				[timer invalidate];
+				//TODO: segue to game view
+			}
+		}
+	}];
+}
+
+-(void)startMatching
+{
+	if ([PFUser currentUser] != nil)
+	{
+		self.waitingLabel.text = [NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]];
+		
+		__weak typeof(self) weakSelf = self;
+		
+		PFQuery *query = [PFQuery queryWithClassName:@"Battle"];
+		[query whereKeyDoesNotExist:@"SecondUser"];
+		[query getFirstObjectInBackgroundWithBlock:
+		^(PFObject *object, NSError *error){
+			if (error != nil)
+			{
+				//TODO: deal with error
+			}
+			else if (object != nil)
+			{
+				//join a match
+				object[@"SeconUser"] = [PFUser currentUser].objectId;
+				[object saveInBackgroundWithBlock:
+				^(BOOL succeeded, NSError *error){
+					if (error != nil)
+					{
+						//TODO: deal with error
+					}
+					else
+					{
+						weakSelf.battle = object;
+						//TODO: segue to game view
+					}
+				}];
+			}
+			else
+			{
+				//TODO: make a match
+				PFObject *battle = [PFObject objectWithClassName:@"Battle"];
+				battle[@"FirstUser"] = [PFUser currentUser].objectId;
+				battle[@"MoveNumber"] = @(0);
+				[battle saveInBackground];
+				weakSelf.battle = battle;
+				
+				[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
+			}
+		}];
+	}
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	GameViewController *gvc = segue.destinationViewController;
+	gvc.battleObject = self.battle;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,6 +128,7 @@
 
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
     [self dismissViewControllerAnimated:YES completion:nil];
+	[self startMatching];
 }
 
 
