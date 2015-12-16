@@ -37,7 +37,7 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
 
-@property BOOL animating;
+@property int animating;
 
 @end
 
@@ -85,10 +85,53 @@
 	self.pickedUpShip = nil;
 	self.pickedUpShipRestore = nil;
 	
-	self.animating = false;
+	self.animating = 0;
 }
 
--(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position inView:(UIView *)view withCallback:(void (^)())completion
+-(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andCallback:(void (^)())completion
+{
+	self.animating += 1;
+	
+	NSMutableArray *flares = [NSMutableArray new];
+	for (int i = 0; i < EXPLODE_FLARES; i++)
+	{
+		CGFloat x = center.x + arc4random_uniform((u_int32_t)radius * 2) - radius;
+		CGFloat y = center.y + arc4random_uniform((u_int32_t)radius * 2) - radius;
+		CGFloat size = EXPLODE_FLARE_SIZE - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
+		CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
+		UIView *flare = [[UIView alloc] initWithFrame:frame];
+		flare.backgroundColor = [UIColor redColor];
+		[self.view addSubview:flare];
+		[flares addObject:flare];
+	}
+	
+	__weak typeof(self) weakSelf = self;
+	
+	[UIView animateWithDuration:EXPLODE_ANIM_LENGTH delay:0 options:UIViewAnimationOptionCurveEaseIn animations:
+	^(){
+		for (UIView *flare in flares)
+		{
+			CGFloat angle = arc4random_uniform(200) * M_PI / 100;
+			CGFloat distance = (arc4random_uniform(70) + 30) * EXPLODE_FLARE_DISTANCE / 100;
+			CGFloat x = center.x + cos(angle) * distance;
+			CGFloat y = center.y + sin(angle) * distance;
+			CGFloat size = EXPLODE_FLARE_SIZE_END - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
+			CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
+			flare.frame = frame;
+			flare.alpha = 0.12;
+			flare.layer.backgroundColor = [[UIColor colorWithRed:0.8 green:0.65 blue:0.65 alpha:1] CGColor];
+		}
+	} completion:
+	^(BOOL success){
+		for (UIView *flare in flares)
+			[flare removeFromSuperview];
+		
+		completion();
+		weakSelf.animating -= 1;
+	}];
+}
+
+-(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view withCallback:(void (^)())completion
 {
 	__weak typeof(self) weakSelf = self;
 	
@@ -99,7 +142,7 @@
 	[self.view addSubview:shotView];
 	
 	//animate shooting that position
-	self.animating = true;
+	self.animating += 1;
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
 	CGRect toRect = CGRectMake([self xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [self yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
@@ -109,16 +152,20 @@
 	} completion:
 	^(BOOL success){
 		[shotView removeFromSuperview];
-		[weakSelf reloadBigScreen];
 		
-		[UIView animateWithDuration:EXPLODE_ANIM_LENGTH animations:
-		^(){
-			//TODO: explosion
-		} completion:
-		^(BOOL success){
+		if (hit)
+			[weakSelf explosionAnimAround:CGPointMake(toRect.origin.x + toRect.size.width / 2, toRect.origin.y + toRect.size.height / 2) withRadius:(squareWidth + squareHeight) / 4 andCallback:
+			^(){
+				[weakSelf reloadBigScreen];
+				completion();
+				weakSelf.animating -= 1;
+			}];
+		else
+		{
+			[weakSelf reloadBigScreen];
 			completion();
-			weakSelf.animating = false;
-		}];
+			weakSelf.animating -= 1;
+		}
 	}];
 }
 
@@ -192,7 +239,7 @@
 	
 	NSLog(@"big screen: %@", position);
 	
-	if (self.animating) { return; }
+	if (self.animating > 0) { return; }
 	
 	switch(self.ships.phase)
 	{
@@ -200,11 +247,11 @@
 			//don't shoot a spot you have already shot
 			if (![self.shots.shots containsObject:position])
 			{
-				[self.shots attackPosition:position];
+				BOOL hit = [self.shots attackPosition:position];
 				[self stopTimer];
 				
 				__weak typeof(self) weakSelf = self;
-				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position inView:self.bigView withCallback:
+				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position isHit:hit inView:self.bigView withCallback:
 				^(){
 					//TODO: send a message to the opponent that you shot that position
 			  
@@ -319,7 +366,7 @@
 
 -(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
 {
-	self.animating = true;
+	self.animating += 1;
 	__weak typeof(self) weakSelf = self;
 	for (UIView *view in from)
 	{
@@ -340,14 +387,14 @@
 	^(BOOL success){
 		for (UIView *view in from)
 			[view removeFromSuperview];
-		weakSelf.animating = false;
+		weakSelf.animating -= 1;
 		completion();
 	}];
 }
 
 - (IBAction)rotate
 {
-	if (self.animating) { return; }
+	if (self.animating > 0) { return; }
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip != nil)
 	{
@@ -363,7 +410,7 @@
 
 - (IBAction)done
 {
-	if (self.animating) { return; }
+	if (self.animating > 0) { return; }
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
