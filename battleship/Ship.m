@@ -22,6 +22,24 @@
 	return self;
 }
 
+-(id)initWithShipJSON:(NSDictionary *)json
+{
+	if (self = [super init])
+	{
+		self.x = [(NSString *)json[@"x"] intValue];
+		self.y = [(NSString *)json[@"y"] intValue];
+		self.rotation = [(NSString *)json[@"rotation"] boolValue];
+		self.type = [(NSString *)json[@"type"] intValue];
+		
+	}
+	return self;
+}
+
+-(NSDictionary *)shipJSON
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:@(self.x), @"x", @(self.y), @"y", @(self.rotation), @"rotation", @(self.type), @"type", nil];
+}
+
 -(NSArray *)shipBits
 {
 	NSString *base;

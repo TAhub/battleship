@@ -27,14 +27,29 @@
 	return self;
 }
 
--(id)initWithShips:(NSArray *)ships
+-(id)initWithFleet:(NSString *)fleet
 {
 	if (self = [super init])
 	{
-		//TODO: init
-		[self reloadLabels];
+		NSError *error;
+		NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[fleet dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+		
+		self.ships = [NSMutableArray new];
+		for (NSDictionary *ship in json)
+			[self.ships addObject:[[Ship alloc] initWithShipJSON:ship]];
 	}
 	return self;
+}
+
+-(NSString *)fleet
+{
+	NSError *error;
+	NSMutableDictionary *dict = [NSMutableDictionary new];
+	for (Ship *ship in self.ships)
+		dict[[NSString stringWithFormat:@"ship%i", ship.type]] = [ship shipJSON];
+	NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:&error];
+	NSString *f = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	return f;
 }
 
 -(BOOL)attackPosition:(NSString *)position
