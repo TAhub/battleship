@@ -92,9 +92,10 @@
 	//animate shooting that position
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
+	CGRect toRect = CGRectMake([self xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [self yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
 	[UIView animateWithDuration:SHOTS_ANIM_LENGTH animations:
 	^(){
-		shotView.frame = CGRectMake([weakSelf xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [weakSelf yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
+		shotView.frame = toRect;
 	} completion:
 	^(BOOL success){
 		[shotView removeFromSuperview];
@@ -188,7 +189,7 @@
 				[self stopTimer];
 				
 				__weak typeof(self) weakSelf = self;
-				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position inView:self.bigViewInner withCallback:
+				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position inView:self.bigView withCallback:
 				^(){
 					//TODO: send a message to the opponent that you shot that position
 			  
@@ -433,16 +434,35 @@
 	
 	NSMutableArray *array = [NSMutableArray new];
 	NSArray *positions = [ship positionsWithRowLabels:[self.ships rowLabels] andColumnlabels:[self.ships columnLabels] allowOverflow:YES];
+	NSArray *bits = [ship shipBits];
 	
-	for (NSString *position in positions)
+	for (int i = 0; i < positions.count; i++)
 	{
-		NSUInteger x = [self xFrom:position];
-		NSUInteger y = [self yFrom:position];
+		NSString *position = positions[i];
+		NSString *bit = bits[i];
 		
-		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
-		UIView *shipSquare = [[UIView alloc] initWithFrame:frame];
-		shipSquare.backgroundColor = [UIColor yellowColor];
-		[array addObject:shipSquare];
+		if (![bit isEqualToString:@"hi"])
+		{
+			NSUInteger x = [self xFrom:position];
+			NSUInteger y = [self yFrom:position];
+			
+			CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
+			UIImageView *shipSquare = [[UIImageView alloc] initWithFrame:frame];
+			shipSquare.layer.anchorPoint = CGPointMake(0.5, 0.5);
+			if (!ship.rotation)
+				shipSquare.transform = CGAffineTransformMakeRotation(M_PI_2);
+			
+			//make a mask subimage
+			int bitA = bit.intValue;
+			NSString *bitB = [bit substringFromIndex:2];
+			UIImage *baseImage = [UIImage imageNamed:bitB];
+			
+			CGImageRef ref = CGImageCreateWithImageInRect([baseImage CGImage], CGRectMake(baseImage.size.width / [ship size] * bitA, 0, baseImage.size.height, baseImage.size.width / [ship size]));
+			shipSquare.image = [UIImage imageWithCGImage:ref];
+			CGImageRelease(ref);
+			
+			[array addObject:shipSquare];
+		}
 	}
 	return array;
 }

@@ -18,6 +18,11 @@
 
 -(id)initWithRotation:(BOOL)rotation andX:(NSUInteger)x andY:(NSUInteger)y andType:(ShipType)type;
 
+//this returns the size of the ship
+-(int)size;
+
+//this returns a list of strings, to draw the ship bits with
+-(NSArray *)shipBits;
 
 //this returns a list of all the spots the ship covers
 -(NSArray *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns allowOverflow:(BOOL)overflow;

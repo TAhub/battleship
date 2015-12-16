@@ -22,18 +22,39 @@
 	return self;
 }
 
--(NSArray *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns allowOverflow:(BOOL)overflow
+-(NSArray *)shipBits
 {
-	int size;
+	NSString *base;
 	switch(self.type)
 	{
-		case kAircraftCarrier: size = 5; break;
-		case kBattleship: size = 4; break;
-		case kSubmarine: size = 3; break;
-		case kDestroyer: size = 3; break;
-		case kPatrolBoat: size = 2; break;
+		case kAircraftCarrier: base = @"aircraftcarrier"; break;
+		case kBattleship: base = @"battleship"; break;
+		case kSubmarine: base = @"destroyer"; break;
+		case kDestroyer: base = @"destroyer"; break;
+		case kPatrolBoat: base = @"patrolboat"; break;
 	}
 	
+	NSMutableArray *bits = [NSMutableArray new];
+	for (int i = 0; i < [self size]; i++)
+		[bits addObject:[NSString stringWithFormat:@"%i-%@", i, base]];
+	return bits;
+}
+
+-(int)size
+{
+	switch(self.type)
+	{
+		case kAircraftCarrier: return 5;
+		case kBattleship: return 4;
+		case kSubmarine: return 3;
+		case kDestroyer: return 3;
+		case kPatrolBoat: return 2;
+	}
+}
+
+-(NSArray *)positionsWithRowLabels:(NSArray *)rows andColumnlabels:(NSArray *)columns allowOverflow:(BOOL)overflow
+{
+	int size = [self size];
 	NSMutableArray *positions = [NSMutableArray new];
 	if (self.rotation)
 	{
