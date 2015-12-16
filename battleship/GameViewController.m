@@ -30,6 +30,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *rotButton;
 
+@property (strong, nonatomic) UIView *timerView;
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSTimer *tickTimer;
 
 @property BOOL animating;
 
@@ -46,9 +49,9 @@
 	self.doneButton.layer.cornerRadius = 6;
 	self.rotButton.layer.cornerRadius = 6;
 	self.smallView.layer.cornerRadius = 10;
-	self.smallView.layer.borderWidth = 5;
+	self.smallView.layer.borderWidth = BOARD_BORDER;
 	self.smallView.layer.borderColor = [[UIColor whiteColor] CGColor];
-	self.bigView.layer.borderWidth = 5;
+	self.bigView.layer.borderWidth = BOARD_BORDER;
 	self.bigView.layer.borderColor = [[UIColor whiteColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
 	
@@ -56,8 +59,8 @@
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
 	
-	self.bigViewInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bigView.frame.size.width, self.bigView.frame.size.height)];
-	self.smallViewInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.smallView.frame.size.width, self.smallView.frame.size.height)];
+	self.bigViewInner = [[UIView alloc] initWithFrame:CGRectMake(BOARD_BORDER - 1, BOARD_BORDER - 1, self.bigView.frame.size.width - 2 * BOARD_BORDER + 2, self.bigView.frame.size.height - 2 * BOARD_BORDER + 2)];
+	self.smallViewInner = [[UIView alloc] initWithFrame:CGRectMake(BOARD_BORDER - 1, BOARD_BORDER - 1, self.smallView.frame.size.width - 2 * BOARD_BORDER + 2, self.smallView.frame.size.height - 2 * BOARD_BORDER + 2)];
 	[self reloadSmallScreen];
 	[self reloadBigScreen];
 	
@@ -89,9 +92,10 @@
 	//animate shooting that position
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
+	CGRect toRect = CGRectMake([self xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [self yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
 	[UIView animateWithDuration:SHOTS_ANIM_LENGTH animations:
 	^(){
-		shotView.frame = CGRectMake([weakSelf xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [weakSelf yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
+		shotView.frame = toRect;
 	} completion:
 	^(BOOL success){
 		[shotView removeFromSuperview];
@@ -107,9 +111,66 @@
 	}];
 }
 
+-(void)stopTimer
+{
+	if (self.timerView != nil)
+	{
+		[self.timerView removeFromSuperview];
+		self.timerView = nil;
+	}
+	
+	if (self.timer != nil)
+	{
+		[self.timer invalidate];
+		self.timer = nil;
+	}
+	
+	if (self.tickTimer != nil)
+	{
+		[self.tickTimer invalidate];
+		self.tickTimer = nil;
+	}
+}
+
+-(void)resetTimer
+{
+	[self stopTimer];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_WARNINGLENGTH target:self selector:@selector(timerWarning:) userInfo:nil repeats:NO];
+}
+
+-(void)timerWarning:(NSTimer *)timer
+{
+	[self makeTimerView:timer];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_TIMEOUTLENGTH target:self selector:@selector(timerForefeit:) userInfo:nil repeats:NO];
+	self.tickTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(makeTimerView:) userInfo:nil repeats:YES];
+}
+
+-(void)makeTimerView:(NSTimer *)timer
+{
+	if (self.timerView != nil)
+	{
+		FadeText *ft = (FadeText *)self.timerView;
+		int oldTimer = ft.text.intValue;
+		[ft fadeInText:[NSString stringWithFormat:@"%i seconds left!", oldTimer - TIMER_INTERVAL]];
+	}
+	else
+	{
+		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:@"%i seconds left!", TIMER_TIMEOUTLENGTH]];
+		((FadeText *)(self.timerView)).textColor = [UIColor whiteColor];
+	}
+}
+
+-(void)timerForefeit:(NSTimer *)timer
+{
+	[self resetTimer];
+	
+	//TODO: forefeit
+	NSLog(@"Oops, you ran out of time!");
+}
+
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
-	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigView];
+	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigViewInner];
 	
 	//result of speech here, if you are doing this with speech
 	
@@ -125,6 +186,7 @@
 			if (![self.shots.shots containsObject:position])
 			{
 				[self.shots attackPosition:position];
+				[self stopTimer];
 				
 				__weak typeof(self) weakSelf = self;
 				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position inView:self.bigView withCallback:
@@ -145,40 +207,40 @@
 				{
 					NSArray *fromShipViewsBefore = nil;
 					NSArray *toShipViewsBefore = nil;
-					NSArray *fromShipViews = [self shipViews:self.bigView ship:atPos];
+					NSArray *fromShipViews = [self shipViews:self.bigViewInner ship:atPos];
 					NSArray *toShipViews = nil;
 					
 					if (self.pickedUpShip != nil) //return the ship you have picked up already
 					{
-						fromShipViewsBefore = [self shipViews:self.smallView ship:self.pickedUpShip];
+						fromShipViewsBefore = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
 						[self.ships.ships addObject:self.pickedUpShipRestore];
-						toShipViewsBefore = [self shipViews:self.bigView ship:self.pickedUpShipRestore];
+						toShipViewsBefore = [self shipViews:self.bigViewInner ship:self.pickedUpShipRestore];
 					}
 					
 					
 					//pick up a ship
 					self.pickedUpShipRestore = [self.ships removeShipOfType:atPos.type];
 					self.pickedUpShip = [[Ship alloc] initWithRotation:atPos.rotation andX:0 andY:0 andType:atPos.type];
-					toShipViews = [self shipViews:self.smallView ship:self.pickedUpShip];
+					toShipViews = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
 					
 					//do an animation
 					__weak typeof(self) weakSelf = self;
 					if (fromShipViewsBefore == nil)
 					{
 						[self reloadBigScreen];
-						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 						^(){
 							[weakSelf reloadSmallScreen];
 						}];
 					}
 					else
 					{
-						for (UIView *view in self.smallView.subviews)
+						for (UIView *view in self.smallViewInner.subviews)
 							[view removeFromSuperview];
-						[self shipPartTranslateFrom:fromShipViewsBefore to:toShipViewsBefore fromScreen:self.smallView toScreen:self.bigView completion:
+						[self shipPartTranslateFrom:fromShipViewsBefore to:toShipViewsBefore fromScreen:self.smallViewInner toScreen:self.bigViewInner completion:
 						^(){
 							[weakSelf reloadBigScreen];
-							[weakSelf shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+							[weakSelf shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 							^(){
 								[weakSelf reloadSmallScreen];
 							}];
@@ -187,8 +249,8 @@
 				}
 				else if (self.pickedUpShip != nil)
 				{
-					NSArray *fromShipViews = [self shipViews:self.smallView ship:self.pickedUpShip];
-					NSArray *toShipViews = [self shipViews:self.bigView ship:[[Ship alloc] initWithRotation:self.pickedUpShip.rotation andX:[[self.ships columnLabels] indexOfObject:columnFromPosition(position)] andY:[[self.ships rowLabels] indexOfObject:rowFromPosition(position)] andType:self.pickedUpShip.type]];
+					NSArray *fromShipViews = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
+					NSArray *toShipViews = [self shipViews:self.bigViewInner ship:[[Ship alloc] initWithRotation:self.pickedUpShip.rotation andX:[[self.ships columnLabels] indexOfObject:columnFromPosition(position)] andY:[[self.ships rowLabels] indexOfObject:rowFromPosition(position)] andType:self.pickedUpShip.type]];
 					
 					//try to place the ship there
 					if ([self.ships placeShipAtPosition:position withRotation:self.pickedUpShip.rotation andType:self.pickedUpShip.type])
@@ -200,7 +262,7 @@
 						//do an animation
 						[self reloadSmallScreen];
 						__weak typeof(self) weakSelf = self;
-						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.smallView toScreen:self.bigView completion:
+						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.smallViewInner toScreen:self.bigViewInner completion:
 						^(){
 							[weakSelf reloadBigScreen];
 						}];
@@ -210,15 +272,15 @@
 						//there's a collision, so you can't
 						//however, to make this clear, a short animation is played
 						
-						NSArray *fromShipViewsTwo = [self shipViews:self.smallView ship:self.pickedUpShip];
+						NSArray *fromShipViewsTwo = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
 						__weak typeof(self) weakSelf = self;
 						Ship *storedShip = self.pickedUpShip;
 						self.pickedUpShip = nil;
 						[self reloadSmallScreen];
 						
-						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.smallView toScreen:self.bigView completion:
+						[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.smallViewInner toScreen:self.bigViewInner completion:
 						^(){
-							[weakSelf shipPartTranslateFrom:toShipViews to:fromShipViewsTwo fromScreen:self.bigView toScreen:self.smallView completion:
+							[weakSelf shipPartTranslateFrom:toShipViews to:fromShipViewsTwo fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 							^(){
 								weakSelf.pickedUpShip = storedShip;
 								[weakSelf reloadSmallScreen];
@@ -292,6 +354,9 @@
 		self.ships.phase = kPhaseShoot;
 		[self.ships reloadLabels];
 		
+		//since you're in the shooting phase now, turn on the timer
+		[self resetTimer];
+		
 		//TODO: get the opponent's ship state once the match begins
 		self.shots = [[ShipScreen alloc] initEmpty];
 		self.shots.phase = kPhaseWait;
@@ -303,10 +368,10 @@
 		__weak typeof(self) weakSelf = self;
 		for (Ship *ship in self.ships.ships)
 		{
-			NSArray *fromShipViews = [self shipViews:self.bigView ship:ship];
-			NSArray *toShipViews = [self shipViews:self.smallView ship:ship];
+			NSArray *fromShipViews = [self shipViews:self.bigViewInner ship:ship];
+			NSArray *toShipViews = [self shipViews:self.smallViewInner ship:ship];
 			
-			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigView toScreen:self.smallView completion:
+			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 			^(){
 				[weakSelf reloadSmallScreen];
 			}];
@@ -369,16 +434,35 @@
 	
 	NSMutableArray *array = [NSMutableArray new];
 	NSArray *positions = [ship positionsWithRowLabels:[self.ships rowLabels] andColumnlabels:[self.ships columnLabels] allowOverflow:YES];
+	NSArray *bits = [ship shipBits];
 	
-	for (NSString *position in positions)
+	for (int i = 0; i < positions.count; i++)
 	{
-		NSUInteger x = [self xFrom:position];
-		NSUInteger y = [self yFrom:position];
+		NSString *position = positions[i];
+		NSString *bit = bits[i];
 		
-		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
-		UIView *shipSquare = [[UIView alloc] initWithFrame:frame];
-		shipSquare.backgroundColor = [UIColor yellowColor];
-		[array addObject:shipSquare];
+		if (![bit isEqualToString:@"hi"])
+		{
+			NSUInteger x = [self xFrom:position];
+			NSUInteger y = [self yFrom:position];
+			
+			CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
+			UIImageView *shipSquare = [[UIImageView alloc] initWithFrame:frame];
+			shipSquare.layer.anchorPoint = CGPointMake(0.5, 0.5);
+			if (!ship.rotation)
+				shipSquare.transform = CGAffineTransformMakeRotation(M_PI_2);
+			
+			//make a mask subimage
+			int bitA = bit.intValue;
+			NSString *bitB = [bit substringFromIndex:2];
+			UIImage *baseImage = [UIImage imageNamed:bitB];
+			
+			CGImageRef ref = CGImageCreateWithImageInRect([baseImage CGImage], CGRectMake(baseImage.size.width / [ship size] * bitA, 0, baseImage.size.height, baseImage.size.width / [ship size]));
+			shipSquare.image = [UIImage imageWithCGImage:ref];
+			CGImageRelease(ref);
+			
+			[array addObject:shipSquare];
+		}
 	}
 	return array;
 }
@@ -418,7 +502,7 @@
 	}
 }
 
--(void)addFadeTextToScreen:(UIView *)screen saying:(NSString *)text
+-(FadeText *)addFadeTextToScreen:(UIView *)screen saying:(NSString *)text
 {
 	FadeText *t = [FadeText new];
 	[t setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -432,6 +516,7 @@
 	NSDictionary *d = [NSDictionary dictionaryWithObject:t forKey:@"t"];
 	[screen addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[t]-|" options:0 metrics:nil views:d]];
 	[screen addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[t]" options:0 metrics:nil views:d]];
+	return t;
 }
 
 -(void)reloadBigScreen
