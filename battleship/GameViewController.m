@@ -96,6 +96,7 @@
 	[self.view addSubview:shotView];
 	
 	//animate shooting that position
+	self.animating = true;
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
 	CGRect toRect = CGRectMake([self xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [self yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
@@ -113,6 +114,7 @@
 		} completion:
 		^(BOOL success){
 			completion();
+			weakSelf.animating = false;
 		}];
 	}];
 }
@@ -177,7 +179,11 @@
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigViewInner];
-	
+	[self pressPosition:position];
+}
+
+-(void)pressPosition:(NSString *)position
+{
 	//result of speech here, if you are doing this with speech
 	
 	
