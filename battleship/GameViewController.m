@@ -30,6 +30,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *rotButton;
+@property (weak, nonatomic) IBOutlet UIButton *voiceButton;
+
 
 @property (strong, nonatomic) UIView *timerView;
 @property (strong, nonatomic) NSTimer *timer;
@@ -60,6 +62,7 @@
 	
 	self.doneButton.layer.cornerRadius = 6;
 	self.rotButton.layer.cornerRadius = 6;
+	self.voiceButton.layer.cornerRadius = 6;
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
 	self.smallView.layer.borderColor = [[UIColor whiteColor] CGColor];
@@ -352,6 +355,11 @@
 		[self reloadSmallScreen];
 	}
 }
+
+- (IBAction)toggleVoice
+{
+}
+
 
 - (IBAction)done
 {

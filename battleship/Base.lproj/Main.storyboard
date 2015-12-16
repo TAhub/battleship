@@ -44,6 +44,15 @@
                                     <action selector="done" destination="BYZ-38-t0r" eventType="touchUpInside" id="x0z-ZF-sUB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r3h-D5-6Jf">
+                                <rect key="frame" x="285" y="131" width="40" height="32"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Voice"/>
+                                <connections>
+                                    <action selector="toggleVoice" destination="BYZ-38-t0r" eventType="touchUpInside" id="TxL-H7-z0c"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OzU-0W-Bsv">
                                 <rect key="frame" x="0.0" y="211" width="414" height="517"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -73,12 +82,14 @@
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" priority="500" id="NWe-B8-keG"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" priority="500" id="Oyv-dz-95e"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="height" relation="lessThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="height" id="P6g-CY-otn"/>
+                            <constraint firstItem="3Xm-wp-Nhm" firstAttribute="top" secondItem="r3h-D5-6Jf" secondAttribute="bottom" constant="8" symbolic="YES" id="PUd-L6-aag"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="top" secondItem="3Xm-wp-Nhm" secondAttribute="bottom" constant="8" symbolic="YES" id="R4H-72-15r"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="OzU-0W-Bsv" secondAttribute="bottom" constant="8" symbolic="YES" id="RpW-FM-rNh"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Tuj-jf-8CW"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" priority="500" id="aN1-7n-YwB"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="adz-Oc-msU"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cfq-Pa-G9F"/>
+                            <constraint firstItem="r3h-D5-6Jf" firstAttribute="leading" secondItem="hWH-rt-Rey" secondAttribute="trailing" constant="8" symbolic="YES" id="gsH-oL-J8U"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="j3H-xX-PMH"/>
                             <constraint firstItem="hWH-rt-Rey" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="jDD-M1-sem"/>
                             <constraint firstItem="OzU-0W-Bsv" firstAttribute="top" secondItem="hWH-rt-Rey" secondAttribute="bottom" constant="8" symbolic="YES" id="jka-4J-HDg"/>
@@ -117,6 +128,7 @@
                         <outlet property="doneButton" destination="fCO-GI-AjJ" id="Ei1-n0-bcz"/>
                         <outlet property="rotButton" destination="3Xm-wp-Nhm" id="lhj-ec-30e"/>
                         <outlet property="smallView" destination="hWH-rt-Rey" id="zUh-XK-gxE"/>
+                        <outlet property="voiceButton" destination="r3h-D5-6Jf" id="ggt-bq-dpl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
