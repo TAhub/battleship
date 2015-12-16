@@ -10,11 +10,11 @@
 #import "Ship.h"
 #import "StarfieldView.h"
 #import "FadeText.h"
-@import Parse;
+
 
 
 #pragma mark - implementation of class
-@interface GameViewController ()
+@interface GameViewController () 
 
 @property (weak, nonatomic) IBOutlet UIView *bigView;
 @property (weak, nonatomic) IBOutlet UIView *smallView;
@@ -714,5 +714,7 @@
 	NSString *column = [self.ships columnLabels][(NSUInteger)(point.x)];
 	return positionFrom(row, column);
 }
+
+
 
 @end
