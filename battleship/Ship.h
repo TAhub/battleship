@@ -17,6 +17,10 @@
 @property ShipType type;
 
 -(id)initWithRotation:(BOOL)rotation andX:(NSUInteger)x andY:(NSUInteger)y andType:(ShipType)type;
+-(id)initWithShipJSON:(NSDictionary *)json;
+
+//this returns a string representation for the ship
+-(NSDictionary *)shipJSON;
 
 //this returns the size of the ship
 -(int)size;

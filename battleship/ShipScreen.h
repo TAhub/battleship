@@ -19,8 +19,9 @@
 
 //this initializer initializes the ship screen with ships to start in it
 //for if you want to reload the ship screen, or show the player what the other person's ships were like
-//TODO: we should talk later to figure out what format to transfer the ships in
--(id)initWithShips:(NSArray *)ships;
+-(id)initWithFleet:(NSString *)fleet;
+
+-(NSString *)fleet;
 
 
 //this is the part of the game you are in

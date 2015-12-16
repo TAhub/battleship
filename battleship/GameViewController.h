@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ShipScreen.h"
-
+#import <Parse/Parse.h>
 
 // EventsObserver delegate inheritance.
 @interface GameViewController : UIViewController
@@ -19,5 +19,8 @@
 //this is the spots that the current player has shot at
 //it's not a ship screen because you don't know where their ships are
 @property (strong, nonatomic) ShipScreen *shots;
+
+//this is the PFObject that stores the battle you loaded
+@property (strong, nonatomic) PFObject *battleObject;
 
 @end

@@ -43,7 +43,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
+	
+	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat) userInfo:nil repeats:YES];
 }
 
 #pragma mark - view controller stuff
@@ -80,144 +81,6 @@
 	self.animating = 0;
 }
 
--(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andCallback:(void (^)())completion
-{
-	self.animating += 1;
-	
-	NSMutableArray *flares = [NSMutableArray new];
-	for (int i = 0; i < EXPLODE_FLARES; i++)
-	{
-		CGFloat x = center.x + arc4random_uniform((u_int32_t)radius * 2) - radius;
-		CGFloat y = center.y + arc4random_uniform((u_int32_t)radius * 2) - radius;
-		CGFloat size = EXPLODE_FLARE_SIZE - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
-		CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
-		UIView *flare = [[UIView alloc] initWithFrame:frame];
-		flare.backgroundColor = [UIColor redColor];
-		[self.view addSubview:flare];
-		[flares addObject:flare];
-	}
-	
-	__weak typeof(self) weakSelf = self;
-	
-	[UIView animateWithDuration:EXPLODE_ANIM_LENGTH delay:0 options:UIViewAnimationOptionCurveEaseIn animations:
-	^(){
-		for (UIView *flare in flares)
-		{
-			CGFloat angle = arc4random_uniform(200) * M_PI / 100;
-			CGFloat distance = (arc4random_uniform(70) + 30) * EXPLODE_FLARE_DISTANCE / 100;
-			CGFloat x = center.x + cos(angle) * distance;
-			CGFloat y = center.y + sin(angle) * distance;
-			CGFloat size = EXPLODE_FLARE_SIZE_END - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
-			CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
-			flare.frame = frame;
-			flare.alpha = 0.12;
-			flare.layer.backgroundColor = [[UIColor colorWithRed:0.8 green:0.65 blue:0.65 alpha:1] CGColor];
-		}
-	} completion:
-	^(BOOL success){
-		for (UIView *flare in flares)
-			[flare removeFromSuperview];
-		
-		completion();
-		weakSelf.animating -= 1;
-	}];
-}
-
--(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view withCallback:(void (^)())completion
-{
-	__weak typeof(self) weakSelf = self;
-	
-	CGFloat x = (CGFloat)arc4random_uniform((u_int32_t)(self.view.frame.size.width));
-	CGRect frame = CGRectMake(x - SHOTS_SIZE_START / 2, y, SHOTS_SIZE_START, SHOTS_SIZE_START);
-	UIView *shotView = [[UIView alloc] initWithFrame:frame];
-	shotView.backgroundColor = [UIColor yellowColor];
-	[self.view addSubview:shotView];
-	
-	//animate shooting that position
-	self.animating += 1;
-	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
-	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
-	CGRect toRect = CGRectMake([self xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [self yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
-	[UIView animateWithDuration:SHOTS_ANIM_LENGTH animations:
-	^(){
-		shotView.frame = toRect;
-	} completion:
-	^(BOOL success){
-		[shotView removeFromSuperview];
-		
-		if (hit)
-			[weakSelf explosionAnimAround:CGPointMake(toRect.origin.x + toRect.size.width / 2, toRect.origin.y + toRect.size.height / 2) withRadius:(squareWidth + squareHeight) / 4 andCallback:
-			^(){
-				[weakSelf reloadBigScreen];
-				completion();
-				weakSelf.animating -= 1;
-			}];
-		else
-		{
-			[weakSelf reloadBigScreen];
-			completion();
-			weakSelf.animating -= 1;
-		}
-	}];
-}
-
--(void)stopTimer
-{
-	if (self.timerView != nil)
-	{
-		[self.timerView removeFromSuperview];
-		self.timerView = nil;
-	}
-	
-	if (self.timer != nil)
-	{
-		[self.timer invalidate];
-		self.timer = nil;
-	}
-	
-	if (self.tickTimer != nil)
-	{
-		[self.tickTimer invalidate];
-		self.tickTimer = nil;
-	}
-}
-
--(void)resetTimer
-{
-	[self stopTimer];
-	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_WARNINGLENGTH target:self selector:@selector(timerWarning:) userInfo:nil repeats:NO];
-}
-
--(void)timerWarning:(NSTimer *)timer
-{
-	[self makeTimerView:timer];
-	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_TIMEOUTLENGTH target:self selector:@selector(timerForefeit:) userInfo:nil repeats:NO];
-	self.tickTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(makeTimerView:) userInfo:nil repeats:YES];
-}
-
--(void)makeTimerView:(NSTimer *)timer
-{
-	if (self.timerView != nil)
-	{
-		FadeText *ft = (FadeText *)self.timerView;
-		int oldTimer = ft.text.intValue;
-		[ft fadeInText:[NSString stringWithFormat:@"%i seconds left!", oldTimer - TIMER_INTERVAL]];
-	}
-	else
-	{
-		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:@"%i seconds left!", TIMER_TIMEOUTLENGTH]];
-		((FadeText *)(self.timerView)).textColor = [UIColor whiteColor];
-	}
-}
-
--(void)timerForefeit:(NSTimer *)timer
-{
-	[self resetTimer];
-	
-	//TODO: forefeit
-	NSLog(@"Oops, you ran out of time!");
-}
-
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigViewInner];
@@ -226,9 +89,6 @@
 
 -(void)pressPosition:(NSString *)position
 {
-	//result of speech here, if you are doing this with speech
-	
-	
 	NSLog(@"big screen: %@", position);
 	
 	if (self.animating > 0) { return; }
@@ -245,7 +105,11 @@
 				__weak typeof(self) weakSelf = self;
 				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position isHit:hit inView:self.bigView withCallback:
 				^(){
-					//TODO: send a message to the opponent that you shot that position
+					//send a message to the opponent that you shot that position
+					weakSelf.battleObject[@"LastMove"] = position;
+					int moveNumber = ((NSNumber *)[weakSelf valueForKey:@"MoveNumber"]).intValue;
+					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
+					[weakSelf.battleObject saveInBackground];
 			  
 					//and wait for their move
 					weakSelf.ships.phase = kPhaseWait;
@@ -356,34 +220,6 @@
 	}
 }
 
--(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
-{
-	self.animating += 1;
-	__weak typeof(self) weakSelf = self;
-	for (UIView *view in from)
-	{
-		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
-		[self.view addSubview:view];
-	}
-	
-	
-	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
-	^(){
-		for (NSUInteger i = 0; i < from.count; i++)
-		{
-			UIView *fromV = from[i];
-			UIView *toV = to[i];
-			fromV.frame = [self.view convertRect:toV.frame fromCoordinateSpace:toScreen];
-		}
-	} completion:
-	^(BOOL success){
-		for (UIView *view in from)
-			[view removeFromSuperview];
-		weakSelf.animating -= 1;
-		completion();
-	}];
-}
-
 - (IBAction)rotate
 {
 	if (self.animating > 0) { return; }
@@ -399,6 +235,33 @@
 {
 }
 
+-(void)setupMatch
+{
+	PFUser *firstUser = [self.battleObject valueForKey:@"FirstUser"];
+	if (firstUser.objectId == [PFUser currentUser].objectId)
+	{
+		//you go first!
+		self.ships.phase = kPhaseShoot;
+		
+		//since you're in the shooting phase now, turn on the timer
+		[self resetTimer];
+		
+		//get the user's ship state
+		NSString *secondFleet = [self.battleObject valueForKey:@"SecondFleet"];
+		self.shots = [[ShipScreen alloc] initWithFleet:secondFleet];
+	}
+	else
+	{
+		//you go second
+		self.ships.phase = kPhaseWait;
+		
+		NSString *firstFleet = [self.battleObject valueForKey:@"FirstFleet"];
+		self.shots = [[ShipScreen alloc] initWithFleet:firstFleet];
+	}
+	
+	[self reloadBigScreen];
+	[self reloadSmallScreen];
+}
 
 - (IBAction)done
 {
@@ -406,21 +269,10 @@
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
-		//TODO: start the match
-		//you should set the state to kStateWaitForOpponent
-		//if they haven't sent a match-start message to you
-		//for now though, we're just going directly to shoot phase
-		self.ships.phase = kPhaseShoot;
+		self.ships.phase = kPhaseWaitForOpponent;
 		[self.ships reloadLabels];
-		
-		//since you're in the shooting phase now, turn on the timer
-		[self resetTimer];
-		
-		//TODO: get the opponent's ship state once the match begins
-		self.shots = [[ShipScreen alloc] initEmpty];
-		self.shots.phase = kPhaseWait;
-		[self.shots reloadLabels];
 		self.rotButton.hidden = true;
+		self.doneButton.hidden = true;
 		[self reloadBigScreen];
 		
 		//start the match anim
@@ -431,13 +283,242 @@
 			NSArray *toShipViews = [self shipViews:self.smallViewInner ship:ship];
 			
 			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
-			^(){
-				[weakSelf reloadSmallScreen];
-			}];
+			 ^(){
+				 [weakSelf reloadSmallScreen];
+			 }];
 		}
 	}
 }
 
+
+#pragma mark - parse heartbeat
+
+-(void)parseHeartbeat
+{
+	NSLog(@"Parse heartbeat!");
+	
+	int oldMoveNumber = ((NSNumber *)[self.battleObject valueForKey:@"MoveNumber"]).intValue;
+	__weak typeof(self) weakSelf = self;
+	[self.battleObject fetchInBackgroundWithBlock:
+	^(PFObject *object, NSError *error)
+	{
+		if (error != nil)
+		{
+			//TODO: handle error
+		}
+		else if (object != nil)
+		{
+			weakSelf.battleObject = object;
+			
+			//based on the phase, take action
+			switch(weakSelf.ships.phase)
+			{
+				case kPhaseWaitForOpponent:
+					
+					if ([object valueForKey:@"FirstFleet"] != nil && [object valueForKey:@"SecondFleet"] != nil)
+					{
+						//you're done waiting
+						[weakSelf setupMatch];
+					}
+					
+					break;
+				case kPhaseWait:
+					
+					if ((int)[object valueForKey:@"MoveNumber"] > oldMoveNumber)
+					{
+						//they made their move
+						NSString *shotAt = [object valueForKey:@"LastMove"];
+						
+						//TODO: shot animation
+						weakSelf.ships.phase = kPhaseShoot;
+						[weakSelf.ships attackPosition:shotAt];
+						[weakSelf reloadBigScreen];
+						[weakSelf reloadSmallScreen];
+						
+						//set up the timer
+						[weakSelf resetTimer];
+					}
+					
+					break;
+				default: break;
+			}
+		}
+	}];
+}
+
+
+#pragma mark - animations
+
+-(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andCallback:(void (^)())completion
+{
+	self.animating += 1;
+	
+	NSMutableArray *flares = [NSMutableArray new];
+	for (int i = 0; i < EXPLODE_FLARES; i++)
+	{
+		CGFloat x = center.x + arc4random_uniform((u_int32_t)radius * 2) - radius;
+		CGFloat y = center.y + arc4random_uniform((u_int32_t)radius * 2) - radius;
+		CGFloat size = EXPLODE_FLARE_SIZE - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
+		CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
+		UIView *flare = [[UIView alloc] initWithFrame:frame];
+		flare.backgroundColor = [UIColor redColor];
+		[self.view addSubview:flare];
+		[flares addObject:flare];
+	}
+	
+	__weak typeof(self) weakSelf = self;
+	
+	[UIView animateWithDuration:EXPLODE_ANIM_LENGTH delay:0 options:UIViewAnimationOptionCurveEaseIn animations:
+	 ^(){
+		 for (UIView *flare in flares)
+		 {
+			 CGFloat angle = arc4random_uniform(200) * M_PI / 100;
+			 CGFloat distance = (arc4random_uniform(70) + 30) * EXPLODE_FLARE_DISTANCE / 100;
+			 CGFloat x = center.x + cos(angle) * distance;
+			 CGFloat y = center.y + sin(angle) * distance;
+			 CGFloat size = EXPLODE_FLARE_SIZE_END - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
+			 CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
+			 flare.frame = frame;
+			 flare.alpha = 0.12;
+			 flare.layer.backgroundColor = [[UIColor colorWithRed:0.8 green:0.65 blue:0.65 alpha:1] CGColor];
+		 }
+	 } completion:
+	 ^(BOOL success){
+		 for (UIView *flare in flares)
+			 [flare removeFromSuperview];
+		 
+		 completion();
+		 weakSelf.animating -= 1;
+	 }];
+}
+
+
+-(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view withCallback:(void (^)())completion
+{
+	__weak typeof(self) weakSelf = self;
+	
+	CGFloat x = (CGFloat)arc4random_uniform((u_int32_t)(self.view.frame.size.width));
+	CGRect frame = CGRectMake(x - SHOTS_SIZE_START / 2, y, SHOTS_SIZE_START, SHOTS_SIZE_START);
+	UIView *shotView = [[UIView alloc] initWithFrame:frame];
+	shotView.backgroundColor = [UIColor yellowColor];
+	[self.view addSubview:shotView];
+	
+	//animate shooting that position
+	self.animating += 1;
+	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
+	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
+	CGRect toRect = CGRectMake([self xFrom:position] * squareWidth + squareWidth / 2 + view.frame.origin.x - SHOTS_SIZE / 2, [self yFrom:position] * squareHeight + squareHeight / 2 + view.frame.origin.y - SHOTS_SIZE / 2, SHOTS_SIZE, SHOTS_SIZE);
+	[UIView animateWithDuration:SHOTS_ANIM_LENGTH animations:
+	 ^(){
+		 shotView.frame = toRect;
+	 } completion:
+	 ^(BOOL success){
+		 [shotView removeFromSuperview];
+		 
+		 if (hit)
+			 [weakSelf explosionAnimAround:CGPointMake(toRect.origin.x + toRect.size.width / 2, toRect.origin.y + toRect.size.height / 2) withRadius:(squareWidth + squareHeight) / 4 andCallback:
+			  ^(){
+				  [weakSelf reloadBigScreen];
+				  completion();
+				  weakSelf.animating -= 1;
+			  }];
+		 else
+		 {
+			 [weakSelf reloadBigScreen];
+			 completion();
+			 weakSelf.animating -= 1;
+		 }
+	 }];
+}
+
+-(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
+{
+	self.animating += 1;
+	__weak typeof(self) weakSelf = self;
+	for (UIView *view in from)
+	{
+		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
+		[self.view addSubview:view];
+	}
+	
+	
+	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
+	 ^(){
+		 for (NSUInteger i = 0; i < from.count; i++)
+		 {
+			 UIView *fromV = from[i];
+			 UIView *toV = to[i];
+			 fromV.frame = [self.view convertRect:toV.frame fromCoordinateSpace:toScreen];
+		 }
+	 } completion:
+	 ^(BOOL success){
+		 for (UIView *view in from)
+			 [view removeFromSuperview];
+		 weakSelf.animating -= 1;
+		 completion();
+	 }];
+}
+
+
+#pragma mark - timer functions
+
+
+-(void)stopTimer
+{
+	if (self.timerView != nil)
+	{
+		[self.timerView removeFromSuperview];
+		self.timerView = nil;
+	}
+	
+	if (self.timer != nil)
+	{
+		[self.timer invalidate];
+		self.timer = nil;
+	}
+	
+	if (self.tickTimer != nil)
+	{
+		[self.tickTimer invalidate];
+		self.tickTimer = nil;
+	}
+}
+
+-(void)resetTimer
+{
+	[self stopTimer];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_WARNINGLENGTH target:self selector:@selector(timerWarning:) userInfo:nil repeats:NO];
+}
+
+-(void)timerWarning:(NSTimer *)timer
+{
+	[self makeTimerView:timer];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_TIMEOUTLENGTH target:self selector:@selector(timerForefeit:) userInfo:nil repeats:NO];
+	self.tickTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(makeTimerView:) userInfo:nil repeats:YES];
+}
+
+-(void)makeTimerView:(NSTimer *)timer
+{
+	if (self.timerView != nil)
+	{
+		FadeText *ft = (FadeText *)self.timerView;
+		int oldTimer = ft.text.intValue;
+		[ft fadeInText:[NSString stringWithFormat:@"%i seconds left!", oldTimer - TIMER_INTERVAL]];
+	}
+	else
+	{
+		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:@"%i seconds left!", TIMER_TIMEOUTLENGTH]];
+		((FadeText *)(self.timerView)).textColor = [UIColor whiteColor];
+	}
+}
+
+-(void)timerForefeit:(NSTimer *)timer
+{
+	[self resetTimer];
+	
+	//TODO: forefeit
+	NSLog(@"Oops, you ran out of time!");
+}
 
 
 #pragma mark - helper functions
