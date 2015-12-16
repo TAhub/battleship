@@ -37,6 +37,9 @@
 		self.ships = [NSMutableArray new];
 		for (NSDictionary *ship in [json allValues])
 			[self.ships addObject:[[Ship alloc] initWithShipJSON:ship]];
+		
+		self.phase = kPhaseWait;
+		[self reloadLabels];
 	}
 	return self;
 }
