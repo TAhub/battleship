@@ -22,13 +22,28 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BG" translatesAutoresizingMaskIntoConstraints="NO" id="2Cw-yb-oPn" customClass="BG">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWY-ZV-kqQ">
+                                <rect key="frame" x="0.0" y="95" width="414" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="kd2-TC-mrn"/>
+                                </constraints>
+                                <state key="normal" title="Start Game">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="PE2-z9-rjf" kind="show" id="hel-BM-n0L"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="LWY-ZV-kqQ" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" id="4mZ-yV-rGR"/>
                             <constraint firstItem="2Cw-yb-oPn" firstAttribute="top" secondItem="cBG-zb-M5L" secondAttribute="bottom" id="6Vl-La-FDa"/>
                             <constraint firstItem="2Cw-yb-oPn" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" id="Arg-7e-V0s"/>
                             <constraint firstItem="tI3-zi-SgL" firstAttribute="top" secondItem="2Cw-yb-oPn" secondAttribute="bottom" id="Xps-ry-Rmf"/>
                             <constraint firstAttribute="trailing" secondItem="2Cw-yb-oPn" secondAttribute="trailing" id="bdF-RI-bkN"/>
+                            <constraint firstAttribute="trailing" secondItem="LWY-ZV-kqQ" secondAttribute="trailing" id="oAg-3q-4hm"/>
+                            <constraint firstItem="LWY-ZV-kqQ" firstAttribute="top" secondItem="cBG-zb-M5L" secondAttribute="bottom" constant="31" id="zAH-f6-q3f"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="STz-qw-lrF"/>
@@ -36,7 +51,62 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rw4-UA-7BR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="775" y="231"/>
+            <point key="canvasLocation" x="393" y="193"/>
+        </scene>
+        <!--Game Matching View Controller-->
+        <scene sceneID="YgT-ZO-df0">
+            <objects>
+                <viewController id="PE2-z9-rjf" customClass="GameMatchingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LBY-0r-waJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="K6Q-fp-T5z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BOk-bL-6xF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waiting for player to join" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAg-JD-fis">
+                                <rect key="frame" x="0.0" y="112" width="414" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="J1f-7D-7nT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aaW-RA-Ags">
+                                <rect key="frame" x="87" y="225" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="UMu-xZ-wOX"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kyV-ha-1g0">
+                                <rect key="frame" x="87" y="454" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="BPL-nk-8SF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="lAg-JD-fis" secondAttribute="trailing" id="8jg-9t-TIf"/>
+                            <constraint firstItem="aaW-RA-Ags" firstAttribute="top" secondItem="LBY-0r-waJ" secondAttribute="bottom" constant="161" id="GXj-bV-odL"/>
+                            <constraint firstItem="kyV-ha-1g0" firstAttribute="top" secondItem="aaW-RA-Ags" secondAttribute="bottom" constant="101" id="T4a-OT-oGO"/>
+                            <constraint firstItem="lAg-JD-fis" firstAttribute="top" secondItem="LBY-0r-waJ" secondAttribute="bottom" constant="48" id="Vvj-Um-Dsw"/>
+                            <constraint firstItem="kyV-ha-1g0" firstAttribute="leading" secondItem="BOk-bL-6xF" secondAttribute="leading" constant="87" id="ZgY-3c-kk9"/>
+                            <constraint firstItem="aaW-RA-Ags" firstAttribute="leading" secondItem="BOk-bL-6xF" secondAttribute="leading" constant="87" id="e57-lc-0iR"/>
+                            <constraint firstItem="lAg-JD-fis" firstAttribute="leading" secondItem="BOk-bL-6xF" secondAttribute="leading" id="iTo-zb-u65"/>
+                            <constraint firstAttribute="trailing" secondItem="kyV-ha-1g0" secondAttribute="trailing" constant="87" id="pji-3F-pOi"/>
+                            <constraint firstAttribute="trailing" secondItem="aaW-RA-Ags" secondAttribute="trailing" constant="87" id="w5d-Tc-erV"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lr2-Ve-bAa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="937" y="205"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -164,7 +234,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1322" y="231"/>
+            <point key="canvasLocation" x="1392" y="193"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TOx-Ip-Z42">
@@ -182,7 +252,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G3U-30-Ect" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-37" y="231"/>
+            <point key="canvasLocation" x="-215" y="125"/>
         </scene>
     </scenes>
     <resources>

@@ -38,7 +38,6 @@
     [self presentViewController:logInViewController animated:YES completion:nil];
     
 
-
 }
 
 
