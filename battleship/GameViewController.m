@@ -9,9 +9,6 @@
 #import "GameViewController.h"
 #import "Ship.h"
 #import "StarfieldView.h"
-#import <OpenEars/OEPocketsphinxController.h>
-#import <OpenEars/OELanguageModelGenerator.h>
-#import <OpenEars/OEAcousticModel.h>
 #import "FadeText.h"
 
 
@@ -46,11 +43,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-//	[self setupOpenEars];
-//	[self setupOEPocketsphinxController];
-	self.openEarsEventsObserver = [[OEEventsObserver alloc] init];
-	[self.openEarsEventsObserver setDelegate:self];
-	[self setupOELanguageModelGenerator];
 
 }
 
@@ -641,68 +633,5 @@
 	NSString *column = [self.ships columnLabels][(NSUInteger)(point.x)];
 	return positionFrom(row, column);
 }
-
-# pragma Mark - OpenEars Implementacion
-- (void)setupOELanguageModelGenerator
-{
-	OELanguageModelGenerator *languageModelGenerator = [[OELanguageModelGenerator alloc] init];
-	
-	NSArray *voiceCommands = [NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J",@"ONE", @"TWO", @"THREE", @"FOUR", @"FIVE", @"SIX", @"SEVEN", @"EIGHT", nil];
-	NSString *name = @"EnglishVoiceCommands";
-	NSError *error = [languageModelGenerator generateLanguageModelFromArray:voiceCommands withFilesNamed:name forAcousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"]];
-	NSString *languageModelPath = nil;
-	NSString *dicPath = nil;
-	
-	if(error == nil) {
-		
-		languageModelPath = [languageModelGenerator pathToSuccessfullyGeneratedLanguageModelWithRequestedName:@"EnglishVoiceCommands"];
-		dicPath = [languageModelGenerator pathToSuccessfullyGeneratedDictionaryWithRequestedName:@"EnglishVoiceCommands"];
-		
-	} else {
-		NSLog(@"Error: %@",[error localizedDescription]);
-	}
-	
-	[[OEPocketsphinxController sharedInstance] setActive:TRUE error:nil];
-	[[OEPocketsphinxController sharedInstance] startListeningWithLanguageModelAtPath:languageModelPath dictionaryAtPath:dicPath acousticModelAtPath:[OEAcousticModel pathToModel:@"AcousticModelEnglish"] languageModelIsJSGF:NO];
-
-}
-
-- (void) pocketsphinxDidStartListening {
-	NSLog(@"Battleship is now listening for commands.");
-}
-
-- (void) pocketsphinxDidDetectSpeech {
-	NSLog(@"Battleship has detected speech.");
-}
-
-- (void) pocketsphinxDidDetectFinishedSpeech {
-	NSLog(@"Battleship has detected a period of silence, concluding an utterance.");
-}
-
-- (void) pocketsphinxDidStopListening {
-	NSLog(@"Battleship has stopped listening.");
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end

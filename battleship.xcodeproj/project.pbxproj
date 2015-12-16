@@ -7,14 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30AE52691C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52651C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle */; };
-		30AE526A1C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52661C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle */; };
-		30AE526B1C1F3B0800C2DAF8 /* OpenEars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52671C1F3B0800C2DAF8 /* OpenEars.framework */; };
-		30AE526C1C1F3B0800C2DAF8 /* Slt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52681C1F3B0800C2DAF8 /* Slt.framework */; };
-		30AE526F1C1F3B4500C2DAF8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */; };
-		30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */; };
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
-		30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */; };
 		E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B07B3A1C2087A200E0BF0B /* FadeText.m */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
@@ -30,17 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		30AE52651C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AcousticModelEnglish.bundle; sourceTree = "<group>"; };
-		30AE52661C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AcousticModelSpanish.bundle; sourceTree = "<group>"; };
-		30AE52671C1F3B0800C2DAF8 /* OpenEars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEars.framework; sourceTree = "<group>"; };
-		30AE52681C1F3B0800C2DAF8 /* Slt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Slt.framework; sourceTree = "<group>"; };
-		30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30AE52741C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
 		30AE52751C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		30AE52771C1F401D00C2DAF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEarsService.h; sourceTree = "<group>"; };
-		30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEarsService.m; sourceTree = "<group>"; };
 		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
 		E4B07B391C2087A200E0BF0B /* FadeText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeText.h; sourceTree = "<group>"; };
 		E4B07B3A1C2087A200E0BF0B /* FadeText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeText.m; sourceTree = "<group>"; };
@@ -71,38 +56,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30AE52711C1F3B4D00C2DAF8 /* AudioToolbox.framework in Frameworks */,
-				30AE526F1C1F3B4500C2DAF8 /* AVFoundation.framework in Frameworks */,
-				30AE526C1C1F3B0800C2DAF8 /* Slt.framework in Frameworks */,
-				30AE526B1C1F3B0800C2DAF8 /* OpenEars.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		30AE52641C1F3B0800C2DAF8 /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				30AE52651C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle */,
-				30AE52661C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle */,
-				30AE52671C1F3B0800C2DAF8 /* OpenEars.framework */,
-				30AE52681C1F3B0800C2DAF8 /* Slt.framework */,
-			);
-			path = Framework;
-			sourceTree = "<group>";
-		};
-		30AE526D1C1F3B2100C2DAF8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				30AE526E1C1F3B4500C2DAF8 /* AVFoundation.framework */,
-				30AE52701C1F3B4D00C2DAF8 /* AudioToolbox.framework */,
-				30AE52641C1F3B0800C2DAF8 /* Framework */,
-			);
-			name = Frameworks;
-			path = battleship;
-			sourceTree = "<group>";
-		};
 		30AE52791C1F403F00C2DAF8 /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				E4F485751C1E6B88007AD778 /* battleship */,
-				30AE526D1C1F3B2100C2DAF8 /* Frameworks */,
 				E4F485741C1E6B88007AD778 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -164,8 +122,6 @@
 				E4F4859A1C1F35E6007AD778 /* ShipScreen.m */,
 				E4F485961C1E7BFE007AD778 /* Constants.h */,
 				E4F485AB1C1FA14F007AD778 /* Constants.m */,
-				30AE527D1C1F5CBC00C2DAF8 /* OpenEarsService.h */,
-				30AE527E1C1F5CBC00C2DAF8 /* OpenEarsService.m */,
 				30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */,
 			);
 			name = Model;
@@ -252,8 +208,6 @@
 			files = (
 				E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */,
 				30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */,
-				30AE526A1C1F3B0800C2DAF8 /* AcousticModelSpanish.bundle in Resources */,
-				30AE52691C1F3B0800C2DAF8 /* AcousticModelEnglish.bundle in Resources */,
 				E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */,
 				E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */,
 			);
@@ -272,7 +226,6 @@
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,
-				30AE527F1C1F5CBC00C2DAF8 /* OpenEarsService.m in Sources */,
 				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
 				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
 				E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */,
