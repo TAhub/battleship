@@ -31,7 +31,7 @@
 		case kBattleship: base = @"battleship"; break;
 		case kSubmarine: base = @"destroyer"; break;
 		case kDestroyer: base = @"destroyer"; break;
-		case kPatrolBoat: base = @"patrolboat"; break;
+		case kPatrolBoat: base = @"patrolBoat"; break;
 	}
 	
 	NSMutableArray *bits = [NSMutableArray new];
