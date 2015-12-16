@@ -10,7 +10,7 @@
 #import "Ship.h"
 #import "StarfieldView.h"
 #import "FadeText.h"
-
+@import Parse;
 
 
 #pragma mark - implementation of class
@@ -43,7 +43,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
+    
 }
 
 #pragma mark - view controller stuff
