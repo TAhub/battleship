@@ -52,6 +52,7 @@ typedef enum
 #define TIMER_TIMEOUTLENGTH 15
 #define TIMER_INTERVAL 5
 #define BOARD_BORDER 5
+#define PARSE_HEARTBEAT 7
 
 #pragma mark - global functions
 

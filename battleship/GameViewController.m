@@ -43,7 +43,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
+	
+	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat) userInfo:nil repeats:YES];
 }
 
 #pragma mark - view controller stuff
@@ -104,7 +105,11 @@
 				__weak typeof(self) weakSelf = self;
 				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position isHit:hit inView:self.bigView withCallback:
 				^(){
-					//TODO: send a message to the opponent that you shot that position
+					//send a message to the opponent that you shot that position
+					weakSelf.battleObject[@"LastMove"] = position;
+					int moveNumber = ((NSNumber *)[weakSelf valueForKey:@"MoveNumber"]).intValue;
+					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
+					[weakSelf.battleObject saveInBackground];
 			  
 					//and wait for their move
 					weakSelf.ships.phase = kPhaseWait;
@@ -215,34 +220,6 @@
 	}
 }
 
--(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
-{
-	self.animating += 1;
-	__weak typeof(self) weakSelf = self;
-	for (UIView *view in from)
-	{
-		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
-		[self.view addSubview:view];
-	}
-	
-	
-	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
-	^(){
-		for (NSUInteger i = 0; i < from.count; i++)
-		{
-			UIView *fromV = from[i];
-			UIView *toV = to[i];
-			fromV.frame = [self.view convertRect:toV.frame fromCoordinateSpace:toScreen];
-		}
-	} completion:
-	^(BOOL success){
-		for (UIView *view in from)
-			[view removeFromSuperview];
-		weakSelf.animating -= 1;
-		completion();
-	}];
-}
-
 - (IBAction)rotate
 {
 	if (self.animating > 0) { return; }
@@ -311,6 +288,62 @@
 			 }];
 		}
 	}
+}
+
+
+#pragma mark - parse heartbeat
+
+-(void)parseHeartbeat
+{
+	NSLog(@"Parse heartbeat!");
+	
+	int oldMoveNumber = ((NSNumber *)[self.battleObject valueForKey:@"MoveNumber"]).intValue;
+	__weak typeof(self) weakSelf = self;
+	[self.battleObject fetchInBackgroundWithBlock:
+	^(PFObject *object, NSError *error)
+	{
+		if (error != nil)
+		{
+			//TODO: handle error
+		}
+		else if (object != nil)
+		{
+			weakSelf.battleObject = object;
+			
+			//based on the phase, take action
+			switch(weakSelf.ships.phase)
+			{
+				case kPhaseWaitForOpponent:
+					
+					if ([object valueForKey:@"FirstFleet"] != nil && [object valueForKey:@"SecondFleet"] != nil)
+					{
+						//you're done waiting
+						[weakSelf setupMatch];
+					}
+					
+					break;
+				case kPhaseWait:
+					
+					if ((int)[object valueForKey:@"MoveNumber"] > oldMoveNumber)
+					{
+						//they made their move
+						NSString *shotAt = [object valueForKey:@"LastMove"];
+						
+						//TODO: shot animation
+						weakSelf.ships.phase = kPhaseShoot;
+						[weakSelf.ships attackPosition:shotAt];
+						[weakSelf reloadBigScreen];
+						[weakSelf reloadSmallScreen];
+						
+						//set up the timer
+						[weakSelf resetTimer];
+					}
+					
+					break;
+				default: break;
+			}
+		}
+	}];
 }
 
 
@@ -395,6 +428,34 @@
 			 completion();
 			 weakSelf.animating -= 1;
 		 }
+	 }];
+}
+
+-(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
+{
+	self.animating += 1;
+	__weak typeof(self) weakSelf = self;
+	for (UIView *view in from)
+	{
+		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
+		[self.view addSubview:view];
+	}
+	
+	
+	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
+	 ^(){
+		 for (NSUInteger i = 0; i < from.count; i++)
+		 {
+			 UIView *fromV = from[i];
+			 UIView *toV = to[i];
+			 fromV.frame = [self.view convertRect:toV.frame fromCoordinateSpace:toScreen];
+		 }
+	 } completion:
+	 ^(BOOL success){
+		 for (UIView *view in from)
+			 [view removeFromSuperview];
+		 weakSelf.animating -= 1;
+		 completion();
 	 }];
 }
 
