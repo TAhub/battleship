@@ -61,6 +61,7 @@ typedef enum
 #define MARKER_HIT [UIColor colorWithRed:0.5 green:0.25 blue:0.25 alpha:1.0]
 #define MARKER_MISS_FOCUS [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define MARKER_MISS [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]
+#define TRUB_BLUE [UIColor colorWithRed:0.24 green:0.36 blue:0.38 alpha:1.0]
 
 #pragma mark - global functions
 
