@@ -59,9 +59,9 @@
 	self.voiceButton.layer.cornerRadius = 6;
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
-	self.smallView.layer.borderColor = [[UIColor blueColor] CGColor];
+	self.smallView.layer.borderColor = [[UIColor cyanColor] CGColor];
 	self.bigView.layer.borderWidth = BOARD_BORDER;
-	self.bigView.layer.borderColor = [[UIColor blueColor] CGColor];
+	self.bigView.layer.borderColor = [[UIColor cyanColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
 }
 
