@@ -10,6 +10,6 @@
 
 @interface StarfieldView : UIView
 
--(void)setupStarfield;
+-(void)setupStarfieldWithFineness:(CGFloat)fineness;
 
 @end

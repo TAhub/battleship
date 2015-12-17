@@ -12,15 +12,17 @@
 @interface StarfieldView()
 
 @property (strong, nonatomic) NSMutableArray *stars;
+@property CGFloat fineness;
 
 @end
 
 @implementation StarfieldView
 
--(void)setupStarfield
+-(void)setupStarfieldWithFineness:(CGFloat)fineness
 {
 	self.stars = [NSMutableArray new];
 	
+	self.fineness = fineness;
 	self.backgroundColor = [UIColor blackColor];
 	[self makeStars];
 	
@@ -43,13 +45,15 @@
 
 -(void)makeStars
 {
+	CGFloat size = STARFIELD_STAR_SIZE * self.fineness;
+	
 	//make stars
-	for (int i = 0; i < STARFIELD_NUMBER_STARS; i++)
+	for (int i = 0; i < STARFIELD_NUMBER_STARS / self.fineness; i++)
 	{
-		CGFloat x = (CGFloat)arc4random_uniform((u_int32_t)self.frame.size.width);
-		CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)self.frame.size.height);
+		CGFloat x = (CGFloat)arc4random_uniform((u_int32_t)self.bounds.size.width);
+		CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)self.bounds.size.height);
 		
-		CGRect frame = CGRectMake(x - STARFIELD_STAR_SIZE / 2, y - STARFIELD_STAR_SIZE / 2, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
+		CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
 		UIView *view = [[UIView alloc] initWithFrame:frame];
 		
 		[self.stars addObject:view];
@@ -66,13 +70,13 @@
 		
 		[self insertSubview:view atIndex:0];
 		
-		CGFloat distance = (self.frame.size.width - x) / self.frame.size.width;
+		CGFloat distance = (self.bounds.size.width - x) / self.bounds.size.width;
 		
 		__weak typeof(self) weakSelf = self;
 		
 		[UIView animateWithDuration:distance * STARFIELD_STAR_LENGTH delay:0 options:UIViewAnimationOptionCurveLinear  animations:
 		^(){
-			view.frame = CGRectMake(weakSelf.frame.size.width + STARFIELD_STAR_SIZE / 2, view.frame.origin.y, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
+			view.frame = CGRectMake(weakSelf.bounds.size.width + size / 2, y - size / 2, size, size);
 		} completion:
 		^(BOOL success){
 			//send back to the beginning
@@ -83,19 +87,20 @@
 
 -(void)moveStar:(UIView *)view
 {
-	CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)self.frame.size.height);
+	CGFloat size = STARFIELD_STAR_SIZE * self.fineness;
+	CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)self.bounds.size.height);
 	
-	view.frame = CGRectMake(-STARFIELD_STAR_SIZE / 2, y - STARFIELD_STAR_SIZE / 2, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
+	view.frame = CGRectMake(-size / 2, y - size / 2, size, size);
 	
 	__weak typeof(self) weakSelf = self;
 	
 	[UIView animateWithDuration:STARFIELD_STAR_LENGTH delay:0 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionRepeat animations:
 	^(){
-		view.frame = CGRectMake(weakSelf.frame.size.width + STARFIELD_STAR_SIZE / 2, view.frame.origin.y, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
+		view.frame = CGRectMake(weakSelf.bounds.size.width + size / 2, y - size / 2, size, size);
 	} completion:
 	^(BOOL success){
-		CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)weakSelf.frame.size.height);
-		view.frame = CGRectMake(-STARFIELD_STAR_SIZE / 2, y - STARFIELD_STAR_SIZE / 2, STARFIELD_STAR_SIZE, STARFIELD_STAR_SIZE);
+		CGFloat y = (CGFloat)arc4random_uniform((u_int32_t)weakSelf.bounds.size.height);
+		view.frame = CGRectMake(-size / 2, y - size / 2, size, size);
 	}];
 }
 
