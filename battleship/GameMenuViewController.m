@@ -52,7 +52,7 @@
 
 
 - (IBAction)startGameButtonPressed:(id)sender {
-    [self login];
+    NSLog(@"okie doke");
     
 }
 
