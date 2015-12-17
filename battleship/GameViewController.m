@@ -107,6 +107,7 @@
 				^(){
 					//send a message to the opponent that you shot that position
 					weakSelf.battleObject[@"LastMove"] = position;
+					weakSelf.battleObject[@"LastMover"] = [PFUser currentUser].objectId;
 					int moveNumber = ((NSNumber *)[weakSelf.battleObject valueForKey:@"MoveNumber"]).intValue;
 					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
 					[weakSelf.battleObject saveInBackground];
@@ -332,7 +333,8 @@
 				case kPhaseWait:
 					{
 						int newMoveNumber = ((NSNumber *)[object valueForKey:@"MoveNumber"]).intValue;
-						if (newMoveNumber > oldMoveNumber)
+						NSString *lastMover = [object valueForKey:@"LastMover"];
+						if (newMoveNumber > oldMoveNumber && ![lastMover isEqualToString:[PFUser currentUser].objectId])
 						{
 							//they made their move
 							NSString *shotAt = [object valueForKey:@"LastMove"];
