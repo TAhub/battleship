@@ -107,7 +107,7 @@
 				^(){
 					//send a message to the opponent that you shot that position
 					weakSelf.battleObject[@"LastMove"] = position;
-					int moveNumber = ((NSNumber *)[weakSelf valueForKey:@"MoveNumber"]).intValue;
+					int moveNumber = ((NSNumber *)[weakSelf.battleObject valueForKey:@"MoveNumber"]).intValue;
 					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
 					[weakSelf.battleObject saveInBackground];
 			  
