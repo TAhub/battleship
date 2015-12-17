@@ -49,6 +49,15 @@
 	}];
 }
 
+-(IBAction)cancelMatching
+{
+	if (self.battle != nil)
+	{
+		[self.battle deleteInBackground];
+		[self.navigationController popViewControllerAnimated:YES];
+	}
+}
+
 -(void)startMatching
 {
 	if ([PFUser currentUser] != nil)
