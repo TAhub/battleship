@@ -148,6 +148,15 @@
 		[array exchangeObjectAtIndex:i withObjectAtIndex:((NSUInteger)arc4random_uniform((u_int32_t)(array.count - i)) + i)];
 }
 
+-(int)shipAlive:(Ship *)ship
+{
+	NSArray *positions = [ship positionsWithRowLabels:self.rowLabels andColumnlabels:self.columnLabels allowOverflow:NO];
+	for (NSString *position in positions)
+		if (![self.hits containsObject:position])
+			return YES;
+	return NO;
+}
+
 -(BOOL)defeated
 {
 	for (NSUInteger y = 0; y < BOARD_HEIGHT; y++)

@@ -42,6 +42,9 @@
 //this sets the labels as appropriate for the phase
 -(void)reloadLabels;
 
+//this returns if a given ship is alive or dead
+-(int)shipAlive:(Ship *)ship;
+
 #pragma mark - placement phase interface
 
 //tries to place a ship at a given position
