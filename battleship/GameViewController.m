@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *voiceButton;
 
 @property (strong, nonatomic) NSDate *beginTime;
+@property int beginPhase;
+
 @property (strong, nonatomic) UIView *timerView;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
@@ -47,6 +49,7 @@
 	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat:) userInfo:nil repeats:YES];
 	
 	self.beginTime = [NSDate date];
+	self.beginPhase = 0;
 	
 	[self resetTimer];
 	
@@ -343,7 +346,7 @@
 	
 	//check for opponent crash
 	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
-	int expectedSeconds = (1 + oldMoveNumber) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
+	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
 	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
 	
 	if (timeSinceBeginning > expectedSeconds)
@@ -387,6 +390,10 @@
 						NSString *lastMover = [object valueForKey:@"LastMover"];
 						if (newMoveNumber > oldMoveNumber && ![lastMover isEqualToString:[PFUser currentUser].objectId])
 						{
+							//update begin phase and begin move
+							weakSelf.beginPhase = newMoveNumber;
+							weakSelf.beginTime = [NSDate date];
+							
 							//they made their move
 							NSString *shotAt = [object valueForKey:@"LastMove"];
 							
