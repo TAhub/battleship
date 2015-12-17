@@ -49,14 +49,8 @@
 	self.beginTime = [NSDate date];
 	
 	[self resetTimer];
-}
-
-#pragma mark - view controller stuff
-
--(void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
 	
+	//set borders
 	self.doneButton.layer.cornerRadius = 6;
 	self.rotButton.layer.cornerRadius = 6;
 	self.voiceButton.layer.cornerRadius = 6;
@@ -66,8 +60,15 @@
 	self.bigView.layer.borderWidth = BOARD_BORDER;
 	self.bigView.layer.borderColor = [[UIColor blueColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
+}
+
+#pragma mark - view controller stuff
+
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
 	
-	[(StarfieldView *)(self.view) setupStarfield];
+	[(StarfieldView *)(self.view) setupStarfieldWithFineness:1];
 	
 	self.ships = [[ShipScreen alloc] initEmpty];
 	

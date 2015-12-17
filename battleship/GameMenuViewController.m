@@ -32,8 +32,13 @@
     
     self.gameView.layer.borderWidth = BOARD_BORDER;
     self.gameView.layer.borderColor = [[UIColor blueColor] CGColor];
-    [self.gameView setupStarfield];
-    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	[self.gameView setupStarfieldWithFineness:0.5f];
 }
 
 - (void)didReceiveMemoryWarning {
