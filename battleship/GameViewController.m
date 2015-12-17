@@ -127,21 +127,21 @@
 				{
 					NSArray *fromShipViewsBefore = nil;
 					NSArray *toShipViewsBefore = nil;
-					NSArray *fromShipViews = [self shipViews:self.bigViewInner ship:atPos];
+					NSArray *fromShipViews = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:atPos];
 					NSArray *toShipViews = nil;
 					
 					if (self.pickedUpShip != nil) //return the ship you have picked up already
 					{
-						fromShipViewsBefore = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
+						fromShipViewsBefore = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:self.pickedUpShip];
 						[self.ships.ships addObject:self.pickedUpShipRestore];
-						toShipViewsBefore = [self shipViews:self.bigViewInner ship:self.pickedUpShipRestore];
+						toShipViewsBefore = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:self.pickedUpShipRestore];
 					}
 					
 					
 					//pick up a ship
 					self.pickedUpShipRestore = [self.ships removeShipOfType:atPos.type];
 					self.pickedUpShip = [[Ship alloc] initWithRotation:atPos.rotation andX:0 andY:0 andType:atPos.type];
-					toShipViews = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
+					toShipViews = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:self.pickedUpShip];
 					
 					//do an animation
 					__weak typeof(self) weakSelf = self;
@@ -169,8 +169,8 @@
 				}
 				else if (self.pickedUpShip != nil)
 				{
-					NSArray *fromShipViews = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
-					NSArray *toShipViews = [self shipViews:self.bigViewInner ship:[[Ship alloc] initWithRotation:self.pickedUpShip.rotation andX:[[self.ships columnLabels] indexOfObject:columnFromPosition(position)] andY:[[self.ships rowLabels] indexOfObject:rowFromPosition(position)] andType:self.pickedUpShip.type]];
+					NSArray *fromShipViews = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:self.pickedUpShip];
+					NSArray *toShipViews = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:[[Ship alloc] initWithRotation:self.pickedUpShip.rotation andX:[[self.ships columnLabels] indexOfObject:columnFromPosition(position)] andY:[[self.ships rowLabels] indexOfObject:rowFromPosition(position)] andType:self.pickedUpShip.type]];
 					
 					//try to place the ship there
 					if ([self.ships placeShipAtPosition:position withRotation:self.pickedUpShip.rotation andType:self.pickedUpShip.type])
@@ -192,7 +192,7 @@
 						//there's a collision, so you can't
 						//however, to make this clear, a short animation is played
 						
-						NSArray *fromShipViewsTwo = [self shipViews:self.smallViewInner ship:self.pickedUpShip];
+						NSArray *fromShipViewsTwo = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:self.pickedUpShip];
 						__weak typeof(self) weakSelf = self;
 						Ship *storedShip = self.pickedUpShip;
 						self.pickedUpShip = nil;
@@ -284,8 +284,8 @@
 		__weak typeof(self) weakSelf = self;
 		for (Ship *ship in self.ships.ships)
 		{
-			NSArray *fromShipViews = [self shipViews:self.bigViewInner ship:ship];
-			NSArray *toShipViews = [self shipViews:self.smallViewInner ship:ship];
+			NSArray *fromShipViews = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:ship];
+			NSArray *toShipViews = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:ship];
 			
 			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 			 ^(){
@@ -516,6 +516,7 @@
 				  }
 				  else
 				  {
+					  [weakSelf reloadBigScreen];
 					  //that ship should explode
 					  [weakSelf megaExplodeShip:hitShip inView:view inScreen:screen withMagnifier:magnifier withDelayPosition:position andCallback:
 					   ^(){
@@ -670,7 +671,7 @@
 		}
 }
 
--(NSArray *)shipViews:(UIView *)screen ship:(Ship *)ship
+-(NSArray *)shipViews:(UIView *)screen withShipScreen:(ShipScreen *)ships ship:(Ship *)ship
 {
 	CGFloat squareWidth = screen.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
@@ -698,6 +699,8 @@
 			//make a mask subimage
 			int bitA = bit.intValue;
 			NSString *bitB = [bit substringFromIndex:2];
+			if ([ships.hits containsObject:position])
+				bitB = [NSString stringWithFormat:@"broken_%@", bitB];
 			UIImage *baseImage = [UIImage imageNamed:bitB];
 			
 			CGImageRef ref = CGImageCreateWithImageInRect([baseImage CGImage], CGRectMake(baseImage.size.width / [ship size] * bitA, 0, baseImage.size.height, baseImage.size.width / [ship size]));
@@ -712,19 +715,26 @@
 
 -(void)drawShip:(UIView *)screen ship:(Ship *)ship
 {
-	NSArray *shipViews = [self shipViews:screen ship:ship];
+	NSArray *shipViews = [self shipViews:screen withShipScreen:self.ships ship:ship];
 	for (UIView *view in shipViews)
+	{
+		if (![self.ships shipAlive:ship])
+		{
+			view.tintColor = [UIColor darkGrayColor];
+			view.tintAdjustmentMode = UIImageRenderingModeAlwaysTemplate;
+		}
 		[screen addSubview:view];
+	}
 }
 
 -(void)drawShips:(UIView *)screen
 {
-	[self drawShots:screen fromScreen:self.ships];
+	[self drawShots:screen fromScreen:self.ships missesOnly:YES];
 	for (Ship *ship in self.ships.ships)
 		[self drawShip:screen ship:ship];
 }
 
--(void)drawShots:(UIView *)screen fromScreen:(ShotScreen *)shotScreen
+-(void)drawShots:(UIView *)screen fromScreen:(ShotScreen *)shotScreen missesOnly:(BOOL)missesOnly
 {
 	CGFloat squareWidth = screen.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
@@ -736,7 +746,17 @@
 		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
 		if ([shotScreen.hits containsObject:shot])
 		{
-			//TODO: draw an appropriate broken or destroyed ship piece
+			if (!missesOnly)
+			{
+				Ship *shipAt = [self.shots shipAtPosition:shot];
+				if ([self.shots shipAlive:shipAt])
+				{
+					//draw a red rectangle
+					UIView *shotView = [[UIView alloc] initWithFrame:frame];
+					shotView.backgroundColor = [UIColor redColor];
+					[screen addSubview:shotView];
+				}
+			}
 		}
 		else
 		{
@@ -745,6 +765,25 @@
 			[screen addSubview:shotView];
 		}
 	}
+	
+	if (missesOnly)
+		return;
+	
+	//add broken ships
+	for (Ship *ship in self.shots.ships)
+		if (![self.shots shipAlive:ship])
+		{
+			NSArray *bits = [self shipViews:screen withShipScreen:self.shots ship:ship];
+			for (UIView *bit in bits)
+			{
+				if (self.animating == 0)
+				{
+					bit.tintColor = [UIColor darkGrayColor];
+					bit.tintAdjustmentMode = UIImageRenderingModeAlwaysTemplate;
+				}
+				[screen addSubview:bit];
+			}
+		}
 }
 
 -(FadeText *)addFadeTextToScreen:(UIView *)screen saying:(NSString *)text
@@ -778,13 +817,13 @@
 			[self drawShips:self.bigViewInner];
 			break;
 		case kPhaseShoot:
-			[self drawShots:self.bigViewInner fromScreen:self.shots];
+			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO];
 			break;
 		case kPhaseWait:
 			{
-//				[self drawShips:self.bigViewInner];
-//				UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-//				[self.bigViewInner addSubview:blurView];
+				[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO];
+				UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+				[self.bigViewInner addSubview:blurView];
 				[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
 			}
 			break;
