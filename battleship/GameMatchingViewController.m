@@ -87,6 +87,7 @@
 			{
 				//join a match
 				object[@"SecondUser"] = [PFUser currentUser].objectId;
+				object[@"LastMover"] = [PFUser currentUser].objectId;
 				[object saveInBackgroundWithBlock:
 				^(BOOL succeeded, NSError *error){
 					if (error != nil)
