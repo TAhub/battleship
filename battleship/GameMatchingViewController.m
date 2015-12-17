@@ -59,6 +59,7 @@
 		
 		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
+		[query whereKey:@"FirstUser" notEqualTo:[PFUser currentUser].objectId];
 		[query getFirstObjectInBackgroundWithBlock:
 		^(PFObject *object, NSError *error){
 			if (error != nil)
