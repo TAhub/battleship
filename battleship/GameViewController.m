@@ -62,9 +62,9 @@
 	self.voiceButton.layer.cornerRadius = 6;
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
-	self.smallView.layer.borderColor = [[UIColor whiteColor] CGColor];
+	self.smallView.layer.borderColor = [[UIColor blueColor] CGColor];
 	self.bigView.layer.borderWidth = BOARD_BORDER;
-	self.bigView.layer.borderColor = [[UIColor whiteColor] CGColor];
+	self.bigView.layer.borderColor = [[UIColor blueColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
 	
 	[(StarfieldView *)(self.view) setupStarfield];
@@ -288,6 +288,8 @@
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
 	{
+		[self stopTimer];
+		
 		self.ships.phase = kPhaseWaitForOpponent;
 		[self.ships reloadLabels];
 		self.rotButton.hidden = true;

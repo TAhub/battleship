@@ -55,7 +55,7 @@ typedef enum
 #define TIMER_WARNINGLENGTH 15
 #define TIMER_TIMEOUTLENGTH 15
 #define TIMER_INTERVAL 5
-#define BOARD_BORDER 5
+#define BOARD_BORDER 2
 #define PARSE_HEARTBEAT 4
 #define MARKER_HIT_FOCUS [UIColor colorWithRed:0.8 green:0.2 blue:0.2 alpha:1.0]
 #define MARKER_HIT [UIColor colorWithRed:0.5 green:0.25 blue:0.25 alpha:1.0]
