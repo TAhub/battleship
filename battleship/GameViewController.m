@@ -275,6 +275,15 @@
 		self.doneButton.hidden = true;
 		[self reloadBigScreen];
 		
+		
+		NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
+		if (firstUser == [PFUser currentUser].objectId)
+			self.battleObject[@"FirstFleet"] = [self.ships fleet];
+		else
+			self.battleObject[@"SecondFleet"] = [self.ships fleet];
+		[self.battleObject saveInBackground];
+		
+		
 		//start the match anim
 		__weak typeof(self) weakSelf = self;
 		for (Ship *ship in self.ships.ships)

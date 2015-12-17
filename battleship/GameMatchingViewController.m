@@ -26,6 +26,10 @@
 
 -(void)checkHeartbeat:(NSTimer *)timer
 {
+	NSLog(@"Check user heartbeat");
+	
+	__weak typeof(self) weakSelf = self;
+	
 	[self.battle fetchInBackgroundWithBlock:
 	^(PFObject *object, NSError *error){
 		if (error != nil)
@@ -34,12 +38,12 @@
 		}
 		else
 		{
-			self.battle = object;
+			weakSelf.battle = object;
 			
 			if ([object valueForKey:@"SecondUser"] != nil)
 			{
 				[timer invalidate];
-				//TODO: segue to game view
+				[weakSelf performSegueWithIdentifier:@"startGameSegue" sender:weakSelf];
 			}
 		}
 	}];
