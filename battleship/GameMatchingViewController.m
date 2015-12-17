@@ -82,18 +82,17 @@
 			else if (object != nil)
 			{
 				//join a match
-				object[@"SeconUser"] = [PFUser currentUser].objectId;
+				object[@"SecondUser"] = [PFUser currentUser].objectId;
 				[object saveInBackgroundWithBlock:
 				^(BOOL succeeded, NSError *error){
 					if (error != nil)
 					{
 						//TODO: deal with error
 					}
-					else
+					else if (succeeded)
 					{
 						weakSelf.battle = object;
-                        [self performSegueWithIdentifier:@"startGameSegue" sender:self];
-
+                        [weakSelf performSegueWithIdentifier:@"startGameSegue" sender:weakSelf];
 					}
 				}];
 			}
