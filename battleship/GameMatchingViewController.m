@@ -53,13 +53,31 @@
 		
 		__weak typeof(self) weakSelf = self;
 		
-		PFQuery *query = [PFQuery queryWithClassName:@"Battle"];
+		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
 		[query getFirstObjectInBackgroundWithBlock:
 		^(PFObject *object, NSError *error){
 			if (error != nil)
 			{
-				//TODO: deal with error
+				//TODO: make a match
+				PFObject *battle = [PFObject objectWithClassName:@"Game"];
+				battle[@"FirstUser"] = [PFUser currentUser].objectId;
+				battle[@"MoveNumber"] = @(0);
+				[battle saveInBackgroundWithBlock:
+				 ^(BOOL succeeded, NSError *error)
+				 {
+					 if (succeeded)
+					 {
+						 NSLog(@"Game created!");
+					 }
+					 else
+					 {
+						 NSLog(@"Game not created for some reason!");
+					 }
+				 }];
+				weakSelf.battle = battle;
+				
+				[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
 			}
 			else if (object != nil)
 			{
@@ -78,17 +96,6 @@
 
 					}
 				}];
-			}
-			else
-			{
-				//TODO: make a match
-				PFObject *battle = [PFObject objectWithClassName:@"Battle"];
-				battle[@"FirstUser"] = [PFUser currentUser].objectId;
-				battle[@"MoveNumber"] = @(0);
-				[battle saveInBackground];
-				weakSelf.battle = battle;
-				
-				[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
 			}
 		}];
 	}
