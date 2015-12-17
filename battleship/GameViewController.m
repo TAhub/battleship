@@ -238,7 +238,7 @@
 -(void)setupMatch
 {
 	NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
-	if (firstUser == [PFUser currentUser].objectId)
+	if ([firstUser isEqualToString:[PFUser currentUser].objectId])
 	{
 		//you go first!
 		self.ships.phase = kPhaseShoot;
@@ -277,12 +277,11 @@
 		
 		
 		NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
-		if (firstUser == [PFUser currentUser].objectId)
+		if ([firstUser isEqualToString:[PFUser currentUser].objectId])
 			self.battleObject[@"FirstFleet"] = [self.ships fleet];
 		else
 			self.battleObject[@"SecondFleet"] = [self.ships fleet];
 		[self.battleObject saveInBackground];
-		
 		
 		//start the match anim
 		__weak typeof(self) weakSelf = self;
