@@ -74,7 +74,8 @@
 					else
 					{
 						weakSelf.battle = object;
-						//TODO: segue to game view
+                        [self performSegueWithIdentifier:@"startGameSegue" sender:self];
+
 					}
 				}];
 			}

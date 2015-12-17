@@ -106,6 +106,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="waitingLabel" destination="lAg-JD-fis" id="M7O-3g-TPh"/>
+                        <segue destination="BYZ-38-t0r" kind="custom" identifier="startGameSegue" customClass="CustomSegue" id="O2m-0W-QTD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lr2-Ve-bAa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -238,7 +239,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1392" y="193"/>
+            <point key="canvasLocation" x="1433" y="205"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TOx-Ip-Z42">
