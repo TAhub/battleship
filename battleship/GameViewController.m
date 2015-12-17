@@ -346,7 +346,7 @@
 	
 	//check for opponent crash
 	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
-	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
+	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + PARSE_HEARTBEAT);
 	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
 	
 	if (timeSinceBeginning > expectedSeconds)
@@ -816,7 +816,7 @@
 		NSUInteger x = [self xFrom:shot];
 		NSUInteger y = [self yFrom:shot];
 		
-		UIImage *hitMarker = [[UIImage imageNamed:@"patrolBoat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		UIImage *hitMarker = [[UIImage imageNamed:@"hitMark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		
 		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
 		if ([shotScreen.hits containsObject:shot])
