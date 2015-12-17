@@ -236,6 +236,8 @@
 			break;
 		case kPhaseWaitForOpponent:
 			break;
+		case kPhaseOver:
+			break;
 	}
 }
 
@@ -563,6 +565,7 @@
 		 if (hit)
 			 [weakSelf explosionAnimAround:CGPointMake(toRect.origin.x + toRect.size.width / 2, toRect.origin.y + toRect.size.height / 2) withRadius:(squareWidth + squareHeight) / 4 andMagnifier:magnifier andDurationMod:1 andCallback:
 			  ^(){
+				  weakSelf.animating -= 1;
 				  Ship *hitShip = [screen shipAtPosition:position];
 				  if ([screen shipAlive:hitShip])
 				  {
@@ -572,6 +575,14 @@
 				  else
 				  {
 					  [weakSelf reloadBigScreen];
+					  
+					  //temporarily un-set the hit, so that the ship won't show up as dead
+					  [screen.hits removeObject:position];
+					  NSArray *bits = [weakSelf shipViews:view withShipScreen:screen ship:hitShip];
+					  [screen.hits addObject:position];
+					  for (UIView *shipBit in bits)
+						  [view addSubview:shipBit];
+					  
 					  //that ship should explode
 					  [weakSelf megaExplodeShip:hitShip inView:view inScreen:screen withMagnifier:magnifier withDelayPosition:position andCallback:
 					   ^(){
@@ -579,7 +590,6 @@
 						   completion();
 					   }];
 				  }
-				  weakSelf.animating -= 1;
 			  }];
 		 else
 		 {
@@ -757,8 +767,13 @@
 			int bitA = bit.intValue;
 			NSString *bitB = [bit substringFromIndex:2];
 			if ([ships.hits containsObject:position])
-				bitB = [NSString stringWithFormat:@"broken_%@", bitB];
-			UIImage *baseImage = [[UIImage imageNamed:bitB] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+			{
+				if (![ships shipAlive:ship])
+					bitB = [NSString stringWithFormat:@"dead_%@", bitB];
+				else
+					bitB = [NSString stringWithFormat:@"broken_%@", bitB];
+			}
+			UIImage *baseImage = [UIImage imageNamed:bitB];
 			
 			CGImageRef ref = CGImageCreateWithImageInRect([baseImage CGImage], CGRectMake(baseImage.size.width / [ship size] * bitA, 0, baseImage.size.height, baseImage.size.width / [ship size]));
 			shipSquare.image = [UIImage imageWithCGImage:ref];
@@ -774,11 +789,7 @@
 {
 	NSArray *shipViews = [self shipViews:screen withShipScreen:self.ships ship:ship];
 	for (UIView *view in shipViews)
-	{
-		if (![self.ships shipAlive:ship])
-			view.tintColor = [UIColor darkGrayColor];
 		[screen addSubview:view];
-	}
 }
 
 -(void)drawShips:(UIView *)screen focusTint:(BOOL)focus
@@ -833,11 +844,7 @@
 		{
 			NSArray *bits = [self shipViews:screen withShipScreen:self.shots ship:ship];
 			for (UIView *bit in bits)
-			{
-				if (self.animating == 0)
-					bit.tintColor = [UIColor darkGrayColor];
 				[screen addSubview:bit];
-			}
 		}
 }
 
