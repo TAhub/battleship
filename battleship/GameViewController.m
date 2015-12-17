@@ -29,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *rotButton;
 @property (weak, nonatomic) IBOutlet UIButton *voiceButton;
 
-
+@property (strong, nonatomic) NSDate *beginTime;
 @property (strong, nonatomic) UIView *timerView;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
@@ -44,7 +44,11 @@
 {
 	[super viewDidLoad];
 	
-	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat) userInfo:nil repeats:YES];
+	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat:) userInfo:nil repeats:YES];
+	
+	self.beginTime = [NSDate date];
+	
+	[self resetTimer];
 }
 
 #pragma mark - view controller stuff
@@ -316,14 +320,39 @@
 
 #pragma mark - parse heartbeat
 
--(void)parseHeartbeat
+-(void)parseHeartbeat:(NSTimer *)timer
 {
+	if (self.ships.phase == kPhaseOver)
+	{
+		[timer invalidate];
+		return;
+	}
+	
 	NSLog(@"Parse heartbeat turn %@!", [self.battleObject valueForKey:@"MoveNumber"]);
 	
 	if (self.animating > 1) { return; }
 	
 	int oldMoveNumber = ((NSNumber *)[self.battleObject valueForKey:@"MoveNumber"]).intValue;
 	__weak typeof(self) weakSelf = self;
+	
+	
+	//check for opponent crash
+	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
+	int expectedSeconds = (1 + oldMoveNumber) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
+	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
+	
+	if (timeSinceBeginning > expectedSeconds)
+	{
+		//your opponent timed out
+		self.ships.phase = kPhaseOver;
+		[self reloadBigScreen];
+		[self reloadSmallScreen];
+		
+		[timer invalidate];
+		return;
+	}
+	
+	
 	[self.battleObject fetchInBackgroundWithBlock:
 	^(PFObject *object, NSError *error)
 	{
@@ -644,8 +673,10 @@
 {
 	[self resetTimer];
 	
-	//TODO: forefeit
 	NSLog(@"Oops, you ran out of time!");
+	self.ships.phase = kPhaseOver;
+	[self reloadSmallScreen];
+	[self reloadBigScreen];
 }
 
 
@@ -855,8 +886,10 @@
 			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
 			if ([self.ships defeated])
 				[self addFadeTextToScreen:self.bigViewInner saying:@"You won!"];
-			else
+			else if ([self.shots defeated])
 				[self addFadeTextToScreen:self.bigViewInner saying:@"You lost!"];
+			else
+				[self addFadeTextToScreen:self.bigViewInner saying:@"Battle timed out!"];
 			break;
 	}
 }
