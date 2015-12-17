@@ -172,6 +172,7 @@
                     <navigationItem key="navigationItem" id="STz-qw-lrF"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="gameView" destination="Okv-NF-ZTy" id="aBb-YV-9JR"/>
                         <outlet property="yuhButton" destination="LWY-ZV-kqQ" id="hUb-c7-DON"/>
                     </connections>
                 </viewController>
