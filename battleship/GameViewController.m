@@ -703,7 +703,7 @@
 			NSString *bitB = [bit substringFromIndex:2];
 			if ([ships.hits containsObject:position])
 				bitB = [NSString stringWithFormat:@"broken_%@", bitB];
-			UIImage *baseImage = [UIImage imageNamed:bitB];
+			UIImage *baseImage = [[UIImage imageNamed:bitB] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 			
 			CGImageRef ref = CGImageCreateWithImageInRect([baseImage CGImage], CGRectMake(baseImage.size.width / [ship size] * bitA, 0, baseImage.size.height, baseImage.size.width / [ship size]));
 			shipSquare.image = [UIImage imageWithCGImage:ref];
@@ -721,10 +721,7 @@
 	for (UIView *view in shipViews)
 	{
 		if (![self.ships shipAlive:ship])
-		{
 			view.tintColor = [UIColor darkGrayColor];
-			view.tintAdjustmentMode = UIImageRenderingModeAlwaysTemplate;
-		}
 		[screen addSubview:view];
 	}
 }
@@ -779,10 +776,7 @@
 			for (UIView *bit in bits)
 			{
 				if (self.animating == 0)
-				{
 					bit.tintColor = [UIColor darkGrayColor];
-					bit.tintAdjustmentMode = UIImageRenderingModeAlwaysTemplate;
-				}
 				[screen addSubview:bit];
 			}
 		}
