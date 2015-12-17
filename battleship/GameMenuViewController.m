@@ -9,17 +9,20 @@
 #import "GameMenuViewController.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import "StarfieldView.h"
+#import "Constants.h"
 
 @interface GameMenuViewController () <PFLogInViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *yuhButton;
+@property (weak, nonatomic) IBOutlet StarfieldView *gameView;
 
 @end
 
 @implementation GameMenuViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];    
+    [super viewDidLoad];
     
     NSString *string = @"NEW GAME";
     UIFont *font = [UIFont fontWithName:@"Avenir" size:16];
@@ -27,7 +30,10 @@
     NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: blue }];
     [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];
     
-  
+    self.gameView.layer.borderWidth = BOARD_BORDER;
+    self.gameView.layer.borderColor = [[UIColor blueColor] CGColor];
+    [self.gameView setupStarfield];
+    
 }
 
 - (void)didReceiveMemoryWarning {
