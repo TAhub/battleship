@@ -25,13 +25,12 @@
     [super viewDidLoad];
     
     NSString *string = @"NEW GAME";
-    UIFont *font = [UIFont fontWithName:@"Avenir" size:16];
-    UIColor *blue = [UIColor colorWithRed:123/255 green:236/255 blue:252/255 alpha:1.0];
-    NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: blue }];
+    UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
+    NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];
     
     self.gameView.layer.borderWidth = BOARD_BORDER;
-    self.gameView.layer.borderColor = [[UIColor blueColor] CGColor];
+    self.gameView.layer.borderColor = [[UIColor cyanColor] CGColor];
 }
 
 -(void)viewDidAppear:(BOOL)animated
