@@ -159,20 +159,9 @@
 
 -(BOOL)defeated
 {
-	for (NSUInteger y = 0; y < BOARD_HEIGHT; y++)
-	{
-		for (NSUInteger x = 0; x < BOARD_WIDTH; x++)
-		{
-			NSString *row = self.rowLabels[y];
-			NSString *column = self.columnLabels[x];
-			NSString *position = positionFrom(row, column);
-			
-			if (![self.hits containsObject:position])
-			{
-				//TODO: return NO if there is a ship here
-			}
-		}
-	}
+	for (Ship *ship in self.ships)
+		if ([self shipAlive:ship])
+			return NO;
 	return YES;
 }
 

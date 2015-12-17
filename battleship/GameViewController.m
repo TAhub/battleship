@@ -81,6 +81,21 @@
 	self.animating = 0;
 }
 
+-(BOOL)victoryOrDefeatFromModel
+{
+	if (self.ships.defeated)
+	{
+		//TODO: defeat
+		return true;
+	}
+	if (self.shots.defeated)
+	{
+		//TODO: victory
+		return true;
+	}
+	return false;
+}
+
 -(void)bigTapSelector:(UITapGestureRecognizer *)sender
 {
 	NSString *position = [self positionFromGestureRecognizer:sender inView:self.bigViewInner];
@@ -113,9 +128,11 @@
 					[weakSelf.battleObject saveInBackground];
 					
 					NSLog(@"Entered turn %@ through own action.", [weakSelf.battleObject valueForKey:@"MoveNumber"]);
-			  
-					//and wait for their move
-					weakSelf.ships.phase = kPhaseWait;
+					
+					if ([weakSelf victoryOrDefeatFromModel])
+						weakSelf.ships.phase = kPhaseOver;
+					else //and wait for their move
+						weakSelf.ships.phase = kPhaseWait;
 					[weakSelf reloadBigScreen];
 				}];
 			}
@@ -344,12 +361,17 @@
 							BOOL hit = [weakSelf.ships attackPosition:shotAt];
 							[self shotAnimFromY:weakSelf.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:shotAt isHit:hit inView:self.smallView inScreen:self.ships withCallback:
 							^(){
-								weakSelf.ships.phase = kPhaseShoot;
+								if ([weakSelf victoryOrDefeatFromModel])
+									weakSelf.ships.phase = kPhaseOver;
+								else
+								{
+									weakSelf.ships.phase = kPhaseShoot;
+									
+									//set up the timer
+									[weakSelf resetTimer];
+								}
 								[weakSelf reloadBigScreen];
 								[weakSelf reloadSmallScreen];
-								
-								//set up the timer
-								[weakSelf resetTimer];
 							}];
 						}
 					}
@@ -639,7 +661,7 @@
 	return [self.ships.rowLabels indexOfObject:rowFromPosition(position)];
 }
 
--(void)reloadScreenInitial:(UIView *)screen placeLabels:(BOOL)labels
+-(void)reloadScreenInitial:(UIView *)screen placeLabels:(BOOL)labels focusTint:(BOOL)focus
 {
 	for (UIView *subview in screen.subviews)
 		[subview removeFromSuperview];
@@ -663,7 +685,7 @@
 			NSString *columnLabel = self.ships.columnLabels[x];
 			NSString *rowLabel =  self.ships.rowLabels[y];
 			label.text = positionFrom(rowLabel, columnLabel);
-			label.textColor = [UIColor grayColor];
+			label.textColor = (focus ? [UIColor grayColor] : [UIColor darkGrayColor]);
 			[label setTranslatesAutoresizingMaskIntoConstraints:NO];
 			
 			//put the label inside the frame view
@@ -726,14 +748,14 @@
 	}
 }
 
--(void)drawShips:(UIView *)screen
+-(void)drawShips:(UIView *)screen focusTint:(BOOL)focus
 {
-	[self drawShots:screen fromScreen:self.ships missesOnly:YES];
+	[self drawShots:screen fromScreen:self.ships missesOnly:YES focusTint:NO];
 	for (Ship *ship in self.ships.ships)
 		[self drawShip:screen ship:ship];
 }
 
--(void)drawShots:(UIView *)screen fromScreen:(ShotScreen *)shotScreen missesOnly:(BOOL)missesOnly
+-(void)drawShots:(UIView *)screen fromScreen:(ShotScreen *)shotScreen missesOnly:(BOOL)missesOnly focusTint:(BOOL)focus
 {
 	CGFloat squareWidth = screen.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = screen.frame.size.height / BOARD_HEIGHT;
@@ -741,6 +763,8 @@
 	{
 		NSUInteger x = [self xFrom:shot];
 		NSUInteger y = [self yFrom:shot];
+		
+		UIImage *hitMarker = [[UIImage imageNamed:@"patrolBoat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		
 		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
 		if ([shotScreen.hits containsObject:shot])
@@ -751,16 +775,18 @@
 				if ([self.shots shipAlive:shipAt])
 				{
 					//draw a red rectangle
-					UIView *shotView = [[UIView alloc] initWithFrame:frame];
-					shotView.backgroundColor = [UIColor redColor];
+					UIImageView *shotView = [[UIImageView alloc] initWithFrame:frame];
+					shotView.image = hitMarker;
+					shotView.tintColor = (focus ? MARKER_HIT_FOCUS : MARKER_HIT);
 					[screen addSubview:shotView];
 				}
 			}
 		}
 		else
 		{
-			UIView *shotView = [[UIView alloc] initWithFrame:frame];
-			shotView.backgroundColor = [UIColor whiteColor];
+			UIImageView *shotView = [[UIImageView alloc] initWithFrame:frame];
+			shotView.image = hitMarker;
+			shotView.tintColor = (focus ? MARKER_MISS : MARKER_MISS_FOCUS);
 			[screen addSubview:shotView];
 		}
 	}
@@ -801,44 +827,50 @@
 
 -(void)reloadBigScreen
 {
-	[self reloadScreenInitial:self.bigView placeLabels:NO];
+	[self reloadScreenInitial:self.bigView placeLabels:NO focusTint:NO];
 	
 	[self.bigView addSubview:self.bigViewInner];
-	
-	[self reloadScreenInitial:self.bigViewInner placeLabels:(self.ships.phase == kPhasePlace || self.ships.phase == kPhaseShoot)];
 	
 	switch(self.ships.phase)
 	{
 		case kPhasePlace:
-			[self drawShips:self.bigViewInner];
+			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:YES];
+			[self drawShips:self.bigViewInner focusTint:YES];
 			break;
 		case kPhaseShoot:
-			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO];
+			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:YES];
+			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:YES];
 			break;
 		case kPhaseWait:
-			{
-				[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO];
-				UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-				[self.bigViewInner addSubview:blurView];
-				[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
-			}
+			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
+			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
+			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
 			break;
 		case kPhaseWaitForOpponent:
+			[self reloadScreenInitial:self.bigViewInner placeLabels:NO focusTint:NO];
 			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent to\nplace their ships..."];
+			break;
+		case kPhaseOver:
+			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
+			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
+			if ([self.ships defeated])
+				[self addFadeTextToScreen:self.bigViewInner saying:@"You won!"];
+			else
+				[self addFadeTextToScreen:self.bigViewInner saying:@"You lost!"];
 			break;
 	}
 }
 
 -(void)reloadSmallScreen
 {
-	[self reloadScreenInitial:self.smallView placeLabels:NO];
+	[self reloadScreenInitial:self.smallView placeLabels:NO focusTint:NO];
 	
 	[self.smallView addSubview:self.smallViewInner];
 	
-	[self reloadScreenInitial:self.smallViewInner placeLabels:NO];
+	[self reloadScreenInitial:self.smallViewInner placeLabels:NO focusTint:NO];
 	
 	if (self.ships.phase != kPhasePlace)
-		[self drawShips:self.smallViewInner];
+		[self drawShips:self.smallViewInner focusTint:YES];
 	else if (self.pickedUpShip != nil)
 		[self drawShip:self.smallViewInner ship:self.pickedUpShip];
 }
