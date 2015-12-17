@@ -12,12 +12,20 @@
 
 @interface GameMenuViewController () <PFLogInViewControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UIButton *yuhButton;
+
 @end
 
 @implementation GameMenuViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    [super viewDidLoad];    
+    
+    NSString *string = @"NEW GAME";
+    UIFont *font = [UIFont fontWithName:@"Avenir" size:16];
+    UIColor *blue = [UIColor colorWithRed:123/255 green:236/255 blue:252/255 alpha:1.0];
+    NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: blue }];
+    [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];
     
   
 }
@@ -52,7 +60,7 @@
 
 
 - (IBAction)startGameButtonPressed:(id)sender {
-    [self login];
+    NSLog(@"okie doke");
     
 }
 
