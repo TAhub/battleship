@@ -103,13 +103,15 @@
 				[self stopTimer];
 				
 				__weak typeof(self) weakSelf = self;
-				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position isHit:hit inView:self.bigView withCallback:
+				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position isHit:hit inView:self.bigView inScreen:self.shots withCallback:
 				^(){
 					//send a message to the opponent that you shot that position
 					weakSelf.battleObject[@"LastMove"] = position;
 					int moveNumber = ((NSNumber *)[weakSelf.battleObject valueForKey:@"MoveNumber"]).intValue;
 					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
 					[weakSelf.battleObject saveInBackground];
+					
+					NSLog(@"Entered turn %@ through own action.", [weakSelf.battleObject valueForKey:@"MoveNumber"]);
 			  
 					//and wait for their move
 					weakSelf.ships.phase = kPhaseWait;
@@ -209,13 +211,8 @@
 			}
 			break;
 		case kPhaseWait:
-			//TODO: wait for the opponent to make a shot, then display that
-			
 			break;
 		case kPhaseWaitForOpponent:
-			//TODO: wait for opponent's "I'm ready" message
-			//and when you get it, set your shots screen with their ships state
-			
 			break;
 	}
 }
@@ -303,7 +300,9 @@
 
 -(void)parseHeartbeat
 {
-	NSLog(@"Parse heartbeat!");
+	NSLog(@"Parse heartbeat turn %@!", [self.battleObject valueForKey:@"MoveNumber"]);
+	
+	if (self.animating > 1) { return; }
 	
 	int oldMoveNumber = ((NSNumber *)[self.battleObject valueForKey:@"MoveNumber"]).intValue;
 	__weak typeof(self) weakSelf = self;
@@ -331,22 +330,27 @@
 					
 					break;
 				case kPhaseWait:
-					
-					if ((int)[object valueForKey:@"MoveNumber"] > oldMoveNumber)
 					{
-						//they made their move
-						NSString *shotAt = [object valueForKey:@"LastMove"];
-						
-						//TODO: shot animation
-						weakSelf.ships.phase = kPhaseShoot;
-						[weakSelf.ships attackPosition:shotAt];
-						[weakSelf reloadBigScreen];
-						[weakSelf reloadSmallScreen];
-						
-						//set up the timer
-						[weakSelf resetTimer];
+						int newMoveNumber = ((NSNumber *)[object valueForKey:@"MoveNumber"]).intValue;
+						if (newMoveNumber > oldMoveNumber)
+						{
+							//they made their move
+							NSString *shotAt = [object valueForKey:@"LastMove"];
+							
+							NSLog(@"Entered turn %@ through opponent action.", [object valueForKey:@"MoveNumber"]);
+							
+							BOOL hit = [weakSelf.ships attackPosition:shotAt];
+							[self shotAnimFromY:weakSelf.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:shotAt isHit:hit inView:self.smallView inScreen:self.ships withCallback:
+							^(){
+								weakSelf.ships.phase = kPhaseShoot;
+								[weakSelf reloadBigScreen];
+								[weakSelf reloadSmallScreen];
+								
+								//set up the timer
+								[weakSelf resetTimer];
+							}];
+						}
 					}
-					
 					break;
 				default: break;
 			}
@@ -357,7 +361,78 @@
 
 #pragma mark - animations
 
--(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andCallback:(void (^)())completion
+-(void)shuffle:(NSMutableArray *)array
+{
+	for (NSUInteger i = 0; i < array.count; i++)
+		[array exchangeObjectAtIndex:i withObjectAtIndex:((NSUInteger)arc4random_uniform((u_int32_t)(array.count - i)) + i)];
+}
+
+-(void)megaExplodeShipInner:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withXs:(NSArray *)xs withYs:(NSArray *)ys andCallback:(void (^)())completion
+{
+	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
+	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
+	__weak typeof(self) weakSelf = self;
+	CGFloat x = ((NSNumber *)xs[0]).floatValue;
+	CGFloat y = ((NSNumber *)ys[0]).floatValue;
+	[self explosionAnimAround:CGPointMake(x, y) withRadius:(squareWidth + squareHeight) / 4 andMagnifier:magnifier andDurationMod:1 andCallback:
+	^(){
+		if (xs.count > 1)
+		{
+			NSMutableArray *newXs = [NSMutableArray arrayWithArray:xs];
+			NSMutableArray *newYs = [NSMutableArray arrayWithArray:ys];
+			[newXs removeObjectAtIndex:0];
+			[newYs removeObjectAtIndex:0];
+			[weakSelf megaExplodeShipInner:ship inView:view inScreen:screen withMagnifier:magnifier withXs:newXs withYs:newYs andCallback:completion];
+		}
+		else
+			completion();
+	}];
+}
+
+-(void)megaExplodeShip:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withDelayPosition:(NSString *)delayPosition andCallback:(void (^)())completion
+{
+	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
+	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
+	NSMutableArray *positions = [NSMutableArray arrayWithArray:[ship positionsWithRowLabels:screen.rowLabels andColumnlabels:screen.columnLabels allowOverflow:NO]];
+	[positions removeObject:delayPosition];
+	[self shuffle:positions];
+	[positions addObject:delayPosition];
+	NSMutableArray *xs = [NSMutableArray new];
+	NSMutableArray *ys = [NSMutableArray new];
+	CGFloat xCenter = 0;
+	CGFloat yCenter = 0;
+	for (NSString *position in positions)
+	{
+		CGFloat x = [self xFrom:position];
+		CGFloat y = [self yFrom:position];
+		x = ((x + 0.5) * squareWidth) + view.frame.origin.x;
+		y = ((y + 0.5) * squareHeight) + view.frame.origin.y;
+		[xs addObject:@(x)];
+		[ys addObject:@(y)];
+		xCenter += x;
+		yCenter += y;
+	}
+	xCenter /= positions.count;
+	yCenter /= positions.count;
+	
+	self.animating += 1;
+	
+	__weak typeof(self) weakSelf = self;
+	[UIView animateWithDuration:EXPLODE_DELAY_MEGA animations:^(){} completion:
+	^(BOOL success){
+		[weakSelf megaExplodeShipInner:ship inView:view inScreen:screen withMagnifier:magnifier withXs:xs withYs:ys andCallback:
+		^(){
+			//do the mega explosion
+			[weakSelf explosionAnimAround:CGPointMake(xCenter, yCenter) withRadius:(squareHeight + squareWidth) / 4 andMagnifier:EXPLODE_MAG_MEGA andDurationMod:1 + positions.count / 5 andCallback:
+			^(){
+				weakSelf.animating -= 1;
+				completion();
+			}];
+		}];
+	}];
+}
+
+-(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andMagnifier:(CGFloat)magnifier andDurationMod:(CGFloat)durationMod andCallback:(void (^)())completion
 {
 	self.animating += 1;
 	
@@ -367,6 +442,7 @@
 		CGFloat x = center.x + arc4random_uniform((u_int32_t)radius * 2) - radius;
 		CGFloat y = center.y + arc4random_uniform((u_int32_t)radius * 2) - radius;
 		CGFloat size = EXPLODE_FLARE_SIZE - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
+		size *= magnifier;
 		CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
 		UIView *flare = [[UIView alloc] initWithFrame:frame];
 		flare.backgroundColor = [UIColor redColor];
@@ -376,15 +452,17 @@
 	
 	__weak typeof(self) weakSelf = self;
 	
-	[UIView animateWithDuration:EXPLODE_ANIM_LENGTH delay:0 options:UIViewAnimationOptionCurveEaseIn animations:
+	[UIView animateWithDuration:EXPLODE_ANIM_LENGTH * durationMod delay:0 options:UIViewAnimationOptionCurveEaseIn animations:
 	 ^(){
 		 for (UIView *flare in flares)
 		 {
 			 CGFloat angle = arc4random_uniform(200) * M_PI / 100;
 			 CGFloat distance = (arc4random_uniform(70) + 30) * EXPLODE_FLARE_DISTANCE / 100;
+			 distance *= magnifier;
 			 CGFloat x = center.x + cos(angle) * distance;
 			 CGFloat y = center.y + sin(angle) * distance;
 			 CGFloat size = EXPLODE_FLARE_SIZE_END - EXPLODE_SIZE_VARIATION + arc4random_uniform(EXPLODE_SIZE_VARIATION * 2);
+			 size *= magnifier;
 			 CGRect frame = CGRectMake(x - size / 2, y - size / 2, size, size);
 			 flare.frame = frame;
 			 flare.alpha = 0.12;
@@ -401,9 +479,13 @@
 }
 
 
--(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view withCallback:(void (^)())completion
+-(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view inScreen:(ShipScreen *)screen withCallback:(void (^)())completion
 {
 	__weak typeof(self) weakSelf = self;
+	
+	CGFloat magnifier = 1;
+	if (view != self.bigViewInner)
+		magnifier = EXPLODE_MAG_SMALL;
 	
 	CGFloat x = (CGFloat)arc4random_uniform((u_int32_t)(self.view.frame.size.width));
 	CGRect frame = CGRectMake(x - SHOTS_SIZE_START / 2, y, SHOTS_SIZE_START, SHOTS_SIZE_START);
@@ -424,10 +506,23 @@
 		 [shotView removeFromSuperview];
 		 
 		 if (hit)
-			 [weakSelf explosionAnimAround:CGPointMake(toRect.origin.x + toRect.size.width / 2, toRect.origin.y + toRect.size.height / 2) withRadius:(squareWidth + squareHeight) / 4 andCallback:
+			 [weakSelf explosionAnimAround:CGPointMake(toRect.origin.x + toRect.size.width / 2, toRect.origin.y + toRect.size.height / 2) withRadius:(squareWidth + squareHeight) / 4 andMagnifier:magnifier andDurationMod:1 andCallback:
 			  ^(){
-				  [weakSelf reloadBigScreen];
-				  completion();
+				  Ship *hitShip = [screen shipAtPosition:position];
+				  if ([screen shipAlive:hitShip])
+				  {
+					  [weakSelf reloadBigScreen];
+					  completion();
+				  }
+				  else
+				  {
+					  //that ship should explode
+					  [weakSelf megaExplodeShip:hitShip inView:view inScreen:screen withMagnifier:magnifier withDelayPosition:position andCallback:
+					   ^(){
+						   [weakSelf reloadBigScreen];
+						   completion();
+					   }];
+				  }
 				  weakSelf.animating -= 1;
 			  }];
 		 else
@@ -639,14 +734,16 @@
 		NSUInteger y = [self yFrom:shot];
 		
 		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
-		UIView *shotView = [[UIView alloc] initWithFrame:frame];
-		
 		if ([shotScreen.hits containsObject:shot])
-			shotView.backgroundColor = [UIColor redColor];
+		{
+			//TODO: draw an appropriate broken or destroyed ship piece
+		}
 		else
+		{
+			UIView *shotView = [[UIView alloc] initWithFrame:frame];
 			shotView.backgroundColor = [UIColor whiteColor];
-		
-		[screen addSubview:shotView];
+			[screen addSubview:shotView];
+		}
 	}
 }
 
@@ -671,9 +768,6 @@
 {
 	[self reloadScreenInitial:self.bigView placeLabels:NO];
 	
-	//TODO: add effects views as appropriate
-	//ie starfield, etc
-	
 	[self.bigView addSubview:self.bigViewInner];
 	
 	[self reloadScreenInitial:self.bigViewInner placeLabels:(self.ships.phase == kPhasePlace || self.ships.phase == kPhaseShoot)];
@@ -687,7 +781,12 @@
 			[self drawShots:self.bigViewInner fromScreen:self.shots];
 			break;
 		case kPhaseWait:
-			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
+			{
+//				[self drawShips:self.bigViewInner];
+//				UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+//				[self.bigViewInner addSubview:blurView];
+				[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
+			}
 			break;
 		case kPhaseWaitForOpponent:
 			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent to\nplace their ships..."];
@@ -698,9 +797,6 @@
 -(void)reloadSmallScreen
 {
 	[self reloadScreenInitial:self.smallView placeLabels:NO];
-	
-	//TODO: add effects views as appropriate
-	//ie starfield, etc
 	
 	[self.smallView addSubview:self.smallViewInner];
 	

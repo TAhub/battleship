@@ -44,6 +44,9 @@ typedef enum
 #define EXPLODE_FLARE_SIZE_END 10
 #define EXPLODE_SIZE_VARIATION 6
 #define EXPLODE_FLARE_DISTANCE 70
+#define EXPLODE_MAG_SMALL 0.65f
+#define EXPLODE_MAG_MEGA 2.1f
+#define EXPLODE_DELAY_MEGA 0.3f
 #define STARFIELD_NUMBER_STARS 60
 #define STARFIELD_STAR_LENGTH 60.0f
 #define STARFIELD_STAR_SIZE 8
@@ -52,7 +55,7 @@ typedef enum
 #define TIMER_TIMEOUTLENGTH 15
 #define TIMER_INTERVAL 5
 #define BOARD_BORDER 5
-#define PARSE_HEARTBEAT 7
+#define PARSE_HEARTBEAT 4
 
 #pragma mark - global functions
 
