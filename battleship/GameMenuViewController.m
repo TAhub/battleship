@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *string = @"NEW GAME";
+    NSString *string = STRING_NEW_GAME;
     UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
     NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];

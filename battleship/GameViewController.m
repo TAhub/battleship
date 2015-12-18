@@ -680,11 +680,11 @@
 	{
 		FadeText *ft = (FadeText *)self.timerView;
 		int oldTimer = ft.text.intValue;
-		[ft fadeInText:[NSString stringWithFormat:@"%i seconds left!", oldTimer - TIMER_INTERVAL]];
+		[ft fadeInText:[NSString stringWithFormat:STRING_TIME_LEFT, oldTimer - TIMER_INTERVAL]];
 	}
 	else
 	{
-		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:@"%i seconds left!", TIMER_TIMEOUTLENGTH]];
+		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:STRING_TIME_LEFT, TIMER_TIMEOUTLENGTH]];
 		((FadeText *)(self.timerView)).textColor = [UIColor whiteColor];
 	}
 }
@@ -892,21 +892,21 @@
 		case kPhaseWait:
 			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
 			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
-			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
+			[self addFadeTextToScreen:self.bigViewInner saying:STRING_WAIT_MOVE];
 			break;
 		case kPhaseWaitForOpponent:
 			[self reloadScreenInitial:self.bigViewInner placeLabels:NO focusTint:NO];
-			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent to\nplace their ships..."];
+			[self addFadeTextToScreen:self.bigViewInner saying:STRING_WAIT_PLACE];
 			break;
 		case kPhaseOver:
 			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
 			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
 			if ([self.ships defeated])
-				[self addFadeTextToScreen:self.bigViewInner saying:@"You won!"];
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_WIN];
 			else if ([self.shots defeated])
-				[self addFadeTextToScreen:self.bigViewInner saying:@"You lost!"];
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_LOSE];
 			else
-				[self addFadeTextToScreen:self.bigViewInner saying:@"Battle timed out!"];
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_TIMEOUT];
 			break;
 	}
 }
