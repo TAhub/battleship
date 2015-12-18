@@ -222,8 +222,9 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="ZR7-ec-XFC"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
-                                        <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.89288252592086792" green="0.96984821557998657" blue="0.56693238019943237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="highlightedColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <color key="shadowColor" red="0.97314232587814331" green="1" blue="0.852286696434021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.75238829851150513" green="0.68883860111236572" blue="0.25760746002197266" alpha="0.47866239161849711" colorSpace="custom" customColorSpace="sRGB"/>
