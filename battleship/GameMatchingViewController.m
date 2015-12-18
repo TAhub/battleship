@@ -62,7 +62,7 @@
 {
 	if ([PFUser currentUser] != nil)
 	{
-		self.waitingLabel.text = [NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]];
+		self.waitingLabel.text = [NSString stringWithFormat:STRING_GAME_WAIT, [[PFUser currentUser] username]];
 		
 		__weak typeof(self) weakSelf = self;
 		

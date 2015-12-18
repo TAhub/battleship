@@ -15,6 +15,7 @@
 #define STRING_LOSE NSLocalizedString(@"You lost!", nil)
 #define STRING_TIMEOUT NSLocalizedString(@"Battle timed out!", nil)
 #define STRING_NEW_GAME NSLocalizedString(@"NEW GAME", nil)
+#define STRING_GAME_WAIT NSLocalizedString(@"Hi %@ your game will be starting soon", nil)
 
 #pragma mark - enums
 typedef enum
