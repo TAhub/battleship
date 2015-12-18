@@ -313,8 +313,6 @@ SystemSoundID _threeExplosionsID;
 		self.doneButton.hidden = true;
 		[self reloadBigScreen];
 		
-		AudioServicesPlaySystemSound(_threeExplosionsID);
-
 		NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
 		if ([firstUser isEqualToString:[PFUser currentUser].objectId])
 			self.battleObject[@"FirstFleet"] = [self.ships fleet];
@@ -328,6 +326,9 @@ SystemSoundID _threeExplosionsID;
 		{
 			NSArray *fromShipViews = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:ship];
 			NSArray *toShipViews = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:ship];
+			
+			AudioServicesPlaySystemSound(_threeExplosionsID);
+
 			
 			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 			 ^(){

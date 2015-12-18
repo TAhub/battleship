@@ -25,7 +25,7 @@ AVAudioPlayer *_backgroundMusicPlayer;
     [Parse setApplicationId:@"xIskzMtXvBttoJ2gRFXJqIbc64LRjmGhXQo3Z5Rb"
                   clientKey:@"LqVjmUJf1FcheliOCr0GbuuZbpQuwCOS5OF7tBzE"];
 
-//	[self playBackgroundMusic:@"space_fleet_soundtrack.mp3"];
+	[self playBackgroundMusic:@"space_fleet_soundtrack.mp3"];
 
 	return YES;
     

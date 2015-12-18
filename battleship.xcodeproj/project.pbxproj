@@ -50,6 +50,7 @@
 		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
 		30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = space_fleet_soundtrack.mp3; sourceTree = "<group>"; };
 		30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 3Explosions.mp3; sourceTree = "<group>"; };
+		30AE52C31C23CFE400C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E103C8271C220ECD006A78AF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E103C8281C220ECD006A78AF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		E103C8291C220ECD006A78AF /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -283,6 +284,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"es-MX",
 			);
 			mainGroup = E4F4856A1C1E6B88007AD778;
 			productRefGroup = E4F485741C1E6B88007AD778 /* Products */;
@@ -337,6 +339,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				30AE52771C1F401D00C2DAF8 /* en */,
+				30AE52C31C23CFE400C2DAF8 /* es-MX */,
 			);
 			name = Localizable.strings;
 			path = ..;
