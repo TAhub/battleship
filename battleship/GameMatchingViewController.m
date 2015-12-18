@@ -54,7 +54,7 @@
 	^(PFObject *object, NSError *error){
 		if (error != nil)
 		{
-			//TODO: handle error
+			[weakSelf cancelMatching];
 		}
 		else
 		{
@@ -86,14 +86,23 @@
     
 		__weak typeof(self) weakSelf = self;
 		
+		//get current date in PST
+		NSCalendar *cal = [NSCalendar currentCalendar];
+		NSDate *now = [NSDate date];
+		NSDateComponents *pstComponents = [cal components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitMonth fromDate:now];
+		pstComponents.timeZone = [NSTimeZone timeZoneWithName:@"PST"];
+		NSDate *pstDate = [cal dateFromComponents:pstComponents];
+		NSDate *thirtySecondsAgo = [pstDate dateByAddingTimeInterval:-30];
+		
 		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
 		[query whereKey:@"FirstUser" notEqualTo:[PFUser currentUser].objectId];
+		[query whereKey:@"updatedAt" greaterThanOrEqualTo:thirtySecondsAgo];
 		[query getFirstObjectInBackgroundWithBlock:
 		^(PFObject *object, NSError *error){
 			if (error != nil)
 			{
-				//TODO: make a match
+				//make a match
 				PFObject *battle = [PFObject objectWithClassName:@"Game"];
 				battle[@"FirstUser"] = [PFUser currentUser].objectId;
 				battle[@"MoveNumber"] = @(0);
@@ -122,7 +131,7 @@
 				^(BOOL succeeded, NSError *error){
 					if (error != nil)
 					{
-						//TODO: deal with error
+						[weakSelf cancelMatching];
 					}
 					else if (succeeded)
 					{
