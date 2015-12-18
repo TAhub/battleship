@@ -9,3 +9,14 @@
 
 
 
+"seconds left!" = "seconds left!";
+"Waiting for\nopponent's move..." = "Waiting for\nopponent's move...";
+"Waiting for\nopponent to\nplace their ships..." = "Waiting for\nopponent to\nplace their ships...";
+
+"You won!" = "You won!";
+"You lost!" = "You lost!";
+"Battle timed out!" = "Battle timed out!";
+"NEW GAME" = "NEW GAME";
+"Hi %@ your game will be starting soon" = "Hi %@ your game will be starting soon";
+
+

@@ -7,12 +7,16 @@
 //
 
 #import "AppDelegate.h"
+@import AVFoundation;
 
-@interface AppDelegate ()
+@interface AppDelegate ()<AVAudioPlayerDelegate>
 
 @end
 
 @implementation AppDelegate
+
+AVAudioPlayer *_backgroundMusicPlayer;
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -20,9 +24,22 @@
     // Initialize Parse.
     [Parse setApplicationId:@"xIskzMtXvBttoJ2gRFXJqIbc64LRjmGhXQo3Z5Rb"
                   clientKey:@"LqVjmUJf1FcheliOCr0GbuuZbpQuwCOS5OF7tBzE"];
-    
+
+	[self playBackgroundMusic:@"space_fleet_soundtrack.mp3"];
+
 	return YES;
     
+}
+
+- (void)playBackgroundMusic:(NSString *)filename
+{
+	NSError *error;
+	NSURL *backgroundMusicURL = [[NSBundle mainBundle]URLForResource:filename withExtension:nil];
+	_backgroundMusicPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:backgroundMusicURL error:&error];
+	_backgroundMusicPlayer.numberOfLoops = -1;
+	[_backgroundMusicPlayer prepareToPlay];
+	[_backgroundMusicPlayer play];
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "ShipScreen.h"
 #import <Parse/Parse.h>
+@import AVFoundation;
 
 // EventsObserver delegate inheritance.
 @interface GameViewController : UIViewController
+{
+//	SystemSoundID threeExplosionsID;
+}
 
 //this is the current players ships
 @property (strong, nonatomic) ShipScreen *ships;

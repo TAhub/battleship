@@ -10,11 +10,10 @@
 #import "Ship.h"
 #import "StarfieldView.h"
 #import "FadeText.h"
-
-
+#import <AudioToolbox/AudioToolbox.h>
 
 #pragma mark - implementation of class
-@interface GameViewController () 
+@interface GameViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *bigView;
 @property (weak, nonatomic) IBOutlet UIView *smallView;
@@ -41,6 +40,8 @@
 @end
 
 @implementation GameViewController
+
+SystemSoundID _threeExplosionsID;
 
 - (void)viewDidLoad
 {
@@ -87,6 +88,16 @@
 	self.pickedUpShipRestore = nil;
 	
 	self.animating = 0;
+}
+
+#pragma MARK - EXPLOSIONS
+
+- (void)threeBombExplosion
+{
+	NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"3Explosions" ofType:@"mp3"];
+	NSURL *threeExplosionsURL = [NSURL fileURLWithPath:soundPath];
+	AudioServicesCreateSystemSoundID(CFBridgingRetain(threeExplosionsURL),&_threeExplosionsID);
+
 }
 
 -(BOOL)victoryOrDefeatFromModel
@@ -302,7 +313,6 @@
 		self.doneButton.hidden = true;
 		[self reloadBigScreen];
 		
-		
 		NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
 		if ([firstUser isEqualToString:[PFUser currentUser].objectId])
 			self.battleObject[@"FirstFleet"] = [self.ships fleet];
@@ -317,10 +327,14 @@
 			NSArray *fromShipViews = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:ship];
 			NSArray *toShipViews = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:ship];
 			
+			AudioServicesPlaySystemSound(_threeExplosionsID);
+
+			
 			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 			 ^(){
 				 [weakSelf reloadSmallScreen];
 			 }];
+			
 		}
 	}
 }
@@ -434,6 +448,8 @@
 
 -(void)megaExplodeShipInner:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withXs:(NSArray *)xs withYs:(NSArray *)ys andCallback:(void (^)())completion
 {
+	[self threeBombExplosion];
+	
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
 	__weak typeof(self) weakSelf = self;
@@ -453,6 +469,8 @@
 			completion();
 	}];
 }
+
+#pragma MARK - MegaExplosion
 
 -(void)megaExplodeShip:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withDelayPosition:(NSString *)delayPosition andCallback:(void (^)())completion
 {

@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  battleship
+
+  Created by Roman Salazar Lopez on 12/14/15.
+  Copyright © 2015 Roman, Theodore, and Trub. All rights reserved.
+*/
+// "KEY" = "CONTENT";
+
+
+"i seconds left!" = "quedan %i segundos!";
+"Waiting for\nopponent's move..." = "Esperando a tu oponente...";
+"Waiting for\nopponent to\nplace their ships..." = "Esperando que tu oponente coloque sus naves";
+
+"You won!" = "Ganaste!";
+"You lost!" = "Perdiste!";
+"Battle timed out!" = "Se termino el tiempo!";
+"NEW GAME" = "JUEGA";
+"Hi %@ your game will be starting soon" = "Hola %@ tu juego comenzara pronto";
+
+
+
