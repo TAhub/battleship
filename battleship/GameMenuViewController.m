@@ -12,7 +12,8 @@
 #import "StarfieldView.h"
 #import "Constants.h"
 
-@interface GameMenuViewController () <PFLogInViewControllerDelegate>
+
+@interface GameMenuViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *yuhButton;
 @property (weak, nonatomic) IBOutlet StarfieldView *gameView;
@@ -32,6 +33,8 @@
     
     self.gameView.layer.borderWidth = BOARD_BORDER;
     self.gameView.layer.borderColor = [[UIColor blueColor] CGColor];
+	
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
