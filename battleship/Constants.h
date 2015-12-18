@@ -7,8 +7,15 @@
 //
 
 #pragma mark - localization
-//TODO: put constants for localized lines here
 
+#define STRING_TIME_LEFT NSLocalizedString(@"%i seconds left!", nil)
+#define STRING_WAIT_MOVE NSLocalizedString(@"Waiting for\nopponent's move...", nil)
+#define STRING_WAIT_PLACE NSLocalizedString(@"Waiting for\nopponent to\nplace their ships...", nil)
+#define STRING_WIN NSLocalizedString(@"You won!", nil)
+#define STRING_LOSE NSLocalizedString(@"You lost!", nil)
+#define STRING_TIMEOUT NSLocalizedString(@"Battle timed out!", nil)
+#define STRING_NEW_GAME NSLocalizedString(@"NEW GAME", nil)
+#define STRING_GAME_WAIT NSLocalizedString(@"Hi %@ your game will be starting soon", nil)
 
 #pragma mark - enums
 typedef enum
@@ -61,6 +68,7 @@ typedef enum
 #define MARKER_HIT [UIColor colorWithRed:0.5 green:0.25 blue:0.25 alpha:1.0]
 #define MARKER_MISS_FOCUS [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define MARKER_MISS [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]
+#define TRUB_BLUE [UIColor colorWithRed:0.24 green:0.36 blue:0.38 alpha:1.0]
 
 #pragma mark - global functions
 

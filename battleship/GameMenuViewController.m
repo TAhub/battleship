@@ -25,10 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *string = @"NEW GAME";
-    UIFont *font = [UIFont fontWithName:@"Avenir" size:16];
-    UIColor *blue = [UIColor colorWithRed:123/255 green:236/255 blue:252/255 alpha:1.0];
-    NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: blue }];
+    NSString *string = STRING_NEW_GAME;
+    UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
+    NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];
     
     self.gameView.layer.borderWidth = BOARD_BORDER;
@@ -40,6 +39,20 @@
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	
+	//add letterbox views
+	UIView *l1 = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x - 10, self.gameView.frame.origin.y - 10, 10, self.gameView.frame.size.height + 20)];
+	l1.backgroundColor = [UIColor blackColor];
+	[self.view addSubview:l1];
+	UIView *l2 = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x + self.gameView.frame.size.width, self.gameView.frame.origin.y - 10, 10, self.gameView.frame.size.height + 20)];
+	l2.backgroundColor = [UIColor blackColor];
+	[self.view addSubview:l2];
+	
+	//setup starfield border effect
+	UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x - BOARD_BORDER, self.gameView.frame.origin.y - BOARD_BORDER, self.gameView.frame.size.width + 2 * BOARD_BORDER, self.gameView.frame.size.height + 2 * BOARD_BORDER)];
+	borderView.layer.borderWidth = BOARD_BORDER;
+	borderView.layer.borderColor = [[UIColor cyanColor] CGColor];
+	[self.view addSubview:borderView];
 	
 	[self.gameView setupStarfieldWithFineness:0.5f];
 }
