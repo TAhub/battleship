@@ -26,15 +26,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self startMatching];
-    
+    [self setupCancelButton];
+    [self setupStarfield];
+    [self setupSpinner];
+}
+
+- (void)setupStarfield {
+    self.starfieldView.layer.borderWidth = BOARD_BORDER;
+    self.starfieldView.layer.borderColor = [[UIColor cyanColor] CGColor];
+}
+
+- (void)setupCancelButton {
     NSString *string = @"CANCEL";
     UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
     NSAttributedString *cancelButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.cancelButton setAttributedTitle:cancelButton forState: UIControlStateNormal];
-    
-    self.starfieldView.layer.borderWidth = BOARD_BORDER;
-    self.starfieldView.layer.borderColor = [[UIColor cyanColor] CGColor];
+}
 
+- (void)setupSpinner {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
     spinner.tag = 12;
@@ -75,6 +84,8 @@
 	{
 		[self.battle deleteInBackground];
 		[self.navigationController popViewControllerAnimated:YES];
+//        [self checkHeartbeat:(NSTimer *)]
+        NSLog(@"game canceled");
 	}
 }
 

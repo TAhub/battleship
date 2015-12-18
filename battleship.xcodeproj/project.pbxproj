@@ -266,7 +266,7 @@
 				TargetAttributes = {
 					E4F485721C1E6B88007AD778 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 532676UT4G;
+						DevelopmentTeam = 663S48QXDX;
 					};
 				};
 			};
@@ -450,7 +450,7 @@
 					"$(PROJECT_DIR)/parse-library-1.11.0",
 				);
 				INFOPLIST_FILE = battleship/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleship;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -471,7 +471,7 @@
 					"$(PROJECT_DIR)/parse-library-1.11.0",
 				);
 				INFOPLIST_FILE = battleship/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleship;
 				PRODUCT_NAME = "$(TARGET_NAME)";

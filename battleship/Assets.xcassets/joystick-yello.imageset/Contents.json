@@ -2,10 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Oval 2 + Rectangle 96 + Oval 3 Copy 2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Oval 2 + Rectangle 96 + Oval 3 Copy 2@2x.png",
       "scale" : "2x"
     },
     {
