@@ -10,10 +10,14 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import "GameViewController.h"
+#import "StarfieldView.h"
+#import "Constants.h"
 
 @interface GameMatchingViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
+@property (weak, nonatomic) IBOutlet StarfieldView *starfieldView;
 @property (strong, nonatomic) PFObject *battle;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @end
 
@@ -22,7 +26,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self startMatching];
+    
+    NSString *string = @"CANCEL";
+    UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
+    NSAttributedString *cancelButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
+    [self.cancelButton setAttributedTitle:cancelButton forState: UIControlStateNormal];
+    
+    self.starfieldView.layer.borderWidth = BOARD_BORDER;
+    self.starfieldView.layer.borderColor = [[UIColor cyanColor] CGColor];
+
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+    spinner.tag = 12;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
 }
+
+
 
 -(void)checkHeartbeat:(NSTimer *)timer
 {
@@ -53,7 +73,10 @@
 {
 	if ([PFUser currentUser] != nil)
 	{
-		self.waitingLabel.text = [NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]];
+		self.waitingLabel.text = [[NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]] uppercaseString];
+        
+
+  
 		
 		__weak typeof(self) weakSelf = self;
 		
@@ -113,6 +136,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.starfieldView setupStarfieldWithFineness:0.5f];
+
     
     if ([PFUser currentUser] != nil) {
         NSLog(@"good to go %@", [PFUser currentUser]);
