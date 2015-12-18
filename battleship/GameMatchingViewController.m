@@ -69,19 +69,26 @@
 	}];
 }
 
+-(IBAction)cancelMatching
+{
+	if (self.battle != nil)
+	{
+		[self.battle deleteInBackground];
+		[self.navigationController popViewControllerAnimated:YES];
+	}
+}
+
 -(void)startMatching
 {
 	if ([PFUser currentUser] != nil)
 	{
 		self.waitingLabel.text = [[NSString stringWithFormat:@"Hi %@ your game will be starting soon", [[PFUser currentUser] username]] uppercaseString];
-        
-
-  
-		
+    
 		__weak typeof(self) weakSelf = self;
 		
 		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
+		[query whereKey:@"FirstUser" notEqualTo:[PFUser currentUser].objectId];
 		[query getFirstObjectInBackgroundWithBlock:
 		^(PFObject *object, NSError *error){
 			if (error != nil)

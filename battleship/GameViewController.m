@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *voiceButton;
 
 @property (strong, nonatomic) NSDate *beginTime;
+@property int beginPhase;
+
 @property (strong, nonatomic) UIView *timerView;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
@@ -47,6 +49,7 @@
 	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat:) userInfo:nil repeats:YES];
 	
 	self.beginTime = [NSDate date];
+	self.beginPhase = 0;
 	
 	[self resetTimer];
 	
@@ -56,9 +59,9 @@
 	self.voiceButton.layer.cornerRadius = 6;
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
-	self.smallView.layer.borderColor = [[UIColor blueColor] CGColor];
+	self.smallView.layer.borderColor = [[UIColor cyanColor] CGColor];
 	self.bigView.layer.borderWidth = BOARD_BORDER;
-	self.bigView.layer.borderColor = [[UIColor blueColor] CGColor];
+	self.bigView.layer.borderColor = [[UIColor cyanColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
 }
 
@@ -343,7 +346,7 @@
 	
 	//check for opponent crash
 	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
-	int expectedSeconds = (1 + oldMoveNumber) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
+	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + PARSE_HEARTBEAT);
 	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
 	
 	if (timeSinceBeginning > expectedSeconds)
@@ -387,6 +390,10 @@
 						NSString *lastMover = [object valueForKey:@"LastMover"];
 						if (newMoveNumber > oldMoveNumber && ![lastMover isEqualToString:[PFUser currentUser].objectId])
 						{
+							//update begin phase and begin move
+							weakSelf.beginPhase = newMoveNumber;
+							weakSelf.beginTime = [NSDate date];
+							
 							//they made their move
 							NSString *shotAt = [object valueForKey:@"LastMove"];
 							
@@ -673,11 +680,11 @@
 	{
 		FadeText *ft = (FadeText *)self.timerView;
 		int oldTimer = ft.text.intValue;
-		[ft fadeInText:[NSString stringWithFormat:@"%i seconds left!", oldTimer - TIMER_INTERVAL]];
+		[ft fadeInText:[NSString stringWithFormat:STRING_TIME_LEFT, oldTimer - TIMER_INTERVAL]];
 	}
 	else
 	{
-		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:@"%i seconds left!", TIMER_TIMEOUTLENGTH]];
+		self.timerView = [self addFadeTextToScreen:self.view saying:[NSString stringWithFormat:STRING_TIME_LEFT, TIMER_TIMEOUTLENGTH]];
 		((FadeText *)(self.timerView)).textColor = [UIColor whiteColor];
 	}
 }
@@ -809,7 +816,7 @@
 		NSUInteger x = [self xFrom:shot];
 		NSUInteger y = [self yFrom:shot];
 		
-		UIImage *hitMarker = [[UIImage imageNamed:@"patrolBoat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		UIImage *hitMarker = [[UIImage imageNamed:@"hitMark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		
 		CGRect frame = CGRectMake(x * squareWidth, y * squareHeight, squareWidth, squareHeight);
 		if ([shotScreen.hits containsObject:shot])
@@ -885,21 +892,21 @@
 		case kPhaseWait:
 			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
 			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
-			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent's move..."];
+			[self addFadeTextToScreen:self.bigViewInner saying:STRING_WAIT_MOVE];
 			break;
 		case kPhaseWaitForOpponent:
 			[self reloadScreenInitial:self.bigViewInner placeLabels:NO focusTint:NO];
-			[self addFadeTextToScreen:self.bigViewInner saying:@"Waiting for\nopponent to\nplace their ships..."];
+			[self addFadeTextToScreen:self.bigViewInner saying:STRING_WAIT_PLACE];
 			break;
 		case kPhaseOver:
 			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
 			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
 			if ([self.ships defeated])
-				[self addFadeTextToScreen:self.bigViewInner saying:@"You won!"];
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_WIN];
 			else if ([self.shots defeated])
-				[self addFadeTextToScreen:self.bigViewInner saying:@"You lost!"];
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_LOSE];
 			else
-				[self addFadeTextToScreen:self.bigViewInner saying:@"Battle timed out!"];
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_TIMEOUT];
 			break;
 	}
 }
