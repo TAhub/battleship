@@ -12,7 +12,8 @@
 #import "StarfieldView.h"
 #import "Constants.h"
 
-@interface GameMenuViewController () <PFLogInViewControllerDelegate>
+
+@interface GameMenuViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *yuhButton;
 @property (weak, nonatomic) IBOutlet StarfieldView *gameView;
@@ -28,6 +29,11 @@
     UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
     NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];
+    
+    self.gameView.layer.borderWidth = BOARD_BORDER;
+    self.gameView.layer.borderColor = [[UIColor blueColor] CGColor];
+	
+
 }
 
 -(void)viewDidAppear:(BOOL)animated

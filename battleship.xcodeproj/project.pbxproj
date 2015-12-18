@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
+		30AE52C01C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */; };
+		30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */; };
 		E103C82D1C220ECD006A78AF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8271C220ECD006A78AF /* Bolts.framework */; };
 		E103C82E1C220ECD006A78AF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8281C220ECD006A78AF /* Parse.framework */; };
 		E103C82F1C220ECD006A78AF /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8291C220ECD006A78AF /* ParseFacebookUtils.framework */; };
@@ -46,6 +48,9 @@
 		30AE52751C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		30AE52771C1F401D00C2DAF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
+		30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = space_fleet_soundtrack.mp3; sourceTree = "<group>"; };
+		30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 3Explosions.mp3; sourceTree = "<group>"; };
+		30AE52C31C23CFE400C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E103C8271C220ECD006A78AF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		E103C8281C220ECD006A78AF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		E103C8291C220ECD006A78AF /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -181,6 +186,8 @@
 		E4F485761C1E6B88007AD778 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */,
+				30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */,
 				30AE52791C1F403F00C2DAF8 /* Localization */,
 				E4F485791C1E6B88007AD778 /* AppDelegate.h */,
 				E4F4857A1C1E6B88007AD778 /* AppDelegate.m */,
@@ -266,7 +273,7 @@
 				TargetAttributes = {
 					E4F485721C1E6B88007AD778 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 532676UT4G;
+						DevelopmentTeam = C8LRG9WET8;
 					};
 				};
 			};
@@ -277,6 +284,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"es-MX",
 			);
 			mainGroup = E4F4856A1C1E6B88007AD778;
 			productRefGroup = E4F485741C1E6B88007AD778 /* Products */;
@@ -295,8 +303,10 @@
 			files = (
 				E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */,
 				30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */,
+				30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */,
 				E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */,
 				E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */,
+				30AE52C01C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +339,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				30AE52771C1F401D00C2DAF8 /* en */,
+				30AE52C31C23CFE400C2DAF8 /* es-MX */,
 			);
 			name = Localizable.strings;
 			path = ..;
@@ -452,7 +463,7 @@
 				INFOPLIST_FILE = battleship/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleship;
+				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleshi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -473,7 +484,7 @@
 				INFOPLIST_FILE = battleship/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleship;
+				PRODUCT_BUNDLE_IDENTIFIER = trub.RTT.battleshi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
