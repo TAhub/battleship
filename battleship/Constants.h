@@ -7,8 +7,14 @@
 //
 
 #pragma mark - localization
-//TODO: put constants for localized lines here
 
+#define STRING_TIME_LEFT NSLocalizedString(@"%i seconds left!", nil)
+#define STRING_WAIT_MOVE NSLocalizedString(@"Waiting for\nopponent's move...", nil)
+#define STRING_WAIT_PLACE NSLocalizedString(@"Waiting for\nopponent to\nplace their ships...", nil)
+#define STRING_WIN NSLocalizedString(@"You won!", nil)
+#define STRING_LOSE NSLocalizedString(@"You lost!", nil)
+#define STRING_TIMEOUT NSLocalizedString(@"Battle timed out!", nil)
+#define STRING_NEW_GAME NSLocalizedString(@"NEW GAME", nil)
 
 #pragma mark - enums
 typedef enum
