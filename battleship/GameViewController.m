@@ -104,12 +104,14 @@ SystemSoundID _threeExplosionsID;
 {
 	if (self.ships.defeated)
 	{
-		//TODO: defeat
+		[self.timer invalidate];
+		[self.tickTimer invalidate];
 		return true;
 	}
 	if (self.shots.defeated)
 	{
-		//TODO: victory
+		[self.timer invalidate];
+		[self.tickTimer invalidate];
 		return true;
 	}
 	return false;
@@ -342,10 +344,17 @@ SystemSoundID _threeExplosionsID;
 
 #pragma mark - parse heartbeat
 
+-(void)returnTimer:(NSTimer *)timer
+{
+	//pop back to root
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(void)parseHeartbeat:(NSTimer *)timer
 {
 	if (self.ships.phase == kPhaseOver)
 	{
+		[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(returnTimer:) userInfo:nil repeats:NO];
 		[timer invalidate];
 		return;
 	}
@@ -370,6 +379,7 @@ SystemSoundID _threeExplosionsID;
 		[self reloadBigScreen];
 		[self reloadSmallScreen];
 		
+		[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(returnTimer:) userInfo:nil repeats:NO];
 		[timer invalidate];
 		return;
 	}

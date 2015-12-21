@@ -13,11 +13,12 @@
 #import "StarfieldView.h"
 #import "Constants.h"
 
-@interface GameMatchingViewController ()
+@interface GameMatchingViewController () <PFLogInViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
 @property (weak, nonatomic) IBOutlet StarfieldView *starfieldView;
 @property (strong, nonatomic) PFObject *battle;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (strong, nonatomic) NSTimer *updateHeartbeat;
 
 @end
 
@@ -74,6 +75,11 @@
 				[timer invalidate];
 				[weakSelf performSegueWithIdentifier:@"startGameSegue" sender:weakSelf];
 			}
+			else
+			{
+				//update the updatedAt
+				[object saveInBackground];
+			}
 		}
 	}];
 }
@@ -84,7 +90,7 @@
 	{
 		[self.battle deleteInBackground];
 		[self.navigationController popViewControllerAnimated:YES];
-//        [self checkHeartbeat:(NSTimer *)]
+		[self.updateHeartbeat invalidate];
         NSLog(@"game canceled");
 	}
 }
@@ -100,15 +106,18 @@
 		//get current date in PST
 		NSCalendar *cal = [NSCalendar currentCalendar];
 		NSDate *now = [NSDate date];
-		NSDateComponents *pstComponents = [cal components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitMonth fromDate:now];
+		NSDateComponents *pstComponents = [cal components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitDay | NSCalendarUnitMonth fromDate:now];
 		pstComponents.timeZone = [NSTimeZone timeZoneWithName:@"PST"];
 		NSDate *pstDate = [cal dateFromComponents:pstComponents];
 		NSDate *thirtySecondsAgo = [pstDate dateByAddingTimeInterval:-30];
+		
+		NSLog(@"Looking for games made after %@.", thirtySecondsAgo);
 		
 		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
 		[query whereKey:@"FirstUser" notEqualTo:[PFUser currentUser].objectId];
 		[query whereKey:@"updatedAt" greaterThanOrEqualTo:thirtySecondsAgo];
+		
 		[query getFirstObjectInBackgroundWithBlock:
 		^(PFObject *object, NSError *error){
 			if (error != nil)
@@ -131,7 +140,7 @@
 				 }];
 				weakSelf.battle = battle;
 				
-				[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
+				self.updateHeartbeat = [NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
 			}
 			else if (object != nil)
 			{
@@ -143,6 +152,7 @@
 					if (error != nil)
 					{
 						[weakSelf cancelMatching];
+						[self.updateHeartbeat invalidate];
 					}
 					else if (succeeded)
 					{

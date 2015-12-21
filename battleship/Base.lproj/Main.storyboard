@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FfQ-ai-fG9">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -26,7 +25,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="390"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.62271255630630629" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BG-shot" translatesAutoresizingMaskIntoConstraints="NO" id="cmw-M7-Zxi">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="BG-shot" translatesAutoresizingMaskIntoConstraints="NO" id="cmw-M7-Zxi">
                                         <rect key="frame" x="225" y="220" width="110" height="163"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="N7k-mx-EDA"/>
@@ -249,7 +248,7 @@
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.67220931869369371" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAg-JD-fis">
-                                        <rect key="frame" x="30" y="0.0" width="314" height="100"/>
+                                        <rect key="frame" x="30" y="0.0" width="500" height="100"/>
                                         <color key="backgroundColor" red="0.94914478063583374" green="0.94930726289749146" blue="0.94913452863693237" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="J1f-7D-7nT"/>
@@ -286,7 +285,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-              <action selector="cancelMatching" destination="PE2-z9-rjf" eventType="touchUpInside" id="KjA-5b-inn"/>
+                                    <action selector="cancelMatching" destination="PE2-z9-rjf" eventType="touchUpInside" id="KjA-5b-inn"/>
                                 </connections>
                             </button>
                         </subviews>
