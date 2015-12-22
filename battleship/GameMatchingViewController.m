@@ -12,6 +12,7 @@
 #import "GameViewController.h"
 #import "StarfieldView.h"
 #import "Constants.h"
+#import "CustomSpinnerView.h"
 
 @interface GameMatchingViewController () <PFLogInViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
@@ -29,7 +30,6 @@
 	[self startMatching];
     [self setupCancelButton];
     [self setupStarfield];
-    [self setupSpinner];
 }
 
 - (void)setupStarfield {
@@ -45,11 +45,17 @@
 }
 
 - (void)setupSpinner {
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
-    spinner.tag = 12;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
+//    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+//    spinner.tag = 12;
+//    [self.view addSubview:spinner];
+//    [spinner startAnimating];
+	
+	//set up custom spinner
+	CustomSpinnerView *spinner = [CustomSpinnerView new];
+	spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+	[self.view addSubview:spinner];
+	[spinner startAnimatingWithMessage:[[NSString stringWithFormat: STRING_GAME_WAIT, [[PFUser currentUser] username]] uppercaseString]];
 }
 
 
@@ -100,7 +106,7 @@
 {
 	if ([PFUser currentUser] != nil)
 	{
-		self.waitingLabel.text = [[NSString stringWithFormat: STRING_GAME_WAIT, [[PFUser currentUser] username]] uppercaseString];
+		[self setupSpinner];
     
 		__weak typeof(self) weakSelf = self;
 		
