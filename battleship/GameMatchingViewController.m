@@ -78,6 +78,7 @@
 			else
 			{
 				//update the updatedAt
+				object[@"random"] = @(arc4random_uniform(9999));
 				[object saveInBackground];
 			}
 		}
