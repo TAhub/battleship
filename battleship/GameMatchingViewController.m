@@ -55,7 +55,7 @@
 	CustomSpinnerView *spinner = [CustomSpinnerView new];
 	spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
 	[self.view addSubview:spinner];
-	[spinner startAnimatingWithMessage:[[NSString stringWithFormat: STRING_GAME_WAIT, [[PFUser currentUser] username]] uppercaseString]];
+	[spinner startAnimatingWithMessage:STRING_GAME_WAITING];
 }
 
 
@@ -106,6 +106,7 @@
 {
 	if ([PFUser currentUser] != nil)
 	{
+		self.waitingLabel.text = [[NSString stringWithFormat: STRING_GAME_WAIT, [[PFUser currentUser] username]] uppercaseString];
 		[self setupSpinner];
     
 		__weak typeof(self) weakSelf = self;

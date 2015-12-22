@@ -16,6 +16,7 @@
 #define STRING_TIMEOUT NSLocalizedString(@"Battle timed out!", nil)
 #define STRING_NEW_GAME NSLocalizedString(@"NEW GAME", nil)
 #define STRING_GAME_WAIT NSLocalizedString(@"Hi %@ your game will be starting soon", nil)
+#define STRING_GAME_WAITING NSLocalizedString(@"Waiting...", nil)
 
 #pragma mark - enums
 typedef enum
@@ -68,7 +69,11 @@ typedef enum
 #define MARKER_HIT [UIColor colorWithRed:0.5 green:0.25 blue:0.25 alpha:1.0]
 #define MARKER_MISS_FOCUS [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define MARKER_MISS [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]
-#define TRUB_BLUE [UIColor colorWithRed:0.24 green:0.36 blue:0.38 alpha:1.0]
+#define SPINNER_LENGTH 0.2
+#define SPINNER_COLUMNS 5
+#define SPINNER_ROWS 4
+#define SPINNER_OFFSET 0.05
+#define SPINNER_HOLD 0.7
 
 #pragma mark - global functions
 
