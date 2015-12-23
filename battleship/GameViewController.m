@@ -369,7 +369,7 @@ SystemSoundID _threeExplosionsID;
 	
 	//check for opponent crash
 	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
-	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + PARSE_HEARTBEAT);
+	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
 	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
 	
 	if (timeSinceBeginning > expectedSeconds)
