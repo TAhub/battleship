@@ -74,6 +74,7 @@ typedef enum
 #define SPINNER_ROWS 4
 #define SPINNER_OFFSET 0.05
 #define SPINNER_HOLD 0.7
+#define RANDOM_TRIES 200
 
 #pragma mark - global functions
 

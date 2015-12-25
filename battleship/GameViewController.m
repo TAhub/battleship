@@ -26,7 +26,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *rotButton;
-@property (weak, nonatomic) IBOutlet UIButton *voiceButton;
+@property (weak, nonatomic) IBOutlet UIButton *randButton;
+
 
 @property (strong, nonatomic) NSDate *beginTime;
 @property int beginPhase;
@@ -57,7 +58,7 @@ SystemSoundID _threeExplosionsID;
 	//set borders
 	self.doneButton.layer.cornerRadius = 6;
 	self.rotButton.layer.cornerRadius = 6;
-	self.voiceButton.layer.cornerRadius = 6;
+	self.randButton.layer.cornerRadius = 6;
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
 	self.smallView.layer.borderColor = [[UIColor cyanColor] CGColor];
@@ -269,9 +270,54 @@ SystemSoundID _threeExplosionsID;
 	}
 }
 
-- (IBAction)toggleVoice
+- (IBAction)randShips
 {
+	if (self.animating > 0) { return; }
+	
+	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
+	{
+		//get ship images of every ship
+		NSMutableArray *images = [NSMutableArray new];
+		for (Ship *ship in self.ships.ships)
+			[images addObject: [self shipViews:self.bigViewInner withShipScreen:self.ships ship:ship]];
+		
+		//remove all ships from the ships screen
+		[self.ships.ships removeAllObjects];
+		
+		//keep trying to randomize the layout until it works
+		while (![self randomizeShipLayoutInner])
+			[self.ships.ships removeAllObjects];
+		
+		//everything snaps into position, because I can't easily handle rotation here
+		[self reloadBigScreen];
+	}
 }
+
+-(BOOL)randomizeShipLayoutInner
+{
+	//place the ships at random, one-by-one
+	for (int i = 0; i < SHIP_TYPES; i++)
+	{
+		for (int j = 0;; j++)
+		{
+			if (j == RANDOM_TRIES)
+				return false;
+			
+			//pick a random position
+			int x = arc4random_uniform(BOARD_WIDTH);
+			int y = arc4random_uniform(BOARD_HEIGHT);
+			
+			//pick a random rotation
+			BOOL rotation = arc4random_uniform(2) == 0;
+			
+			//try to place a ship there
+			if ([self.ships placeShipAtPosition:positionFrom([self.ships rowLabels][y], [self.ships columnLabels][x]) withRotation:rotation andType:i])
+				break;
+		}
+	}
+	return true;
+}
+
 
 -(void)setupMatch
 {
@@ -312,6 +358,7 @@ SystemSoundID _threeExplosionsID;
 		self.ships.phase = kPhaseWaitForOpponent;
 		[self.ships reloadLabels];
 		self.rotButton.hidden = true;
+		self.randButton.hidden = true;
 		self.doneButton.hidden = true;
 		[self reloadBigScreen];
 		
