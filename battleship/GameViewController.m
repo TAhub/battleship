@@ -56,9 +56,10 @@ SystemSoundID _threeExplosionsID;
 	[self resetTimer];
 	
 	//set borders
-	self.doneButton.layer.cornerRadius = 6;
-	self.rotButton.layer.cornerRadius = 6;
-	self.randButton.layer.cornerRadius = 6;
+//	self.doneButton.layer.cornerRadius = 6;
+//	self.rotButton.layer.cornerRadius = 6;
+//	self.randButton.layer.cornerRadius = 6;
+	
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
 	self.smallView.layer.borderColor = [[UIColor cyanColor] CGColor];
@@ -72,6 +73,16 @@ SystemSoundID _threeExplosionsID;
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	
+	
+	//tint color the buttons
+	[self.doneButton setImage: [self.doneButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	[self.rotButton setImage: [self.rotButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	[self.randButton setImage: [self.randButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	self.doneButton.tintColor = [UIColor cyanColor];
+	self.rotButton.tintColor = [UIColor cyanColor];
+	self.randButton.tintColor = [UIColor cyanColor];
+	
 	
 	[(StarfieldView *)(self.view) setupStarfieldWithFineness:1];
 	

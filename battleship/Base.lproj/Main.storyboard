@@ -333,20 +333,18 @@
                                     <constraint firstAttribute="width" secondItem="hWH-rt-Rey" secondAttribute="height" multiplier="4:5" id="IFK-T3-bYf"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Xm-wp-Nhm">
-                                <rect key="frame" x="285" y="171" width="30" height="32"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <state key="normal" title="Rot"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Xm-wp-Nhm">
+                                <rect key="frame" x="285" y="171" width="32" height="32"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="update17"/>
                                 <connections>
                                     <action selector="rotate" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wtd-SE-jYp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fCO-GI-AjJ">
-                                <rect key="frame" x="90" y="171" width="39" height="32"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <state key="normal" title="Done"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fCO-GI-AjJ">
+                                <rect key="frame" x="97" y="171" width="32" height="32"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="checked21"/>
                                 <connections>
                                     <action selector="done" destination="BYZ-38-t0r" eventType="touchUpInside" id="x0z-ZF-sUB"/>
                                 </connections>
@@ -364,10 +362,10 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnk-Uq-wwj">
-                                <rect key="frame" x="285" y="133" width="36" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Rand"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnk-Uq-wwj">
+                                <rect key="frame" x="285" y="131" width="32" height="32"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="dice9"/>
                                 <connections>
                                     <action selector="randShips" destination="BYZ-38-t0r" eventType="touchUpInside" id="2DK-bN-9Vv"/>
                                 </connections>
@@ -466,6 +464,9 @@
         <image name="Icon-coin" width="36" height="33"/>
         <image name="button-red" width="23" height="14"/>
         <image name="button-white" width="23" height="14"/>
+        <image name="checked21" width="32" height="32"/>
+        <image name="dice9" width="32" height="32"/>
         <image name="joystick-yello" width="38" height="64"/>
+        <image name="update17" width="32" height="32"/>
     </resources>
 </document>
