@@ -36,6 +36,8 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
 
+@property (strong, nonatomic) AVAudioPlayer *threeBombExplosion;
+
 @property int animating;
 
 @end
@@ -107,9 +109,8 @@ SystemSoundID _threeExplosionsID;
 - (void)threeBombExplosion
 {
 	NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"3Explosions" ofType:@"mp3"];
-	NSURL *threeExplosionsURL = [NSURL fileURLWithPath:soundPath];
-	AudioServicesCreateSystemSoundID(CFBridgingRetain(threeExplosionsURL),&_threeExplosionsID);
-
+	NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+	self.threeBombExplosion = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
 }
 
 -(BOOL)victoryOrDefeatFromModel
@@ -360,6 +361,8 @@ SystemSoundID _threeExplosionsID;
 
 - (IBAction)done
 {
+	[self threeBombExplosion];
+	
 	if (self.animating > 0) { return; }
 	
 	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
@@ -386,10 +389,6 @@ SystemSoundID _threeExplosionsID;
 		{
 			NSArray *fromShipViews = [self shipViews:self.bigViewInner withShipScreen:self.ships ship:ship];
 			NSArray *toShipViews = [self shipViews:self.smallViewInner withShipScreen:self.ships ship:ship];
-			
-			AudioServicesPlaySystemSound(_threeExplosionsID);
-
-			
 			[self shipPartTranslateFrom:fromShipViews to:toShipViews fromScreen:self.bigViewInner toScreen:self.smallViewInner completion:
 			 ^(){
 				 [weakSelf reloadSmallScreen];
