@@ -29,6 +29,7 @@
 		E103C8491C22116E006A78AF /* GameMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E103C8481C22116E006A78AF /* GameMenuViewController.m */; };
 		E103C84C1C221704006A78AF /* GameMatchingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E103C84B1C221704006A78AF /* GameMatchingViewController.m */; };
 		E103C8521C223097006A78AF /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = E103C8511C223097006A78AF /* CustomSegue.m */; };
+		E426E1B51C2909000054CBFA /* CustomSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E426E1B41C2909000054CBFA /* CustomSpinnerView.m */; };
 		E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B07B3A1C2087A200E0BF0B /* FadeText.m */; };
 		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
 		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
@@ -73,6 +74,8 @@
 		E103C84B1C221704006A78AF /* GameMatchingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameMatchingViewController.m; sourceTree = "<group>"; };
 		E103C8501C223097006A78AF /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
 		E103C8511C223097006A78AF /* CustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSegue.m; sourceTree = "<group>"; };
+		E426E1B31C2909000054CBFA /* CustomSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSpinnerView.h; sourceTree = "<group>"; };
+		E426E1B41C2909000054CBFA /* CustomSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSpinnerView.m; sourceTree = "<group>"; };
 		E4B07B391C2087A200E0BF0B /* FadeText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeText.h; sourceTree = "<group>"; };
 		E4B07B3A1C2087A200E0BF0B /* FadeText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeText.m; sourceTree = "<group>"; };
 		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +221,8 @@
 		E4F4858E1C1E6BE9007AD778 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E426E1B31C2909000054CBFA /* CustomSpinnerView.h */,
+				E426E1B41C2909000054CBFA /* CustomSpinnerView.m */,
 				E103C8501C223097006A78AF /* CustomSegue.h */,
 				E103C8511C223097006A78AF /* CustomSegue.m */,
 				E4F485A21C1F9214007AD778 /* StarfieldView.h */,
@@ -322,6 +327,7 @@
 				E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */,
 				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
 				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
+				E426E1B51C2909000054CBFA /* CustomSpinnerView.m in Sources */,
 				E103C84C1C221704006A78AF /* GameMatchingViewController.m in Sources */,
 				E103C8491C22116E006A78AF /* GameMenuViewController.m in Sources */,
 				E4F485781C1E6B88007AD778 /* main.m in Sources */,

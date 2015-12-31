@@ -13,7 +13,7 @@
 #import "Constants.h"
 
 
-@interface GameMenuViewController ()
+@interface GameMenuViewController () <PFLogInViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *yuhButton;
 @property (weak, nonatomic) IBOutlet StarfieldView *gameView;

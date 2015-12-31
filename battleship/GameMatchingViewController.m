@@ -12,12 +12,14 @@
 #import "GameViewController.h"
 #import "StarfieldView.h"
 #import "Constants.h"
+#import "CustomSpinnerView.h"
 
-@interface GameMatchingViewController ()
+@interface GameMatchingViewController () <PFLogInViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
 @property (weak, nonatomic) IBOutlet StarfieldView *starfieldView;
 @property (strong, nonatomic) PFObject *battle;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (strong, nonatomic) NSTimer *updateHeartbeat;
 
 @end
 
@@ -28,7 +30,6 @@
 	[self startMatching];
     [self setupCancelButton];
     [self setupStarfield];
-    [self setupSpinner];
 }
 
 - (void)setupStarfield {
@@ -44,11 +45,17 @@
 }
 
 - (void)setupSpinner {
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
-    spinner.tag = 12;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
+//    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+//    spinner.tag = 12;
+//    [self.view addSubview:spinner];
+//    [spinner startAnimating];
+	
+	//set up custom spinner
+	CustomSpinnerView *spinner = [CustomSpinnerView new];
+	spinner.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+	[self.view addSubview:spinner];
+	[spinner startAnimatingWithMessage:STRING_GAME_WAITING];
 }
 
 
@@ -74,6 +81,12 @@
 				[timer invalidate];
 				[weakSelf performSegueWithIdentifier:@"startGameSegue" sender:weakSelf];
 			}
+			else
+			{
+				//update the updatedAt
+				object[@"random"] = @(arc4random_uniform(9999));
+				[object saveInBackground];
+			}
 		}
 	}];
 }
@@ -84,7 +97,7 @@
 	{
 		[self.battle deleteInBackground];
 		[self.navigationController popViewControllerAnimated:YES];
-//        [self checkHeartbeat:(NSTimer *)]
+		[self.updateHeartbeat invalidate];
         NSLog(@"game canceled");
 	}
 }
@@ -94,21 +107,25 @@
 	if ([PFUser currentUser] != nil)
 	{
 		self.waitingLabel.text = [[NSString stringWithFormat: STRING_GAME_WAIT, [[PFUser currentUser] username]] uppercaseString];
+		[self setupSpinner];
     
 		__weak typeof(self) weakSelf = self;
 		
 		//get current date in PST
 		NSCalendar *cal = [NSCalendar currentCalendar];
 		NSDate *now = [NSDate date];
-		NSDateComponents *pstComponents = [cal components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitMonth fromDate:now];
+		NSDateComponents *pstComponents = [cal components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitDay | NSCalendarUnitMonth fromDate:now];
 		pstComponents.timeZone = [NSTimeZone timeZoneWithName:@"PST"];
 		NSDate *pstDate = [cal dateFromComponents:pstComponents];
 		NSDate *thirtySecondsAgo = [pstDate dateByAddingTimeInterval:-30];
+		
+		NSLog(@"Looking for games made after %@.", thirtySecondsAgo);
 		
 		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
 		[query whereKey:@"FirstUser" notEqualTo:[PFUser currentUser].objectId];
 		[query whereKey:@"updatedAt" greaterThanOrEqualTo:thirtySecondsAgo];
+		
 		[query getFirstObjectInBackgroundWithBlock:
 		^(PFObject *object, NSError *error){
 			if (error != nil)
@@ -131,7 +148,7 @@
 				 }];
 				weakSelf.battle = battle;
 				
-				[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
+				self.updateHeartbeat = [NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:weakSelf selector:@selector(checkHeartbeat:) userInfo:nil repeats:YES];
 			}
 			else if (object != nil)
 			{
@@ -143,6 +160,7 @@
 					if (error != nil)
 					{
 						[weakSelf cancelMatching];
+						[self.updateHeartbeat invalidate];
 					}
 					else if (succeeded)
 					{

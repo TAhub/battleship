@@ -26,7 +26,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *rotButton;
-@property (weak, nonatomic) IBOutlet UIButton *voiceButton;
+@property (weak, nonatomic) IBOutlet UIButton *randButton;
+
 
 @property (strong, nonatomic) NSDate *beginTime;
 @property int beginPhase;
@@ -55,9 +56,10 @@ SystemSoundID _threeExplosionsID;
 	[self resetTimer];
 	
 	//set borders
-	self.doneButton.layer.cornerRadius = 6;
-	self.rotButton.layer.cornerRadius = 6;
-	self.voiceButton.layer.cornerRadius = 6;
+//	self.doneButton.layer.cornerRadius = 6;
+//	self.rotButton.layer.cornerRadius = 6;
+//	self.randButton.layer.cornerRadius = 6;
+	
 	self.smallView.layer.cornerRadius = 10;
 	self.smallView.layer.borderWidth = BOARD_BORDER;
 	self.smallView.layer.borderColor = [[UIColor cyanColor] CGColor];
@@ -71,6 +73,16 @@ SystemSoundID _threeExplosionsID;
 -(void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	
+	
+	//tint color the buttons
+	[self.doneButton setImage: [self.doneButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	[self.rotButton setImage: [self.rotButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	[self.randButton setImage: [self.randButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	self.doneButton.tintColor = [UIColor cyanColor];
+	self.rotButton.tintColor = [UIColor cyanColor];
+	self.randButton.tintColor = [UIColor cyanColor];
+	
 	
 	[(StarfieldView *)(self.view) setupStarfieldWithFineness:1];
 	
@@ -104,12 +116,14 @@ SystemSoundID _threeExplosionsID;
 {
 	if (self.ships.defeated)
 	{
-		//TODO: defeat
+		[self.timer invalidate];
+		[self.tickTimer invalidate];
 		return true;
 	}
 	if (self.shots.defeated)
 	{
-		//TODO: victory
+		[self.timer invalidate];
+		[self.tickTimer invalidate];
 		return true;
 	}
 	return false;
@@ -267,9 +281,54 @@ SystemSoundID _threeExplosionsID;
 	}
 }
 
-- (IBAction)toggleVoice
+- (IBAction)randShips
 {
+	if (self.animating > 0) { return; }
+	
+	if (self.ships.phase == kPhasePlace && self.pickedUpShip == nil)
+	{
+		//get ship images of every ship
+		NSMutableArray *images = [NSMutableArray new];
+		for (Ship *ship in self.ships.ships)
+			[images addObject: [self shipViews:self.bigViewInner withShipScreen:self.ships ship:ship]];
+		
+		//remove all ships from the ships screen
+		[self.ships.ships removeAllObjects];
+		
+		//keep trying to randomize the layout until it works
+		while (![self randomizeShipLayoutInner])
+			[self.ships.ships removeAllObjects];
+		
+		//everything snaps into position, because I can't easily handle rotation here
+		[self reloadBigScreen];
+	}
 }
+
+-(BOOL)randomizeShipLayoutInner
+{
+	//place the ships at random, one-by-one
+	for (int i = 0; i < SHIP_TYPES; i++)
+	{
+		for (int j = 0;; j++)
+		{
+			if (j == RANDOM_TRIES)
+				return false;
+			
+			//pick a random position
+			int x = arc4random_uniform(BOARD_WIDTH);
+			int y = arc4random_uniform(BOARD_HEIGHT);
+			
+			//pick a random rotation
+			BOOL rotation = arc4random_uniform(2) == 0;
+			
+			//try to place a ship there
+			if ([self.ships placeShipAtPosition:positionFrom([self.ships rowLabels][y], [self.ships columnLabels][x]) withRotation:rotation andType:i])
+				break;
+		}
+	}
+	return true;
+}
+
 
 -(void)setupMatch
 {
@@ -310,6 +369,7 @@ SystemSoundID _threeExplosionsID;
 		self.ships.phase = kPhaseWaitForOpponent;
 		[self.ships reloadLabels];
 		self.rotButton.hidden = true;
+		self.randButton.hidden = true;
 		self.doneButton.hidden = true;
 		[self reloadBigScreen];
 		
@@ -342,10 +402,17 @@ SystemSoundID _threeExplosionsID;
 
 #pragma mark - parse heartbeat
 
+-(void)returnTimer:(NSTimer *)timer
+{
+	//pop back to root
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(void)parseHeartbeat:(NSTimer *)timer
 {
 	if (self.ships.phase == kPhaseOver)
 	{
+		[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(returnTimer:) userInfo:nil repeats:NO];
 		[timer invalidate];
 		return;
 	}
@@ -360,7 +427,7 @@ SystemSoundID _threeExplosionsID;
 	
 	//check for opponent crash
 	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
-	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + PARSE_HEARTBEAT);
+	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
 	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
 	
 	if (timeSinceBeginning > expectedSeconds)
@@ -370,6 +437,7 @@ SystemSoundID _threeExplosionsID;
 		[self reloadBigScreen];
 		[self reloadSmallScreen];
 		
+		[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(returnTimer:) userInfo:nil repeats:NO];
 		[timer invalidate];
 		return;
 	}
