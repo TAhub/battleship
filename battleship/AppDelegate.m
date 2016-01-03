@@ -37,6 +37,7 @@ AVAudioPlayer *_backgroundMusicPlayer;
 	NSURL *backgroundMusicURL = [[NSBundle mainBundle]URLForResource:filename withExtension:nil];
 	_backgroundMusicPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:backgroundMusicURL error:&error];
 	_backgroundMusicPlayer.numberOfLoops = -1;
+	_backgroundMusicPlayer.volume = 0.5;
 	[_backgroundMusicPlayer prepareToPlay];
 	[_backgroundMusicPlayer play];
 

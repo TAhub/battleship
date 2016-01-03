@@ -11,6 +11,7 @@
 #import "StarfieldView.h"
 #import "FadeText.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 
 #pragma mark - implementation of class
 @interface GameViewController ()
@@ -36,7 +37,7 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
 
-@property (strong, nonatomic) AVAudioPlayer *threeBombExplosion;
+@property (strong, nonatomic) AVAudioPlayer *_threeBombExplosion;
 
 @property int animating;
 
@@ -68,6 +69,12 @@ SystemSoundID _threeExplosionsID;
 	self.bigView.layer.borderWidth = BOARD_BORDER;
 	self.bigView.layer.borderColor = [[UIColor cyanColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
+	
+	// Construct URL to sound file.
+	NSString *path = [NSString stringWithFormat:@"%@/3Explosions.mp3", [[NSBundle mainBundle] resourcePath]];
+	NSURL *soundURL = [NSURL fileURLWithPath:path];
+	// Create an Audio Player Object.
+	__threeBombExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
 }
 
 #pragma mark - view controller stuff
@@ -106,12 +113,12 @@ SystemSoundID _threeExplosionsID;
 
 #pragma MARK - EXPLOSIONS
 
-- (void)threeBombExplosion
-{
-	NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"3Explosions" ofType:@"mp3"];
-	NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
-	self.threeBombExplosion = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
-}
+//- (void)multipleBoombs
+//{
+//	NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"3Explosions" ofType:@"mp3"];
+//	NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+//	self.threeBombExplosion = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
+//}
 
 -(BOOL)victoryOrDefeatFromModel
 {
@@ -361,7 +368,7 @@ SystemSoundID _threeExplosionsID;
 
 - (IBAction)done
 {
-	[self threeBombExplosion];
+	[__threeBombExplosion play];
 	
 	if (self.animating > 0) { return; }
 	
@@ -514,9 +521,7 @@ SystemSoundID _threeExplosionsID;
 }
 
 -(void)megaExplodeShipInner:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withXs:(NSArray *)xs withYs:(NSArray *)ys andCallback:(void (^)())completion
-{
-	[self threeBombExplosion];
-	
+{	
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
 	__weak typeof(self) weakSelf = self;
