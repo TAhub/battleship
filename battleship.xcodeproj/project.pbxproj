@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300ED6DB1C3AE091005EADF2 /* spaceFleetSoundTrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED6DA1C3AE091005EADF2 /* spaceFleetSoundTrack.mp3 */; };
+		300ED6DD1C3AE2D3005EADF2 /* failedExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED6DC1C3AE2D3005EADF2 /* failedExplosion.mp3 */; };
+		300ED6DF1C3AE2E8005EADF2 /* smallExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED6DE1C3AE2E8005EADF2 /* smallExplosion.mp3 */; };
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
 		30AE52C01C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */; };
 		30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */; };
@@ -45,10 +48,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		300ED6DA1C3AE091005EADF2 /* spaceFleetSoundTrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = spaceFleetSoundTrack.mp3; path = ../../../../../Documents/spaceFleetSoundTrack.mp3; sourceTree = "<group>"; };
+		300ED6DC1C3AE2D3005EADF2 /* failedExplosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = failedExplosion.mp3; path = ../../../../../Downloads/failedExplosion.mp3; sourceTree = "<group>"; };
+		300ED6DE1C3AE2E8005EADF2 /* smallExplosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = smallExplosion.mp3; path = ../../../../../Downloads/smallExplosion.mp3; sourceTree = "<group>"; };
 		30AE52741C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
 		30AE52751C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		30AE52771C1F401D00C2DAF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoiceCommands .h"; sourceTree = "<group>"; };
 		30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = space_fleet_soundtrack.mp3; sourceTree = "<group>"; };
 		30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 3Explosions.mp3; sourceTree = "<group>"; };
 		30AE52C31C23CFE400C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -189,6 +194,9 @@
 		E4F485761C1E6B88007AD778 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				300ED6DE1C3AE2E8005EADF2 /* smallExplosion.mp3 */,
+				300ED6DC1C3AE2D3005EADF2 /* failedExplosion.mp3 */,
+				300ED6DA1C3AE091005EADF2 /* spaceFleetSoundTrack.mp3 */,
 				30AE52BF1C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 */,
 				30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */,
 				30AE52791C1F403F00C2DAF8 /* Localization */,
@@ -213,7 +221,6 @@
 				E4F4859A1C1F35E6007AD778 /* ShipScreen.m */,
 				E4F485961C1E7BFE007AD778 /* Constants.h */,
 				E4F485AB1C1FA14F007AD778 /* Constants.m */,
-				30AE52801C1F88DB00C2DAF8 /* VoiceCommands .h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -307,11 +314,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */,
+				300ED6DF1C3AE2E8005EADF2 /* smallExplosion.mp3 in Resources */,
+				300ED6DB1C3AE091005EADF2 /* spaceFleetSoundTrack.mp3 in Resources */,
 				30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */,
 				30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */,
 				E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */,
 				E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */,
 				30AE52C01C2384F200C2DAF8 /* space_fleet_soundtrack.mp3 in Resources */,
+				300ED6DD1C3AE2D3005EADF2 /* failedExplosion.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

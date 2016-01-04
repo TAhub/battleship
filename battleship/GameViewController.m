@@ -10,7 +10,6 @@
 #import "Ship.h"
 #import "StarfieldView.h"
 #import "FadeText.h"
-#import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
 #pragma mark - implementation of class
@@ -37,7 +36,9 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
 
-@property (strong, nonatomic) AVAudioPlayer *_threeBombExplosion;
+@property (strong, nonatomic) AVAudioPlayer *_largeExplosion;
+@property (strong, nonatomic) AVAudioPlayer *faildExplosion;
+@property (strong, nonatomic) AVAudioPlayer *smallExplosion;
 
 @property int animating;
 
@@ -45,7 +46,7 @@
 
 @implementation GameViewController
 
-SystemSoundID _threeExplosionsID;
+//SystemSoundID _threeExplosionsID;
 
 - (void)viewDidLoad
 {
@@ -70,11 +71,21 @@ SystemSoundID _threeExplosionsID;
 	self.bigView.layer.borderColor = [[UIColor cyanColor] CGColor];
 	self.bigView.layer.cornerRadius = 10;
 	
-	// Construct URL to sound file.
 	NSString *path = [NSString stringWithFormat:@"%@/3Explosions.mp3", [[NSBundle mainBundle] resourcePath]];
 	NSURL *soundURL = [NSURL fileURLWithPath:path];
-	// Create an Audio Player Object.
-	__threeBombExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
+	__largeExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
+	__largeExplosion.volume = 0.7;
+	
+	NSString *smallPath = [NSString stringWithFormat:@"%@/smallExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
+	NSURL *soundUrl = [NSURL fileURLWithPath:smallPath];
+	_smallExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundUrl error:nil];
+	_smallExplosion.volume = 0.7;
+	
+	NSString *failedpath = [NSString stringWithFormat:@"%@/failedExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
+	NSURL *soundURl = [NSURL fileURLWithPath:failedpath];
+	_faildExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURl error:nil];
+	_faildExplosion.volume = 0.7;
+	
 }
 
 #pragma mark - view controller stuff
@@ -110,15 +121,6 @@ SystemSoundID _threeExplosionsID;
 	
 	self.animating = 0;
 }
-
-#pragma MARK - EXPLOSIONS
-
-//- (void)multipleBoombs
-//{
-//	NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"3Explosions" ofType:@"mp3"];
-//	NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
-//	self.threeBombExplosion = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
-//}
 
 -(BOOL)victoryOrDefeatFromModel
 {
@@ -368,7 +370,6 @@ SystemSoundID _threeExplosionsID;
 
 - (IBAction)done
 {
-	[__threeBombExplosion play];
 	
 	if (self.animating > 0) { return; }
 	
@@ -405,6 +406,31 @@ SystemSoundID _threeExplosionsID;
 	}
 }
 
+#pragma mark - EXPLOSIONS
+
+//- (void)multipleExplosions
+//{
+////	NSString *path = [NSString stringWithFormat:@"%@/3Explosions.mp3", [[NSBundle mainBundle] resourcePath]];
+////	NSURL *soundURL = [NSURL fileURLWithPath:path];
+////	__largeExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
+////	__largeExplosion.volume = 0.7;
+//}
+//
+//- (void)singleExplosion
+//{
+////	NSString *path = [NSString stringWithFormat:@"%@/smallExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
+////	NSURL *soundURL = [NSURL fileURLWithPath:path];
+////	_smallExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
+////	_smallExplosion.volume = 0.6;
+//}
+//
+//- (void)missiedShot
+//{
+//	NSString *path = [NSString stringWithFormat:@"%@/failedExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
+//	NSURL *soundURL = [NSURL fileURLWithPath:path];
+//	_faildExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
+//	_faildExplosion.volume = 0.6;
+//}
 
 #pragma mark - parse heartbeat
 
@@ -521,7 +547,9 @@ SystemSoundID _threeExplosionsID;
 }
 
 -(void)megaExplodeShipInner:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withXs:(NSArray *)xs withYs:(NSArray *)ys andCallback:(void (^)())completion
-{	
+{
+	[__largeExplosion play];
+
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
 	__weak typeof(self) weakSelf = self;
@@ -589,6 +617,8 @@ SystemSoundID _threeExplosionsID;
 
 -(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andMagnifier:(CGFloat)magnifier andDurationMod:(CGFloat)durationMod andCallback:(void (^)())completion
 {
+	[_smallExplosion play];
+	
 	self.animating += 1;
 	
 	NSMutableArray *flares = [NSMutableArray new];
@@ -636,6 +666,8 @@ SystemSoundID _threeExplosionsID;
 
 -(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view inScreen:(ShipScreen *)screen withCallback:(void (^)())completion
 {
+	[_faildExplosion play];
+
 	__weak typeof(self) weakSelf = self;
 	
 	CGFloat magnifier = 1;
@@ -699,7 +731,7 @@ SystemSoundID _threeExplosionsID;
 }
 
 -(void)shipPartTranslateFrom:(NSArray *)from to:(NSArray *)to fromScreen:(UIView *)fromScreen toScreen:(UIView *)toScreen completion:(void (^)())completion
-{
+{	
 	self.animating += 1;
 	__weak typeof(self) weakSelf = self;
 	for (UIView *view in from)
@@ -707,8 +739,6 @@ SystemSoundID _threeExplosionsID;
 		view.frame = [self.view convertRect:view.frame fromCoordinateSpace:fromScreen];
 		[self.view addSubview:view];
 	}
-	
-	
 	[UIView animateWithDuration:SHIP_ANIM_LENGTH animations:
 	 ^(){
 		 for (NSUInteger i = 0; i < from.count; i++)
@@ -804,6 +834,7 @@ SystemSoundID _threeExplosionsID;
 
 -(void)reloadScreenInitial:(UIView *)screen placeLabels:(BOOL)labels focusTint:(BOOL)focus
 {
+	
 	for (UIView *subview in screen.subviews)
 		[subview removeFromSuperview];
 	
@@ -913,6 +944,8 @@ SystemSoundID _threeExplosionsID;
 		{
 			if (!missesOnly)
 			{
+				[_faildExplosion play];
+
 				Ship *shipAt = [self.shots shipAtPosition:shot];
 				if ([self.shots shipAlive:shipAt])
 				{

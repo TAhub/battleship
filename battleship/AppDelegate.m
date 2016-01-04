@@ -25,7 +25,7 @@ AVAudioPlayer *_backgroundMusicPlayer;
     [Parse setApplicationId:@"xIskzMtXvBttoJ2gRFXJqIbc64LRjmGhXQo3Z5Rb"
                   clientKey:@"LqVjmUJf1FcheliOCr0GbuuZbpQuwCOS5OF7tBzE"];
 
-	[self playBackgroundMusic:@"space_fleet_soundtrack.mp3"];
+	[self playBackgroundMusic:@"spaceFleetSoundTrack.mp3"];
 
 	return YES;
     
@@ -37,9 +37,9 @@ AVAudioPlayer *_backgroundMusicPlayer;
 	NSURL *backgroundMusicURL = [[NSBundle mainBundle]URLForResource:filename withExtension:nil];
 	_backgroundMusicPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:backgroundMusicURL error:&error];
 	_backgroundMusicPlayer.numberOfLoops = -1;
-	_backgroundMusicPlayer.volume = 0.5;
+	_backgroundMusicPlayer.volume = 0.4;
 	[_backgroundMusicPlayer prepareToPlay];
-	[_backgroundMusicPlayer play];
+//	[_backgroundMusicPlayer play];
 
 }
 
