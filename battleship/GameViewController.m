@@ -548,8 +548,6 @@
 
 -(void)megaExplodeShipInner:(Ship *)ship inView:(UIView *)view inScreen:(ShipScreen *)screen withMagnifier:(CGFloat)magnifier withXs:(NSArray *)xs withYs:(NSArray *)ys andCallback:(void (^)())completion
 {
-	[__largeExplosion play];
-
 	CGFloat squareWidth = view.frame.size.width / BOARD_WIDTH;
 	CGFloat squareHeight = view.frame.size.height / BOARD_HEIGHT;
 	__weak typeof(self) weakSelf = self;
@@ -605,6 +603,8 @@
 	^(BOOL success){
 		[weakSelf megaExplodeShipInner:ship inView:view inScreen:screen withMagnifier:magnifier withXs:xs withYs:ys andCallback:
 		^(){
+			[__largeExplosion play];
+			
 			//do the mega explosion
 			[weakSelf explosionAnimAround:CGPointMake(xCenter, yCenter) withRadius:(squareHeight + squareWidth) / 4 andMagnifier:EXPLODE_MAG_MEGA andDurationMod:1 + positions.count / 5 andCallback:
 			^(){
@@ -723,6 +723,8 @@
 			  }];
 		 else
 		 {
+			 [_faildExplosion play];
+			 
 			 [weakSelf reloadBigScreen];
 			 completion();
 			 weakSelf.animating -= 1;
