@@ -8,7 +8,7 @@
 // "KEY" = "CONTENT";
 
 
-"i seconds left!" = "quedan %i segundos!";
+"%i seconds left!" = "%i segundos restantes!";
 "Waiting for\nopponent's move..." = "Esperando a tu oponente...";
 "Waiting for\nopponent to\nplace their ships..." = "Esperando que tu oponente coloque sus naves";
 
@@ -17,6 +17,8 @@
 "Battle timed out!" = "Se termino el tiempo!";
 "NEW GAME" = "JUEGA";
 "Hi %@ your game will be starting soon" = "Hola %@ tu juego comenzara pronto";
+"Waiting..." = "Esperando...";
+"CANCEL" = "CANCELAR";
 
 
 
