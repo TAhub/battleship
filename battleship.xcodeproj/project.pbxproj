@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		300ED70F1C3B7744005EADF2 /* failedExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70C1C3B7744005EADF2 /* failedExplosion.mp3 */; };
 		300ED7101C3B7744005EADF2 /* smallExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70D1C3B7744005EADF2 /* smallExplosion.mp3 */; };
-		300ED7111C3B7744005EADF2 /* spaceFleetSoundTrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70E1C3B7744005EADF2 /* spaceFleetSoundTrack.mp3 */; };
+		300ED7151C3C3234005EADF2 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED7141C3C3234005EADF2 /* backgroundMusic.mp3 */; };
 		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
 		30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */; };
 		E103C82D1C220ECD006A78AF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8271C220ECD006A78AF /* Bolts.framework */; };
@@ -49,7 +49,7 @@
 /* Begin PBXFileReference section */
 		300ED70C1C3B7744005EADF2 /* failedExplosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failedExplosion.mp3; sourceTree = "<group>"; };
 		300ED70D1C3B7744005EADF2 /* smallExplosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = smallExplosion.mp3; sourceTree = "<group>"; };
-		300ED70E1C3B7744005EADF2 /* spaceFleetSoundTrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = spaceFleetSoundTrack.mp3; sourceTree = "<group>"; };
+		300ED7141C3C3234005EADF2 /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 		30AE52741C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
 		30AE52751C1F3F9B00C2DAF8 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		30AE52771C1F401D00C2DAF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -192,9 +192,9 @@
 		E4F485761C1E6B88007AD778 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				300ED7141C3C3234005EADF2 /* backgroundMusic.mp3 */,
 				300ED70C1C3B7744005EADF2 /* failedExplosion.mp3 */,
 				300ED70D1C3B7744005EADF2 /* smallExplosion.mp3 */,
-				300ED70E1C3B7744005EADF2 /* spaceFleetSoundTrack.mp3 */,
 				30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */,
 				30AE52791C1F403F00C2DAF8 /* Localization */,
 				E4F485791C1E6B88007AD778 /* AppDelegate.h */,
@@ -310,9 +310,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				300ED7111C3B7744005EADF2 /* spaceFleetSoundTrack.mp3 in Resources */,
 				E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */,
 				30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */,
+				300ED7151C3C3234005EADF2 /* backgroundMusic.mp3 in Resources */,
 				300ED7101C3B7744005EADF2 /* smallExplosion.mp3 in Resources */,
 				30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */,
 				300ED70F1C3B7744005EADF2 /* failedExplosion.mp3 in Resources */,
