@@ -20,6 +20,7 @@
 @property (strong, nonatomic) PFObject *battle;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (strong, nonatomic) NSTimer *updateHeartbeat;
+@property BOOL startedSpinner;
 
 @end
 
@@ -27,9 +28,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	self.startedSpinner = false;
 	[self startMatching];
     [self setupCancelButton];
     [self setupStarfield];
+	
+	if ([PFUser currentUser] != nil)
+	{
+		[self setupSpinner];
+		self.startedSpinner = true;
+	}
 }
 
 - (void)setupStarfield {
@@ -63,6 +71,12 @@
 -(void)checkHeartbeat:(NSTimer *)timer
 {
 	NSLog(@"Check user heartbeat");
+	
+	if (!self.startedSpinner && [PFUser currentUser] != nil)
+	{
+		[self setupSpinner];
+		self.startedSpinner = true;
+	}
 	
 	__weak typeof(self) weakSelf = self;
 	
@@ -107,7 +121,6 @@
 	if ([PFUser currentUser] != nil)
 	{
 		self.waitingLabel.text = [[NSString stringWithFormat: STRING_GAME_WAIT, [[PFUser currentUser] username]] uppercaseString];
-		[self setupSpinner];
     
 		__weak typeof(self) weakSelf = self;
 		
