@@ -36,7 +36,7 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *tickTimer;
 
-@property (strong, nonatomic) AVAudioPlayer *_largeExplosion;
+@property (strong, nonatomic) AVAudioPlayer *largeExplosion;
 @property (strong, nonatomic) AVAudioPlayer *faildExplosion;
 @property (strong, nonatomic) AVAudioPlayer *smallExplosion;
 
@@ -73,8 +73,8 @@
 	
 	NSString *path = [NSString stringWithFormat:@"%@/3Explosions.mp3", [[NSBundle mainBundle] resourcePath]];
 	NSURL *soundURL = [NSURL fileURLWithPath:path];
-	__largeExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
-	__largeExplosion.volume = 0.7;
+	_largeExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURL error:nil];
+	_largeExplosion.volume = 0.7;
 	
 	NSString *smallPath = [NSString stringWithFormat:@"%@/smallExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
 	NSURL *soundUrl = [NSURL fileURLWithPath:smallPath];
@@ -514,7 +514,7 @@
 							NSLog(@"Entered turn %@ through opponent action.", [object valueForKey:@"MoveNumber"]);
 							
 							BOOL hit = [weakSelf.ships attackPosition:shotAt];
-							[self shotAnimFromY:weakSelf.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:shotAt isHit:hit inView:self.smallView inScreen:self.ships withCallback:
+							[weakSelf shotAnimFromY:weakSelf.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:shotAt isHit:hit inView:weakSelf.smallView inScreen:weakSelf.ships withCallback:
 							^(){
 								if ([weakSelf victoryOrDefeatFromModel])
 									weakSelf.ships.phase = kPhaseOver;
@@ -603,7 +603,7 @@
 	^(BOOL success){
 		[weakSelf megaExplodeShipInner:ship inView:view inScreen:screen withMagnifier:magnifier withXs:xs withYs:ys andCallback:
 		^(){
-			[__largeExplosion play];
+			[weakSelf.largeExplosion play];
 			
 			//do the mega explosion
 			[weakSelf explosionAnimAround:CGPointMake(xCenter, yCenter) withRadius:(squareHeight + squareWidth) / 4 andMagnifier:EXPLODE_MAG_MEGA andDurationMod:1 + positions.count / 5 andCallback:
@@ -617,7 +617,8 @@
 
 -(void)explosionAnimAround:(CGPoint)center withRadius:(CGFloat)radius andMagnifier:(CGFloat)magnifier andDurationMod:(CGFloat)durationMod andCallback:(void (^)())completion
 {
-	[_smallExplosion play];
+	[self.smallExplosion setCurrentTime:0.0];
+	[self.smallExplosion play];
 	
 	self.animating += 1;
 	
@@ -666,8 +667,6 @@
 
 -(void)shotAnimFromY:(CGFloat)y toPosition:(NSString *)position isHit:(BOOL)hit inView:(UIView *)view inScreen:(ShipScreen *)screen withCallback:(void (^)())completion
 {
-	[_faildExplosion play];
-
 	__weak typeof(self) weakSelf = self;
 	
 	CGFloat magnifier = 1;
@@ -723,7 +722,7 @@
 			  }];
 		 else
 		 {
-			 [_faildExplosion play];
+			 [weakSelf.faildExplosion play];
 			 
 			 [weakSelf reloadBigScreen];
 			 completion();
@@ -946,8 +945,6 @@
 		{
 			if (!missesOnly)
 			{
-				[_faildExplosion play];
-
 				Ship *shipAt = [self.shots shipAtPosition:shot];
 				if ([self.shots shipAlive:shipAt])
 				{
@@ -1027,9 +1024,9 @@
 			[self reloadScreenInitial:self.bigViewInner placeLabels:YES focusTint:NO];
 			[self drawShots:self.bigViewInner fromScreen:self.shots missesOnly:NO focusTint:NO];
 			if ([self.ships defeated])
-				[self addFadeTextToScreen:self.bigViewInner saying:STRING_WIN];
-			else if ([self.shots defeated])
 				[self addFadeTextToScreen:self.bigViewInner saying:STRING_LOSE];
+			else if ([self.shots defeated])
+				[self addFadeTextToScreen:self.bigViewInner saying:STRING_WIN];
 			else
 				[self addFadeTextToScreen:self.bigViewInner saying:STRING_TIMEOUT];
 			break;
