@@ -38,7 +38,7 @@
 }
 
 - (void)setupCancelButton {
-    NSString *string = @"CANCEL";
+    NSString *string = STRING_CANCEL;
     UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
     NSAttributedString *cancelButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.cancelButton setAttributedTitle:cancelButton forState: UIControlStateNormal];
@@ -212,6 +212,7 @@
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
     [self dismissViewControllerAnimated:YES completion:nil];
 	[self startMatching];
+	[self.starfieldView unloadStars:self];
 }
 
 

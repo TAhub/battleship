@@ -63,7 +63,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFS-zq-sIo">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BG-logo" translatesAutoresizingMaskIntoConstraints="NO" id="wjF-4K-rx0">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BG-logo" translatesAutoresizingMaskIntoConstraints="NO" id="wjF-4K-rx0" userLabel="title">
                                         <rect key="frame" x="138" y="33" width="323" height="61"/>
                                         <color key="backgroundColor" red="0.44763135910000001" green="1" blue="0.83771246669999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
@@ -75,7 +75,7 @@
                                     <constraint firstAttribute="height" constant="125" id="mZ9-Pm-Wd8"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="joystick-yello" translatesAutoresizingMaskIntoConstraints="NO" id="BCT-Nz-GQU">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="joystick-yello" translatesAutoresizingMaskIntoConstraints="NO" id="BCT-Nz-GQU" userLabel="joystick">
                                 <rect key="frame" x="281" y="473" width="37" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="gbk-BD-K9B"/>
@@ -88,7 +88,7 @@
                                 </variation>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzM-qB-LRu">
-                                <rect key="frame" x="600" y="553" width="0.0" height="2"/>
+                                <rect key="frame" x="20" y="553" width="580" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="Ayv-CA-AVk"/>
@@ -119,42 +119,42 @@
                                     <segue destination="PE2-z9-rjf" kind="show" identifier="test" id="7pG-yx-djw"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-coin" translatesAutoresizingMaskIntoConstraints="NO" id="sod-r3-G0k">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-coin" translatesAutoresizingMaskIntoConstraints="NO" id="sod-r3-G0k" userLabel="coin1">
                                 <rect key="frame" x="20" y="570" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="VLI-a2-d7h"/>
                                     <constraint firstAttribute="width" constant="25" id="ktV-aw-s1C"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-coin" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-BW-s4e">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-coin" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-BW-s4e" userLabel="coin2">
                                 <rect key="frame" x="555" y="570" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="7q8-53-GKh"/>
                                     <constraint firstAttribute="height" constant="25" id="LzL-Fs-ZSb"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-red" translatesAutoresizingMaskIntoConstraints="NO" id="XNP-PH-JLU">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-red" translatesAutoresizingMaskIntoConstraints="NO" id="XNP-PH-JLU" userLabel="button3">
                                 <rect key="frame" x="502" y="528" width="25" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="fFA-U9-2kN"/>
                                     <constraint firstAttribute="width" constant="25" id="gef-N7-bpC"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-white" translatesAutoresizingMaskIntoConstraints="NO" id="OHm-bG-agE">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-white" translatesAutoresizingMaskIntoConstraints="NO" id="OHm-bG-agE" userLabel="button1">
                                 <rect key="frame" x="40" y="528" width="25" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="4wV-vY-kma"/>
                                     <constraint firstAttribute="width" constant="25" id="9jN-6G-qa6"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-red" translatesAutoresizingMaskIntoConstraints="NO" id="yMR-7E-fPp">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-red" translatesAutoresizingMaskIntoConstraints="NO" id="yMR-7E-fPp" userLabel="button4">
                                 <rect key="frame" x="535" y="528" width="25" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="qRg-O6-GqD"/>
                                     <constraint firstAttribute="width" constant="25" id="sLW-JM-92O"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-white" translatesAutoresizingMaskIntoConstraints="NO" id="2I6-WJ-KtI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button-white" translatesAutoresizingMaskIntoConstraints="NO" id="2I6-WJ-KtI" userLabel="button2">
                                 <rect key="frame" x="73" y="528" width="25" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="439-3q-zna"/>
@@ -162,6 +162,12 @@
                                     <constraint firstAttribute="width" constant="25" id="D27-EG-kYl"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="14" id="wdB-pN-kUb"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="439-3q-zna"/>
+                                        <exclude reference="wdB-pN-kUb"/>
+                                    </mask>
+                                </variation>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -203,12 +209,14 @@
                             <constraint firstItem="qzM-qB-LRu" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" constant="600" id="jqk-c2-4UB"/>
                             <constraint firstAttribute="trailing" secondItem="yMR-7E-fPp" secondAttribute="trailing" constant="40" id="krI-Oh-exI"/>
                             <constraint firstItem="2I6-WJ-KtI" firstAttribute="leading" secondItem="OHm-bG-agE" secondAttribute="trailing" constant="8" id="qys-gD-spF"/>
+                            <constraint firstItem="qzM-qB-LRu" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leadingMargin" id="wb9-43-Faf"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Aaj-Vj-EPc"/>
                                 <exclude reference="WIX-5I-Dnn"/>
                                 <exclude reference="igZ-lb-ImU"/>
+                                <exclude reference="jqk-c2-4UB"/>
                             </mask>
                         </variation>
                     </view>

@@ -10,6 +10,7 @@
 
 @interface StarfieldView : UIView
 
+-(void)unloadStars:(id)sender;
 -(void)setupStarfieldWithFineness:(CGFloat)fineness;
 
 @end

@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Space Fleet.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>battleship copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>battleship.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +22,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>E41507661C3B8C5E00C2BD82</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E41507941C3B8C7000C2BD82</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E4F485721C1E6B88007AD778</key>
 		<dict>
 			<key>primary</key>
