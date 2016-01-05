@@ -79,12 +79,12 @@
 	NSString *smallPath = [NSString stringWithFormat:@"%@/smallExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
 	NSURL *soundUrl = [NSURL fileURLWithPath:smallPath];
 	_smallExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundUrl error:nil];
-	_smallExplosion.volume = 0.7;
+	_smallExplosion.volume = 0.6;
 	
 	NSString *failedpath = [NSString stringWithFormat:@"%@/failedExplosion.mp3", [[NSBundle mainBundle] resourcePath]];
 	NSURL *soundURl = [NSURL fileURLWithPath:failedpath];
 	_faildExplosion = [[AVAudioPlayer alloc]initWithContentsOfURL:soundURl error:nil];
-	_faildExplosion.volume = 0.7;
+	_faildExplosion.volume = 0.6;
 	
 }
 

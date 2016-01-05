@@ -39,7 +39,7 @@ AVAudioPlayer *_backgroundMusicPlayer;
 	_backgroundMusicPlayer.numberOfLoops = -1;
 	_backgroundMusicPlayer.volume = 0.4;
 	[_backgroundMusicPlayer prepareToPlay];
-//	[_backgroundMusicPlayer play];
+	[_backgroundMusicPlayer play];
 
 }
 
