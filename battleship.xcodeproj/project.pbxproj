@@ -7,29 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		300ED70F1C3B7744005EADF2 /* failedExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70C1C3B7744005EADF2 /* failedExplosion.mp3 */; };
-		300ED7101C3B7744005EADF2 /* smallExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70D1C3B7744005EADF2 /* smallExplosion.mp3 */; };
-		300ED7151C3C3234005EADF2 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED7141C3C3234005EADF2 /* backgroundMusic.mp3 */; };
-		30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
-		30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52C11C23A4FF00C2DAF8 /* 3Explosions.mp3 */; };
-		E103C82D1C220ECD006A78AF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8271C220ECD006A78AF /* Bolts.framework */; };
-		E103C82E1C220ECD006A78AF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8281C220ECD006A78AF /* Parse.framework */; };
-		E103C82F1C220ECD006A78AF /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8291C220ECD006A78AF /* ParseFacebookUtils.framework */; };
-		E103C8301C220ECD006A78AF /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C82A1C220ECD006A78AF /* ParseFacebookUtilsV4.framework */; };
-		E103C8311C220ECD006A78AF /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C82B1C220ECD006A78AF /* ParseTwitterUtils.framework */; };
-		E103C8321C220ECD006A78AF /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C82C1C220ECD006A78AF /* ParseUI.framework */; };
-		E103C83D1C220F22006A78AF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8331C220F22006A78AF /* AudioToolbox.framework */; };
-		E103C83E1C220F22006A78AF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8341C220F22006A78AF /* CFNetwork.framework */; };
-		E103C83F1C220F22006A78AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8351C220F22006A78AF /* CoreGraphics.framework */; };
-		E103C8401C220F22006A78AF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8361C220F22006A78AF /* CoreLocation.framework */; };
-		E103C8411C220F22006A78AF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8371C220F22006A78AF /* libsqlite3.tbd */; };
-		E103C8421C220F22006A78AF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8381C220F22006A78AF /* libz.tbd */; };
-		E103C8431C220F22006A78AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8391C220F22006A78AF /* QuartzCore.framework */; };
-		E103C8441C220F22006A78AF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C83A1C220F22006A78AF /* Security.framework */; };
-		E103C8461C220F22006A78AF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C83C1C220F22006A78AF /* SystemConfiguration.framework */; };
-		E103C8491C22116E006A78AF /* GameMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E103C8481C22116E006A78AF /* GameMenuViewController.m */; };
-		E103C84C1C221704006A78AF /* GameMatchingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E103C84B1C221704006A78AF /* GameMatchingViewController.m */; };
-		E103C8521C223097006A78AF /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = E103C8511C223097006A78AF /* CustomSegue.m */; };
 		E41507961C3B8C7000C2BD82 /* ShotScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859C1C1F35F2007AD778 /* ShotScreen.m */; };
 		E41507971C3B8C7000C2BD82 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
 		E41507981C3B8C7000C2BD82 /* FadeText.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B07B3A1C2087A200E0BF0B /* FadeText.m */; };
@@ -66,19 +43,6 @@
 		E41507BA1C3B8C7000C2BD82 /* failedExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70C1C3B7744005EADF2 /* failedExplosion.mp3 */; };
 		E41507BB1C3B8C7000C2BD82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4F485821C1E6B88007AD778 /* Assets.xcassets */; };
 		E41507BC1C3B8C7000C2BD82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
-		E426E1B51C2909000054CBFA /* CustomSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E426E1B41C2909000054CBFA /* CustomSpinnerView.m */; };
-		E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B07B3A1C2087A200E0BF0B /* FadeText.m */; };
-		E4F485781C1E6B88007AD778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485771C1E6B88007AD778 /* main.m */; };
-		E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4857A1C1E6B88007AD778 /* AppDelegate.m */; };
-		E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
-		E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4F485821C1E6B88007AD778 /* Assets.xcassets */; };
-		E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F485841C1E6B88007AD778 /* LaunchScreen.storyboard */; };
-		E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485941C1E71E5007AD778 /* GameViewController.m */; };
-		E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859A1C1F35E6007AD778 /* ShipScreen.m */; };
-		E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859C1C1F35F2007AD778 /* ShotScreen.m */; };
-		E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F4859E1C1F4A10007AD778 /* Ship.m */; };
-		E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485A31C1F9214007AD778 /* StarfieldView.m */; };
-		E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F485AB1C1FA14F007AD778 /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,7 +82,6 @@
 		E426E1B41C2909000054CBFA /* CustomSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSpinnerView.m; sourceTree = "<group>"; };
 		E4B07B391C2087A200E0BF0B /* FadeText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeText.h; sourceTree = "<group>"; };
 		E4B07B3A1C2087A200E0BF0B /* FadeText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeText.m; sourceTree = "<group>"; };
-		E4F485731C1E6B88007AD778 /* battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = battleship.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F485771C1E6B88007AD778 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4F485791C1E6B88007AD778 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E4F4857A1C1E6B88007AD778 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -160,28 +123,6 @@
 				E41507B11C3B8C7000C2BD82 /* ParseFacebookUtilsV4.framework in Frameworks */,
 				E41507B21C3B8C7000C2BD82 /* ParseFacebookUtils.framework in Frameworks */,
 				E41507B31C3B8C7000C2BD82 /* ParseTwitterUtils.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4F485701C1E6B88007AD778 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E103C83D1C220F22006A78AF /* AudioToolbox.framework in Frameworks */,
-				E103C83E1C220F22006A78AF /* CFNetwork.framework in Frameworks */,
-				E103C83F1C220F22006A78AF /* CoreGraphics.framework in Frameworks */,
-				E103C8401C220F22006A78AF /* CoreLocation.framework in Frameworks */,
-				E103C8411C220F22006A78AF /* libsqlite3.tbd in Frameworks */,
-				E103C8421C220F22006A78AF /* libz.tbd in Frameworks */,
-				E103C8431C220F22006A78AF /* QuartzCore.framework in Frameworks */,
-				E103C8441C220F22006A78AF /* Security.framework in Frameworks */,
-				E103C8461C220F22006A78AF /* SystemConfiguration.framework in Frameworks */,
-				E103C8321C220ECD006A78AF /* ParseUI.framework in Frameworks */,
-				E103C82E1C220ECD006A78AF /* Parse.framework in Frameworks */,
-				E103C82D1C220ECD006A78AF /* Bolts.framework in Frameworks */,
-				E103C8301C220ECD006A78AF /* ParseFacebookUtilsV4.framework in Frameworks */,
-				E103C82F1C220ECD006A78AF /* ParseFacebookUtils.framework in Frameworks */,
-				E103C8311C220ECD006A78AF /* ParseTwitterUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +173,6 @@
 		E4F485741C1E6B88007AD778 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E4F485731C1E6B88007AD778 /* battleship.app */,
 				E41507C01C3B8C7000C2BD82 /* Space Fleet.app */,
 			);
 			name = Products;
@@ -331,23 +271,6 @@
 			productReference = E41507C01C3B8C7000C2BD82 /* Space Fleet.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E4F485721C1E6B88007AD778 /* battleship */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E4F4858A1C1E6B88007AD778 /* Build configuration list for PBXNativeTarget "battleship" */;
-			buildPhases = (
-				E4F4856F1C1E6B88007AD778 /* Sources */,
-				E4F485701C1E6B88007AD778 /* Frameworks */,
-				E4F485711C1E6B88007AD778 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = battleship;
-			productName = battleship;
-			productReference = E4F485731C1E6B88007AD778 /* battleship.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -365,10 +288,6 @@
 							};
 						};
 					};
-					E4F485721C1E6B88007AD778 = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = C8LRG9WET8;
-					};
 				};
 			};
 			buildConfigurationList = E4F4856E1C1E6B88007AD778 /* Build configuration list for PBXProject "battleship" */;
@@ -385,7 +304,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E4F485721C1E6B88007AD778 /* battleship */,
 				E41507941C3B8C7000C2BD82 /* Space Fleet */,
 			);
 		};
@@ -404,21 +322,6 @@
 				E41507BA1C3B8C7000C2BD82 /* failedExplosion.mp3 in Resources */,
 				E41507BB1C3B8C7000C2BD82 /* Assets.xcassets in Resources */,
 				E41507BC1C3B8C7000C2BD82 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4F485711C1E6B88007AD778 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E4F485861C1E6B88007AD778 /* LaunchScreen.storyboard in Resources */,
-				30AE52761C1F401D00C2DAF8 /* Localizable.strings in Resources */,
-				300ED7151C3C3234005EADF2 /* backgroundMusic.mp3 in Resources */,
-				300ED7101C3B7744005EADF2 /* smallExplosion.mp3 in Resources */,
-				30AE52C21C23A4FF00C2DAF8 /* 3Explosions.mp3 in Resources */,
-				300ED70F1C3B7744005EADF2 /* failedExplosion.mp3 in Resources */,
-				E4F485831C1E6B88007AD778 /* Assets.xcassets in Resources */,
-				E4F485811C1E6B88007AD778 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,26 +345,6 @@
 				E41507A01C3B8C7000C2BD82 /* ShipScreen.m in Sources */,
 				E41507A11C3B8C7000C2BD82 /* Ship.m in Sources */,
 				E41507A21C3B8C7000C2BD82 /* Constants.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4F4856F1C1E6B88007AD778 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E4F4859D1C1F35F2007AD778 /* ShotScreen.m in Sources */,
-				E4F4857B1C1E6B88007AD778 /* AppDelegate.m in Sources */,
-				E4B07B3B1C2087A200E0BF0B /* FadeText.m in Sources */,
-				E4F485951C1E71E5007AD778 /* GameViewController.m in Sources */,
-				E4F485A41C1F9214007AD778 /* StarfieldView.m in Sources */,
-				E426E1B51C2909000054CBFA /* CustomSpinnerView.m in Sources */,
-				E103C84C1C221704006A78AF /* GameMatchingViewController.m in Sources */,
-				E103C8491C22116E006A78AF /* GameMenuViewController.m in Sources */,
-				E4F485781C1E6B88007AD778 /* main.m in Sources */,
-				E103C8521C223097006A78AF /* CustomSegue.m in Sources */,
-				E4F4859B1C1F35E6007AD778 /* ShipScreen.m in Sources */,
-				E4F4859F1C1F4A10007AD778 /* Ship.m in Sources */,
-				E4F485AC1C1FA14F007AD778 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,48 +506,6 @@
 			};
 			name = Release;
 		};
-		E4F4858B1C1E6B88007AD778 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/battleship/Framework",
-					"$(PROJECT_DIR)/parse-library-1.11.0",
-				);
-				INFOPLIST_FILE = battleship/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = battleShip;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-			};
-			name = Debug;
-		};
-		E4F4858C1C1E6B88007AD778 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/battleship/Framework",
-					"$(PROJECT_DIR)/parse-library-1.11.0",
-				);
-				INFOPLIST_FILE = battleship/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = battleShip;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -682,15 +523,6 @@
 			buildConfigurations = (
 				E4F485881C1E6B88007AD778 /* Debug */,
 				E4F485891C1E6B88007AD778 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E4F4858A1C1E6B88007AD778 /* Build configuration list for PBXNativeTarget "battleship" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E4F4858B1C1E6B88007AD778 /* Debug */,
-				E4F4858C1C1E6B88007AD778 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
