@@ -70,7 +70,7 @@
 
 -(void)checkHeartbeat:(NSTimer *)timer
 {
-	NSLog(@"Check user heartbeat");
+//	NSLog(@"Check user heartbeat");
 	
 	if (!self.startedSpinner && [PFUser currentUser] != nil)
 	{
@@ -112,7 +112,7 @@
 		[self.battle deleteInBackground];
 		[self.navigationController popViewControllerAnimated:YES];
 		[self.updateHeartbeat invalidate];
-        NSLog(@"game canceled");
+//        NSLog(@"game canceled");
 	}
 }
 
@@ -132,7 +132,7 @@
 		NSDate *pstDate = [cal dateFromComponents:pstComponents];
 		NSDate *thirtySecondsAgo = [pstDate dateByAddingTimeInterval:-30];
 		
-		NSLog(@"Looking for games made after %@.", thirtySecondsAgo);
+//		NSLog(@"Looking for games made after %@.", thirtySecondsAgo);
 		
 		PFQuery *query = [PFQuery queryWithClassName:@"Game"];
 		[query whereKeyDoesNotExist:@"SecondUser"];
@@ -152,11 +152,11 @@
 				 {
 					 if (succeeded)
 					 {
-						 NSLog(@"Game created!");
+//						 NSLog(@"Game created!");
 					 }
 					 else
 					 {
-						 NSLog(@"Game not created for some reason!");
+//						 NSLog(@"Game not created for some reason!");
 					 }
 				 }];
 				weakSelf.battle = battle;
@@ -199,7 +199,7 @@
 
     
     if ([PFUser currentUser] != nil) {
-        NSLog(@"good to go %@", [PFUser currentUser]);
+//        NSLog(@"good to go %@", [PFUser currentUser]);
     } else {
         [self login];
     }

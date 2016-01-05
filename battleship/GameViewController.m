@@ -147,7 +147,7 @@
 
 -(void)pressPosition:(NSString *)position
 {
-	NSLog(@"big screen: %@", position);
+//	NSLog(@"big screen: %@", position);
 	
 	if (self.animating > 0) { return; }
 	
@@ -170,7 +170,7 @@
 					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
 					[weakSelf.battleObject saveInBackground];
 					
-					NSLog(@"Entered turn %@ through own action.", [weakSelf.battleObject valueForKey:@"MoveNumber"]);
+//					NSLog(@"Entered turn %@ through own action.", [weakSelf.battleObject valueForKey:@"MoveNumber"]);
 					
 					if ([weakSelf victoryOrDefeatFromModel])
 						weakSelf.ships.phase = kPhaseOver;
@@ -449,7 +449,7 @@
 		return;
 	}
 	
-	NSLog(@"Parse heartbeat turn %@!", [self.battleObject valueForKey:@"MoveNumber"]);
+//	NSLog(@"Parse heartbeat turn %@!", [self.battleObject valueForKey:@"MoveNumber"]);
 	
 	if (self.animating > 1) { return; }
 	
@@ -460,7 +460,7 @@
 	//check for opponent crash
 	NSTimeInterval timeSinceBeginning = [[NSDate date] timeIntervalSinceDate:self.beginTime];
 	int expectedSeconds = (1 + oldMoveNumber - self.beginPhase) * (TIMER_WARNINGLENGTH + TIMER_TIMEOUTLENGTH + 3 * PARSE_HEARTBEAT);
-	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
+//	NSLog(@"Current time is %f seconds. Expected time is %i seconds.", timeSinceBeginning, expectedSeconds);
 	
 	if (timeSinceBeginning > expectedSeconds)
 	{
@@ -511,7 +511,7 @@
 							//they made their move
 							NSString *shotAt = [object valueForKey:@"LastMove"];
 							
-							NSLog(@"Entered turn %@ through opponent action.", [object valueForKey:@"MoveNumber"]);
+//							NSLog(@"Entered turn %@ through opponent action.", [object valueForKey:@"MoveNumber"]);
 							
 							BOOL hit = [weakSelf.ships attackPosition:shotAt];
 							[weakSelf shotAnimFromY:weakSelf.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:shotAt isHit:hit inView:weakSelf.smallView inScreen:weakSelf.ships withCallback:
@@ -814,7 +814,7 @@
 {
 	[self resetTimer];
 	
-	NSLog(@"Oops, you ran out of time!");
+//	NSLog(@"Oops, you ran out of time!");
 	self.ships.phase = kPhaseOver;
 	[self reloadSmallScreen];
 	[self reloadBigScreen];

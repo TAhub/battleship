@@ -87,8 +87,8 @@
 
 
 - (IBAction)startGameButtonPressed:(id)sender {
-    NSLog(@"okie doke");
-    
+//    NSLog(@"okie doke");
+	
 }
 
 

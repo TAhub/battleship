@@ -65,11 +65,11 @@
 		{
 			//it was a hit!
 			[self.hits addObject:position];
-			NSLog(@"Direct hit!");
+//			NSLog(@"Direct hit!");
 			return YES;
 		}
 	}
-	NSLog(@"Miss!");
+//	NSLog(@"Miss!");
 	return NO;
 }
 
