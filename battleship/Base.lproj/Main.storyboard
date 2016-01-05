@@ -25,7 +25,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="390"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.62271255630630629" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="BG-shot" translatesAutoresizingMaskIntoConstraints="NO" id="cmw-M7-Zxi">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BG-shot" translatesAutoresizingMaskIntoConstraints="NO" id="cmw-M7-Zxi" userLabel="viewfinder">
                                         <rect key="frame" x="225" y="220" width="110" height="163"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="N7k-mx-EDA"/>

@@ -58,7 +58,7 @@
 		E41507B11C3B8C7000C2BD82 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C82A1C220ECD006A78AF /* ParseFacebookUtilsV4.framework */; };
 		E41507B21C3B8C7000C2BD82 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C8291C220ECD006A78AF /* ParseFacebookUtils.framework */; };
 		E41507B31C3B8C7000C2BD82 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E103C82B1C220ECD006A78AF /* ParseTwitterUtils.framework */; };
-		E41507B51C3B8C7000C2BD82 /* spaceFleetSoundTrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70E1C3B7744005EADF2 /* spaceFleetSoundTrack.mp3 */; };
+		E41507B51C3B8C7000C2BD82 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E41507B61C3B8C7000C2BD82 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F485841C1E6B88007AD778 /* LaunchScreen.storyboard */; };
 		E41507B71C3B8C7000C2BD82 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30AE52781C1F401D00C2DAF8 /* Localizable.strings */; };
 		E41507B81C3B8C7000C2BD82 /* smallExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70D1C3B7744005EADF2 /* smallExplosion.mp3 */; };
@@ -396,7 +396,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E41507B51C3B8C7000C2BD82 /* spaceFleetSoundTrack.mp3 in Resources */,
+				E41507B51C3B8C7000C2BD82 /* (null) in Resources */,
 				E41507B61C3B8C7000C2BD82 /* LaunchScreen.storyboard in Resources */,
 				E41507B71C3B8C7000C2BD82 /* Localizable.strings in Resources */,
 				E41507B81C3B8C7000C2BD82 /* smallExplosion.mp3 in Resources */,
@@ -638,7 +638,7 @@
 				INFOPLIST_FILE = battleship/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RTT.spacefleet;
+				PRODUCT_BUNDLE_IDENTIFIER = battleShip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -659,7 +659,7 @@
 				INFOPLIST_FILE = battleship/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RTT.spacefleet;
+				PRODUCT_BUNDLE_IDENTIFIER = battleShip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
