@@ -88,7 +88,7 @@
                                 </variation>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzM-qB-LRu">
-                                <rect key="frame" x="600" y="553" width="0.0" height="2"/>
+                                <rect key="frame" x="20" y="553" width="580" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="Ayv-CA-AVk"/>
@@ -209,12 +209,14 @@
                             <constraint firstItem="qzM-qB-LRu" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" constant="600" id="jqk-c2-4UB"/>
                             <constraint firstAttribute="trailing" secondItem="yMR-7E-fPp" secondAttribute="trailing" constant="40" id="krI-Oh-exI"/>
                             <constraint firstItem="2I6-WJ-KtI" firstAttribute="leading" secondItem="OHm-bG-agE" secondAttribute="trailing" constant="8" id="qys-gD-spF"/>
+                            <constraint firstItem="qzM-qB-LRu" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leadingMargin" id="wb9-43-Faf"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Aaj-Vj-EPc"/>
                                 <exclude reference="WIX-5I-Dnn"/>
                                 <exclude reference="igZ-lb-ImU"/>
+                                <exclude reference="jqk-c2-4UB"/>
                             </mask>
                         </variation>
                     </view>
