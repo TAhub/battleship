@@ -43,6 +43,7 @@
 		E41507BA1C3B8C7000C2BD82 /* failedExplosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED70C1C3B7744005EADF2 /* failedExplosion.mp3 */; };
 		E41507BB1C3B8C7000C2BD82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4F485821C1E6B88007AD778 /* Assets.xcassets */; };
 		E41507BC1C3B8C7000C2BD82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4F4857F1C1E6B88007AD778 /* Main.storyboard */; };
+		E41507CB1C48843400C2BD82 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 300ED7141C3C3234005EADF2 /* backgroundMusic.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -318,6 +319,7 @@
 				E41507B61C3B8C7000C2BD82 /* LaunchScreen.storyboard in Resources */,
 				E41507B71C3B8C7000C2BD82 /* Localizable.strings in Resources */,
 				E41507B81C3B8C7000C2BD82 /* smallExplosion.mp3 in Resources */,
+				E41507CB1C48843400C2BD82 /* backgroundMusic.mp3 in Resources */,
 				E41507B91C3B8C7000C2BD82 /* 3Explosions.mp3 in Resources */,
 				E41507BA1C3B8C7000C2BD82 /* failedExplosion.mp3 in Resources */,
 				E41507BB1C3B8C7000C2BD82 /* Assets.xcassets in Resources */,
