@@ -14,7 +14,7 @@
 #import "Constants.h"
 #import "CustomSpinnerView.h"
 
-@interface GameMatchingViewController () <PFLogInViewControllerDelegate>
+@interface GameMatchingViewController () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *waitingLabel;
 @property (weak, nonatomic) IBOutlet StarfieldView *starfieldView;
 @property (strong, nonatomic) PFObject *battle;
@@ -216,6 +216,7 @@
 - (void)login {
     PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
     logInViewController.delegate = self;
+	logInViewController.signUpController.delegate = self;
     [self presentViewController:logInViewController animated:YES completion:nil];
     
 }
@@ -226,6 +227,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 	[self startMatching];
 	[self.starfieldView unloadStars:self];
+}
+
+-(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user
+{
+	//automatically back out to the login
+//	[self dismissViewControllerAnimated:YES completion:nil];
+	[[signUpController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 
