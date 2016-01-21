@@ -231,9 +231,10 @@
 
 -(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user
 {
-	//automatically back out to the login
-//	[self dismissViewControllerAnimated:YES completion:nil];
-	[[signUpController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+	//automatically start matchmaking
+	[self dismissViewControllerAnimated:YES completion:nil];
+	[self startMatching];
+	[self.starfieldView unloadStars:self];
 }
 
 
