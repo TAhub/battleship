@@ -27,4 +27,6 @@
 //this is the PFObject that stores the battle you loaded
 @property (strong, nonatomic) PFObject *battleObject;
 
+@property BOOL single;
+
 @end

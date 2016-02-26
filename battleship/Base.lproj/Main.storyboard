@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FfQ-ai-fG9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FfQ-ai-fG9">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -103,7 +103,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWY-ZV-kqQ">
-                                <rect key="frame" x="200" y="555" width="200" height="45"/>
+                                <rect key="frame" x="80" y="555" width="200" height="45"/>
                                 <color key="backgroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="BL8-ed-Dv5"/>
@@ -116,19 +116,18 @@
                                     <color key="titleShadowColor" red="0.254008948802948" green="0.36454308032989502" blue="0.34934037923812866" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="startGameButtonPressed:" destination="NEg-6a-dai" eventType="touchUpInside" id="Snd-bc-Mya"/>
                                     <segue destination="PE2-z9-rjf" kind="show" identifier="test" id="7pG-yx-djw"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-coin" translatesAutoresizingMaskIntoConstraints="NO" id="sod-r3-G0k" userLabel="coin1">
-                                <rect key="frame" x="20" y="570" width="25" height="25"/>
+                                <rect key="frame" x="10" y="570" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="VLI-a2-d7h"/>
                                     <constraint firstAttribute="width" constant="25" id="ktV-aw-s1C"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-coin" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-BW-s4e" userLabel="coin2">
-                                <rect key="frame" x="555" y="570" width="25" height="25"/>
+                                <rect key="frame" x="565" y="570" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="7q8-53-GKh"/>
                                     <constraint firstAttribute="height" constant="25" id="LzL-Fs-ZSb"/>
@@ -170,14 +169,31 @@
                                     </mask>
                                 </variation>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5I-7L-4dH">
+                                <rect key="frame" x="320" y="555" width="200" height="45"/>
+                                <color key="backgroundColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="BvY-H7-tM3"/>
+                                    <constraint firstAttribute="width" constant="200" id="bRh-on-RXv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
+                                <state key="normal" title="NEW GAME">
+                                    <color key="titleColor" red="0.27017493320000002" green="0.83347764369999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.25400894880000002" green="0.36454308029999999" blue="0.3493403792" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="singleplayer" id="OY9-fB-LbQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="BCT-Nz-GQU" firstAttribute="centerX" secondItem="WTE-hQ-tq3" secondAttribute="centerX" id="0fU-ro-jU6"/>
                             <constraint firstItem="2lA-Dv-UA0" firstAttribute="top" secondItem="OFS-zq-sIo" secondAttribute="bottom" id="3XM-gX-JmA"/>
-                            <constraint firstItem="LWY-ZV-kqQ" firstAttribute="centerX" secondItem="WTE-hQ-tq3" secondAttribute="centerX" id="44K-Pz-RXk"/>
+                            <constraint firstItem="LWY-ZV-kqQ" firstAttribute="centerX" secondItem="WTE-hQ-tq3" secondAttribute="centerX" multiplier="0.6" id="44K-Pz-RXk"/>
                             <constraint firstAttribute="bottom" secondItem="qzM-qB-LRu" secondAttribute="bottom" constant="45" id="5Z6-bx-lDA"/>
-                            <constraint firstItem="sod-r3-G0k" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" constant="20" id="92i-bH-YzK"/>
+                            <constraint firstItem="sod-r3-G0k" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" constant="10" id="92i-bH-YzK"/>
                             <constraint firstAttribute="trailing" secondItem="qzM-qB-LRu" secondAttribute="trailing" id="9F7-oI-me8"/>
                             <constraint firstAttribute="trailing" secondItem="OFS-zq-sIo" secondAttribute="trailing" id="Aaj-Vj-EPc"/>
                             <constraint firstItem="Okv-NF-ZTy" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" constant="20" id="Agn-pb-Zbu"/>
@@ -204,12 +220,15 @@
                             <constraint firstItem="2I6-WJ-KtI" firstAttribute="top" secondItem="Okv-NF-ZTy" secondAttribute="bottom" constant="13" id="eUT-Nm-3lt"/>
                             <constraint firstItem="XNP-PH-JLU" firstAttribute="top" secondItem="Okv-NF-ZTy" secondAttribute="bottom" constant="13" id="g5J-oE-bHr"/>
                             <constraint firstItem="tI3-zi-SgL" firstAttribute="top" secondItem="9H5-BW-s4e" secondAttribute="bottom" constant="5" id="gVL-kG-sv3"/>
-                            <constraint firstAttribute="trailing" secondItem="9H5-BW-s4e" secondAttribute="trailing" constant="20" id="hEB-cy-KJb"/>
+                            <constraint firstAttribute="trailing" secondItem="9H5-BW-s4e" secondAttribute="trailing" constant="10" id="hEB-cy-KJb"/>
                             <constraint firstItem="yMR-7E-fPp" firstAttribute="top" secondItem="Okv-NF-ZTy" secondAttribute="bottom" constant="13" id="i6q-2I-VpV"/>
                             <constraint firstItem="BCT-Nz-GQU" firstAttribute="top" secondItem="2lA-Dv-UA0" secondAttribute="bottom" constant="-30" id="igZ-lb-ImU"/>
                             <constraint firstItem="qzM-qB-LRu" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leading" constant="600" id="jqk-c2-4UB"/>
                             <constraint firstAttribute="trailing" secondItem="yMR-7E-fPp" secondAttribute="trailing" constant="40" id="krI-Oh-exI"/>
+                            <constraint firstItem="P5I-7L-4dH" firstAttribute="centerX" secondItem="WTE-hQ-tq3" secondAttribute="centerX" multiplier="1.4" id="nyP-K2-Uux"/>
                             <constraint firstItem="2I6-WJ-KtI" firstAttribute="leading" secondItem="OHm-bG-agE" secondAttribute="trailing" constant="8" id="qys-gD-spF"/>
+                            <constraint firstItem="P5I-7L-4dH" firstAttribute="centerY" secondItem="LWY-ZV-kqQ" secondAttribute="centerY" id="um0-r4-429"/>
+                            <constraint firstItem="P5I-7L-4dH" firstAttribute="centerY" secondItem="WTE-hQ-tq3" secondAttribute="centerY" multiplier="0.7" id="vsy-Hc-GsG"/>
                             <constraint firstItem="qzM-qB-LRu" firstAttribute="leading" secondItem="WTE-hQ-tq3" secondAttribute="leadingMargin" id="wb9-43-Faf"/>
                         </constraints>
                         <variation key="default">
@@ -218,12 +237,14 @@
                                 <exclude reference="WIX-5I-Dnn"/>
                                 <exclude reference="igZ-lb-ImU"/>
                                 <exclude reference="jqk-c2-4UB"/>
+                                <exclude reference="vsy-Hc-GsG"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="STz-qw-lrF"/>
                     <connections>
                         <outlet property="gameView" destination="Okv-NF-ZTy" id="aBb-YV-9JR"/>
+                        <outlet property="singleButton" destination="P5I-7L-4dH" id="GNf-CV-eoc"/>
                         <outlet property="yuhButton" destination="LWY-ZV-kqQ" id="hUb-c7-DON"/>
                     </connections>
                 </viewController>
@@ -743,4 +764,7 @@
         <image name="joystick-yello" width="38" height="64"/>
         <image name="update17" width="32" height="32"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="OY9-fB-LbQ"/>
+    </inferredMetricsTieBreakers>
 </document>

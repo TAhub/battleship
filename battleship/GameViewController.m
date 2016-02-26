@@ -52,13 +52,6 @@
 {
 	[super viewDidLoad];
 	
-	[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat:) userInfo:nil repeats:YES];
-	
-	self.beginTime = [NSDate date];
-	self.beginPhase = 0;
-	
-	[self resetTimer];
-	
 	//set borders
 //	self.doneButton.layer.cornerRadius = 6;
 //	self.rotButton.layer.cornerRadius = 6;
@@ -94,6 +87,15 @@
 {
 	[super viewDidAppear:animated];
 	
+	if (!self.single)
+	{
+		[NSTimer scheduledTimerWithTimeInterval:PARSE_HEARTBEAT target:self selector:@selector(parseHeartbeat:) userInfo:nil repeats:YES];
+		
+		self.beginTime = [NSDate date];
+		self.beginPhase = 0;
+	}
+	
+	[self resetTimer];
 	
 	//tint color the buttons
 	[self.doneButton setImage: [self.doneButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -163,12 +165,15 @@
 				__weak typeof(self) weakSelf = self;
 				[self shotAnimFromY:-SHOTS_SIZE_START / 2 toPosition:position isHit:hit inView:self.bigView inScreen:self.shots withCallback:
 				^(){
-					//send a message to the opponent that you shot that position
-					weakSelf.battleObject[@"LastMove"] = position;
-					weakSelf.battleObject[@"LastMover"] = [PFUser currentUser].objectId;
-					int moveNumber = ((NSNumber *)[weakSelf.battleObject valueForKey:@"MoveNumber"]).intValue;
-					weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
-					[weakSelf.battleObject saveInBackground];
+					if (!weakSelf.single)
+					{
+						//send a message to the opponent that you shot that position
+						weakSelf.battleObject[@"LastMove"] = position;
+						weakSelf.battleObject[@"LastMover"] = [PFUser currentUser].objectId;
+						int moveNumber = ((NSNumber *)[weakSelf.battleObject valueForKey:@"MoveNumber"]).intValue;
+						weakSelf.battleObject[@"MoveNumber"] = @(moveNumber + 1);
+						[weakSelf.battleObject saveInBackground];
+					}
 					
 //					NSLog(@"Entered turn %@ through own action.", [weakSelf.battleObject valueForKey:@"MoveNumber"]);
 					
@@ -177,6 +182,24 @@
 					else //and wait for their move
 						weakSelf.ships.phase = kPhaseWait;
 					[weakSelf reloadBigScreen];
+					
+					if (weakSelf.single && weakSelf.ships.phase != kPhaseOver)
+					{
+						//this is a very stupid AI
+						//it doesn't even think to try to attack near hits
+						NSArray *numbers = [[NSArray alloc] initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", nil];
+						NSArray *letters = [[NSArray alloc] initWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", nil];
+						NSMutableArray *combinations = [NSMutableArray new];
+						for (NSString *number in numbers)
+							for (NSString *letter in letters)
+							{
+								NSString *combination = [NSString stringWithFormat:@"%@%@", letter, number];
+								if (![weakSelf.ships.shots containsObject:combination])
+									[combinations addObject:combination];
+							}
+						NSString *pick = combinations[arc4random_uniform((u_int32_t)combinations.count)];
+						[weakSelf enemyMove:pick];
+					}
 				}];
 			}
 			break;
@@ -306,7 +329,7 @@
 		[self.ships.ships removeAllObjects];
 		
 		//keep trying to randomize the layout until it works
-		while (![self randomizeShipLayoutInner])
+		while (![self randomizeShipLayoutOfScreen:self.ships])
 			[self.ships.ships removeAllObjects];
 		
 		//everything snaps into position, because I can't easily handle rotation here
@@ -314,7 +337,7 @@
 	}
 }
 
--(BOOL)randomizeShipLayoutInner
+-(BOOL)randomizeShipLayoutOfScreen:(ShipScreen *)screen
 {
 	//place the ships at random, one-by-one
 	for (int i = 0; i < SHIP_TYPES; i++)
@@ -332,7 +355,7 @@
 			BOOL rotation = arc4random_uniform(2) == 0;
 			
 			//try to place a ship there
-			if ([self.ships placeShipAtPosition:positionFrom([self.ships rowLabels][y], [self.ships columnLabels][x]) withRotation:rotation andType:i])
+			if ([screen placeShipAtPosition:positionFrom([screen rowLabels][y], [screen columnLabels][x]) withRotation:rotation andType:i])
 				break;
 		}
 	}
@@ -377,19 +400,34 @@
 	{
 		[self stopTimer];
 		
-		self.ships.phase = kPhaseWaitForOpponent;
-		[self.ships reloadLabels];
+		if (self.single)
+		{
+			//arrange AI ships
+			self.shots = [[ShipScreen alloc] initEmpty];
+			[self.shots.ships removeAllObjects];
+			while (![self randomizeShipLayoutOfScreen:self.shots])
+			{
+				[self.shots.ships removeAllObjects];
+			}
+			self.ships.phase = kPhaseShoot;
+		}
+		else
+			self.ships.phase = kPhaseWaitForOpponent;
 		self.rotButton.hidden = true;
 		self.randButton.hidden = true;
 		self.doneButton.hidden = true;
+		[self.ships reloadLabels];
 		[self reloadBigScreen];
 		
-		NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
-		if ([firstUser isEqualToString:[PFUser currentUser].objectId])
-			self.battleObject[@"FirstFleet"] = [self.ships fleet];
-		else
-			self.battleObject[@"SecondFleet"] = [self.ships fleet];
-		[self.battleObject saveInBackground];
+		if (!self.single)
+		{
+			NSString *firstUser = [self.battleObject valueForKey:@"FirstUser"];
+			if ([firstUser isEqualToString:[PFUser currentUser].objectId])
+				self.battleObject[@"FirstFleet"] = [self.ships fleet];
+			else
+				self.battleObject[@"SecondFleet"] = [self.ships fleet];
+			[self.battleObject saveInBackground];
+		}
 		
 		//start the match anim
 		__weak typeof(self) weakSelf = self;
@@ -510,24 +548,7 @@
 							
 							//they made their move
 							NSString *shotAt = [object valueForKey:@"LastMove"];
-							
-//							NSLog(@"Entered turn %@ through opponent action.", [object valueForKey:@"MoveNumber"]);
-							
-							BOOL hit = [weakSelf.ships attackPosition:shotAt];
-							[weakSelf shotAnimFromY:weakSelf.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:shotAt isHit:hit inView:weakSelf.smallView inScreen:weakSelf.ships withCallback:
-							^(){
-								if ([weakSelf victoryOrDefeatFromModel])
-									weakSelf.ships.phase = kPhaseOver;
-								else
-								{
-									weakSelf.ships.phase = kPhaseShoot;
-									
-									//set up the timer
-									[weakSelf resetTimer];
-								}
-								[weakSelf reloadBigScreen];
-								[weakSelf reloadSmallScreen];
-							}];
+							[weakSelf enemyMove:shotAt];
 						}
 					}
 					break;
@@ -535,6 +556,28 @@
 			}
 		}
 	}];
+}
+
+-(void)enemyMove:(NSString *)at
+{
+//	NSLog(@"Entered turn %@ through opponent action.", [object valueForKey:@"MoveNumber"]);
+	
+	__weak typeof(self) weakSelf = self;
+	BOOL hit = [weakSelf.ships attackPosition:at];
+	[self shotAnimFromY:self.view.frame.size.height + SHOTS_SIZE_START / 2 toPosition:at isHit:hit inView:self.smallView inScreen:self.ships withCallback:
+	 ^(){
+		 if ([weakSelf victoryOrDefeatFromModel])
+			 weakSelf.ships.phase = kPhaseOver;
+		 else
+		 {
+			 weakSelf.ships.phase = kPhaseShoot;
+			 
+			 //set up the timer
+			 [weakSelf resetTimer];
+		 }
+		 [weakSelf reloadBigScreen];
+		 [weakSelf reloadSmallScreen];
+	 }];
 }
 
 
@@ -784,12 +827,16 @@
 
 -(void)resetTimer
 {
+	if (self.single)
+		return;
 	[self stopTimer];
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_WARNINGLENGTH target:self selector:@selector(timerWarning:) userInfo:nil repeats:NO];
 }
 
 -(void)timerWarning:(NSTimer *)timer
 {
+	if (self.single)
+		return;
 	[self makeTimerView:timer];
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_TIMEOUTLENGTH target:self selector:@selector(timerForefeit:) userInfo:nil repeats:NO];
 	self.tickTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(makeTimerView:) userInfo:nil repeats:YES];

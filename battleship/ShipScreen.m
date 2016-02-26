@@ -127,12 +127,13 @@
 {
 	NSMutableArray *rowLabels = [NSMutableArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", nil];
 	NSMutableArray *columnLabels = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", nil];
-	
-	if (self.phase == kPhasePlace)
-	{
-		[self shuffle:rowLabels];
-		[self shuffle:columnLabels];
-	}
+
+	//you know, the randomized label feature doesn't even make sense anymore
+//	if (self.phase == kPhasePlace)
+//	{
+//		[self shuffle:rowLabels];
+//		[self shuffle:columnLabels];
+//	}
 	
 	//add invisible extra stuff
 	[rowLabels addObjectsFromArray:[NSArray arrayWithObjects:@"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", nil]];

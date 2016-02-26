@@ -11,11 +11,14 @@
 #import <ParseUI/ParseUI.h>
 #import "StarfieldView.h"
 #import "Constants.h"
+#import "GameViewController.h"
 
 
 @interface GameMenuViewController () <PFLogInViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *yuhButton;
+@property (weak, nonatomic) IBOutlet UIButton *singleButton;
+
 @property (weak, nonatomic) IBOutlet StarfieldView *gameView;
 
 @end
@@ -29,7 +32,12 @@
     UIFont *font = [UIFont fontWithName:@"Avenir" size:18];
     NSAttributedString *yuhButton = [[NSAttributedString alloc] initWithString:string attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
     [self.yuhButton setAttributedTitle:yuhButton forState: UIControlStateNormal];
-    
+	
+	
+	NSString *string2 = STRING_SINGLEPLAYER;
+	NSAttributedString *single = [[NSAttributedString alloc] initWithString:string2 attributes:@{ NSKernAttributeName: @(1.5f), NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor cyanColor] }];
+	[self.singleButton setAttributedTitle:single forState: UIControlStateNormal];
+	
     self.gameView.layer.borderWidth = BOARD_BORDER;
     self.gameView.layer.borderColor = [[UIColor blueColor] CGColor];
 	
@@ -63,6 +71,15 @@
 }
 
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"singleplayer"])
+	{
+		GameViewController *gvc = segue.destinationViewController;
+		gvc.single = true;
+	}
+}
+
 #pragma mark - Parse
 
 - (void)login {
@@ -82,13 +99,6 @@
 
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {    
         [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-
-- (IBAction)startGameButtonPressed:(id)sender {
-//    NSLog(@"okie doke");
-	
 }
 
 
