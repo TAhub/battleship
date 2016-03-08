@@ -49,10 +49,10 @@
 	[super viewDidAppear:animated];
 	
 	//add letterbox views
-	UIView *l1 = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x - 10, self.gameView.frame.origin.y - 10, 10, self.gameView.frame.size.height + 20)];
+	UIView *l1 = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x - 10, self.gameView.frame.origin.y - 10, 10, self.gameView.frame.size.height + 10)];
 	l1.backgroundColor = [UIColor blackColor];
 	[self.view addSubview:l1];
-	UIView *l2 = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x + self.gameView.frame.size.width, self.gameView.frame.origin.y - 10, 10, self.gameView.frame.size.height + 20)];
+	UIView *l2 = [[UIView alloc] initWithFrame:CGRectMake(self.gameView.frame.origin.x + self.gameView.frame.size.width, self.gameView.frame.origin.y - 10, 10, self.gameView.frame.size.height + 10)];
 	l2.backgroundColor = [UIColor blackColor];
 	[self.view addSubview:l2];
 	
