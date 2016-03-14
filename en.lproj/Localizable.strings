@@ -16,9 +16,10 @@
 "You won!" = "You won!";
 "You lost!" = "You lost!";
 "Battle timed out!" = "Battle timed out!";
-"NEW GAME" = "NEW GAME";
+// "NEW GAME" = "NEW GAME";
 "Hi %@ your game will be starting soon" = "Hi %@ your game will be starting soon";
 "Waiting..." = "Waiting...";
 "CANCEL" = "CANCEL";
 
-
+"MULTIPLAYER" = "MULTIPLAYER";
+"SINGLEPLAYER" = "SINGLEPLAYER";
